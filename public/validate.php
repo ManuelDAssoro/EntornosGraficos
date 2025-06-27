@@ -2,9 +2,10 @@
 require_once '../config/db.php';
 
 $token = $_GET['token'] ?? '';
-
+// Falta hacer la logica para venir desde el mail
+// Revisar el codigo incompleto en form_validation.php
 if (empty($token)) {
-    echo "<div class='alert alert-danger'>Token de validación no proporcionado.</div>";
+    echo "<div class='alert alert-danger'>Error al validar Token.</div>";
     exit;
 }
 
