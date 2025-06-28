@@ -93,6 +93,10 @@ $mensajes_exito = [
             background-color: rgba(255,255,255,0.1);
             border-radius: 5px;
         }
+        .table-responsive {
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -201,14 +205,14 @@ $mensajes_exito = [
         <div class="table-card">
             <div class="table-responsive">
                 <table class="table table-hover">
-                    <thead class="table-dark">
-                        <tr>
-                            <th><i class="bi bi-shop"></i> Nombre</th>
-                            <th><i class="bi bi-geo-alt"></i> Ubicación</th>
-                            <th><i class="bi bi-tags"></i> Rubro</th>
-                            <th><i class="bi bi-person"></i> Dueño</th>
-                            <th style="width: 200px;" class="text-center"><i class="bi bi-gear"></i> Acciones</th>
-                        </tr>
+                    <thead class="table-dark" >
+                      <tr>
+                        <th><i class="bi bi-shop"></i> Nombre</th>
+                        <th><i class="bi bi-geo-alt"></i> Ubicación</th>
+                        <th><i class="bi bi-tags"></i> Rubro</th>
+                        <th><i class="bi bi-person"></i> Dueño</th>
+                        <th style="width: 200px;" class="text-center"><i class="bi bi-gear"></i> Acciones</th>
+                      </tr>
                     </thead>
                     <tbody>
                         <?php if (count($locales) > 0): ?>
