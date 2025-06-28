@@ -40,6 +40,8 @@ $locales_recientes = $stmt->fetchAll();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin - Mi Shopping</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         .page-header {
             background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%);
@@ -55,10 +57,6 @@ $locales_recientes = $stmt->fetchAll();
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             height: 100%;
-        }
-        .stats-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
         }
         .stats-icon {
             font-size: 3rem;
@@ -91,7 +89,7 @@ $locales_recientes = $stmt->fetchAll();
             transition: all 0.3s ease;
         }
         .action-btn:hover {
-            transform: translateY(-2px);
+            box-shadow: 0 0 0 1px #000;
             text-decoration: none;
         }
         .welcome-section {
@@ -107,7 +105,7 @@ $locales_recientes = $stmt->fetchAll();
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="dashboard_admin.php">
-                <i class="fas fa-store"></i> Mi Shopping
+                <i class="bi bi-shop"></i> Mi Shopping
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -129,7 +127,7 @@ $locales_recientes = $stmt->fetchAll();
         <div class="container">
             <div class="welcome-section">
                 <h1 class="mb-3">
-                    <i class="fas fa-tachometer-alt"></i> Dashboard Administrativo
+                    <i class="bi bi-speedometer2"></i> Dashboard Administrativo
                 </h1>
                 <p class="lead mb-0">Panel de control y gestión del shopping</p>
             </div>
@@ -142,7 +140,7 @@ $locales_recientes = $stmt->fetchAll();
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="stats-card">
                     <div class="stats-icon text-primary">
-                        <i class="fas fa-store"></i>
+                        <i class="bi bi-shop"></i>
                     </div>
                     <div class="stats-number text-primary"><?= $stats['total_locales'] ?></div>
                     <h6 class="text-muted">Total Locales</h6>
@@ -151,7 +149,7 @@ $locales_recientes = $stmt->fetchAll();
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="stats-card">
                     <div class="stats-icon text-success">
-                        <i class="fas fa-user-check"></i>
+                        <i class="bi bi-person-check"></i>
                     </div>
                     <div class="stats-number text-success"><?= $stats['locales_asignados'] ?></div>
                     <h6 class="text-muted">Locales Asignados</h6>
@@ -160,7 +158,7 @@ $locales_recientes = $stmt->fetchAll();
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="stats-card">
                     <div class="stats-icon text-warning">
-                        <i class="fas fa-user-tie"></i>
+                        <i class="bi bi-person-badge"></i>
                     </div>
                     <div class="stats-number text-warning"><?= $stats['total_duenos'] ?></div>
                     <h6 class="text-muted">Dueños Registrados</h6>
@@ -169,7 +167,7 @@ $locales_recientes = $stmt->fetchAll();
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="stats-card">
                     <div class="stats-icon text-info">
-                        <i class="fas fa-users"></i>
+                        <i class="bi bi-people"></i>
                     </div>
                     <div class="stats-number text-info"><?= $stats['total_clientes'] ?></div>
                     <h6 class="text-muted">Clientes Registrados</h6>
@@ -182,24 +180,24 @@ $locales_recientes = $stmt->fetchAll();
             <div class="col-lg-6 mb-4">
                 <div class="quick-actions">
                     <h4 class="mb-4">
-                        <i class="fas fa-bolt text-warning"></i> Acciones Rápidas
+                        <i class="bi bi-lightning text-warning"></i> Acciones Rápidas
                     </h4>
                     <div class="row g-3">
                         <div class="col-12">
                             <a href="local_nuevo.php" class="action-btn btn btn-success w-100">
-                                <i class="fas fa-plus-circle me-2"></i>
+                                <i class="bi bi-plus-circle me-2"></i>
                                 Crear Nuevo Local
                             </a>
                         </div>
                         <div class="col-12">
                             <a href="admin_locales.php" class="action-btn btn btn-primary w-100">
-                                <i class="fas fa-list me-2"></i>
+                                <i class="bi bi-list me-2"></i>
                                 Gestionar Locales
                             </a>
                         </div>
                         <div class="col-12">
                             <a href="admin_locales.php?ubicacion=" class="action-btn btn btn-info w-100">
-                                <i class="fas fa-search me-2"></i>
+                                <i class="bi bi-search me-2"></i>
                                 Buscar Locales
                             </a>
                         </div>
@@ -211,7 +209,7 @@ $locales_recientes = $stmt->fetchAll();
             <div class="col-lg-6 mb-4">
                 <div class="recent-activity">
                     <h4 class="mb-4">
-                        <i class="fas fa-clock text-info"></i> Actividad Reciente
+                        <i class="bi bi-clock text-info"></i> Actividad Reciente
                     </h4>
                     <?php if (count($locales_recientes) > 0): ?>
                         <div class="list-group list-group-flush">
@@ -219,7 +217,7 @@ $locales_recientes = $stmt->fetchAll();
                                 <div class="list-group-item border-0 px-0">
                                     <div class="d-flex align-items-center">
                                         <div class="me-3">
-                                            <i class="fas fa-store text-primary"></i>
+                                            <i class="bi bi-shop text-primary"></i>
                                         </div>
                                         <div class="flex-grow-1">
                                             <h6 class="mb-1"><?= htmlspecialchars($local['nombreLocal']) ?></h6>
@@ -233,7 +231,7 @@ $locales_recientes = $stmt->fetchAll();
                                         <div>
                                             <a href="local_editar.php?id=<?= $local['codLocal'] ?>" 
                                                class="btn btn-sm btn-outline-primary">
-                                                <i class="fas fa-edit"></i>
+                                                <i class="bi bi-pencil"></i>
                                             </a>
                                         </div>
                                     </div>
@@ -247,11 +245,11 @@ $locales_recientes = $stmt->fetchAll();
                         </div>
                     <?php else: ?>
                         <div class="text-center text-muted py-4">
-                            <i class="fas fa-inbox fa-3x mb-3"></i>
+                            <i class="bi bi-inbox display-1 mb-3"></i>
                             <h5>No hay locales registrados</h5>
                             <p>Comienza creando tu primer local</p>
                             <a href="local_nuevo.php" class="btn btn-primary">
-                                <i class="fas fa-plus"></i> Crear Primer Local
+                                <i class="bi bi-plus"></i> Crear Primer Local
                             </a>
                         </div>
                     <?php endif; ?>
@@ -268,6 +266,5 @@ $locales_recientes = $stmt->fetchAll();
     </footer>
 
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js"></script>
 </body>
 </html>

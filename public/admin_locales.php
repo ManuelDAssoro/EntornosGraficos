@@ -55,6 +55,7 @@ $mensajes_exito = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrar Locales - Mi Shopping</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
         .page-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -99,7 +100,7 @@ $mensajes_exito = [
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="dashboard_admin.php">
-                <i class="fas fa-store"></i> Mi Shopping
+                <i class="bi bi-shop"></i> Mi Shopping
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -122,7 +123,7 @@ $mensajes_exito = [
             <div class="row align-items-center">
                 <div class="col-md-8">
                     <h1 class="mb-0">
-                        <i class="fas fa-building"></i> Administrar Locales
+                        <i class="bi bi-building"></i> Administrar Locales
                     </h1>
                     <p class="mb-0 mt-2">Gestiona todos los locales del shopping</p>
                 </div>
@@ -140,7 +141,7 @@ $mensajes_exito = [
         <!-- Success Messages -->
         <?php if (isset($mensajes_exito[$mensaje])): ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="fas fa-check-circle me-2"></i>
+                <i class="bi bi-check-circle me-2"></i>
                 <?= $mensajes_exito[$mensaje] ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
@@ -149,14 +150,14 @@ $mensajes_exito = [
         <!-- Filter Section -->
         <div class="filter-card">
             <h5 class="mb-3">
-                <i class="fas fa-filter"></i> Filtros de Búsqueda
+                <i class="bi bi-funnel"></i> Filtros de Búsqueda
             </h5>
 
             <form method="GET" class="row g-3">
                 <div class="col-md-4">
                     <label for="nombre" class="form-label">Nombre del Local</label>
                     <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-store"></i></span>
+                        <span class="input-group-text"><i class="bi bi-shop"></i></span>
                         <input type="text" id="nombre" name="nombre" class="form-control" 
                                placeholder="Buscar por nombre..." value="<?= htmlspecialchars($nombre) ?>">
                     </div>
@@ -164,7 +165,7 @@ $mensajes_exito = [
                 <div class="col-md-4">
                     <label for="ubicacion" class="form-label">Ubicación</label>
                     <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                        <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
                         <input type="text" id="ubicacion" name="ubicacion" class="form-control" 
                                placeholder="Buscar por ubicación..." value="<?= htmlspecialchars($ubicacion) ?>">
                     </div>
@@ -172,17 +173,17 @@ $mensajes_exito = [
                 <div class="col-md-4">
                     <label for="rubro" class="form-label">Rubro</label>
                     <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-tags"></i></span>
+                        <span class="input-group-text"><i class="bi bi-tags"></i></span>
                         <input type="text" id="rubro" name="rubro" class="form-control" 
                                placeholder="Buscar por rubro..." value="<?= htmlspecialchars($rubro) ?>">
                     </div>
                 </div>
                 <div class="col-12 d-flex gap-2 mt-3">
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-search"></i> Buscar
+                        <i class="bi bi-search"></i> Buscar
                     </button>
                     <a href="admin_locales.php" class="btn btn-outline-secondary">
-                        <i class="fas fa-times"></i> Limpiar
+                        <i class="bi bi-x"></i> Limpiar
                     </a>
                 </div>
             </form>
@@ -192,7 +193,7 @@ $mensajes_exito = [
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h5 class="mb-0">Resultados de la búsqueda</h5>
             <a href="local_nuevo.php" class="btn btn-success btn-lg">
-                <i class="fas fa-plus"></i> Nuevo Local
+                <i class="bi bi-plus"></i> Nuevo Local
             </a>
         </div>
 
@@ -202,11 +203,11 @@ $mensajes_exito = [
                 <table class="table table-hover">
                     <thead class="table-dark">
                         <tr>
-                            <th><i class="fas fa-store"></i> Nombre</th>
-                            <th><i class="fas fa-map-marker-alt"></i> Ubicación</th>
-                            <th><i class="fas fa-tags"></i> Rubro</th>
-                            <th><i class="fas fa-user"></i> Dueño</th>
-                            <th style="width: 200px;" class="text-center"><i class="fas fa-cogs"></i> Acciones</th>
+                            <th><i class="bi bi-shop"></i> Nombre</th>
+                            <th><i class="bi bi-geo-alt"></i> Ubicación</th>
+                            <th><i class="bi bi-tags"></i> Rubro</th>
+                            <th><i class="bi bi-person"></i> Dueño</th>
+                            <th style="width: 200px;" class="text-center"><i class="bi bi-gear"></i> Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -224,11 +225,11 @@ $mensajes_exito = [
                                     </td>
                                     <td>
                                         <?php if ($local['nombreUsuario']): ?>
-                                            <i class="fas fa-user text-success"></i> 
+                                            <i class="bi bi-person-check text-success"></i> 
                                             <?= htmlspecialchars($local['nombreUsuario']) ?>
                                         <?php else: ?>
                                             <span class="text-muted">
-                                                <i class="fas fa-user-slash"></i> Sin asignar
+                                                <i class="bi bi-person-x"></i> Sin asignar
                                             </span>
                                         <?php endif; ?>
                                     </td>
@@ -237,12 +238,12 @@ $mensajes_exito = [
                                             <a href="local_editar.php?id=<?= $local['codLocal'] ?>" 
                                                class="btn btn-sm btn-warning btn-action" 
                                                title="Editar local">
-                                                <i class="fas fa-edit"></i> Editar
+                                                <i class="bi bi-pencil"></i> Editar
                                             </a>
                                             <a href="local_eliminar.php?id=<?= $local['codLocal'] ?>" 
                                                class="btn btn-sm btn-danger btn-action" 
                                                title="Eliminar local">
-                                                <i class="fas fa-trash"></i> Eliminar
+                                                <i class="bi bi-trash"></i> Eliminar
                                             </a>
                                         </div>
                                     </td>
@@ -252,11 +253,11 @@ $mensajes_exito = [
                             <tr>
                                 <td colspan="5" class="text-center py-5">
                                     <div class="text-muted">
-                                        <i class="fas fa-search fa-3x mb-3"></i>
+                                        <i class="bi bi-search display-1 mb-3"></i>
                                         <h5>No se encontraron locales</h5>
                                         <p>Intenta modificar los filtros de búsqueda o crea un nuevo local.</p>
                                         <a href="local_nuevo.php" class="btn btn-primary">
-                                            <i class="fas fa-plus"></i> Crear Primer Local
+                                            <i class="bi bi-plus"></i> Crear Primer Local
                                         </a>
                                     </div>
                                 </td>
@@ -276,7 +277,6 @@ $mensajes_exito = [
     </footer>
 
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js"></script>
 </body>
 </html>
 

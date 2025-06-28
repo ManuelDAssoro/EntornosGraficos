@@ -20,7 +20,7 @@
           <a href="logout.php" class="btn btn-outline-light">Salir</a>
         <?php endif; ?>
       </div>
-    </div>
+    </div> 
   </nav>
 
   <div class="container text-center mt-5">
