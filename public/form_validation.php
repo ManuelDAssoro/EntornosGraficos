@@ -1,6 +1,8 @@
 <?php
 require_once '../config/db.php';
 
+require 'vendor/autoload.php'; // PHPMailer con Composer para envio de correos
+
 $nombreUsuario = trim($_POST['nombreUsuario'] ?? '');
 $claveUsuario = trim($_POST['claveUsuario'] ?? '');
 $tipoUsuario = trim($_POST['tipoUsuario'] ?? '');
@@ -49,7 +51,7 @@ if (empty($errores)) {
     ]);
 
     if ($exito) {
-        if ($tipoUsuario === 'cliente') {
+        if ($tipoUsuario === 'cliente') 
             // Agregar logica para enviar correo de confirmar registro
             // Usando PHPMailer con el token de validacion (agregar con Composer)
             echo "<div class='alert alert-success'>¡Registro exitoso! Revisa tu correo para validar tu cuenta.</div>";
