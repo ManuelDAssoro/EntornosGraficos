@@ -1,7 +1,9 @@
 <?php
 require_once '../config/db.php';
 
-require 'vendor/autoload.php'; // PHPMailer con Composer para envio de correos
+require '../vendor/autoload.php'; // PHPMailer con Composer para envio de correos
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 $nombreUsuario = trim($_POST['nombreUsuario'] ?? '');
 $claveUsuario = trim($_POST['claveUsuario'] ?? '');
@@ -51,10 +53,36 @@ if (empty($errores)) {
     ]);
 
     if ($exito) {
-        if ($tipoUsuario === 'cliente') 
-            // Agregar logica para enviar correo de confirmar registro
+        if ($tipoUsuario === 'cliente') {
             // Usando PHPMailer con el token de validacion (agregar con Composer)
             echo "<div class='alert alert-success'>¡Registro exitoso! Revisa tu correo para validar tu cuenta.</div>";
+            $mail = new PHPMailer(true);
+            try {
+                // Configuración SMTP
+                $mail->isSMTP();
+                $mail->Host       = 'smtp.gmail.com';
+                $mail->SMTPAuth   = true;
+                $mail->Username   = 'tucuenta@gmail.com'; // Cambiar
+                $mail->Password   = 'tu_app_password';    // Cambiar
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port       = 587;
+
+                // Correo
+                $mail->setFrom('tucuenta@gmail.com', 'Mi Sitio'); // Cambiar
+                $mail->addAddress($email, $nombre);
+                $mail->isHTML(true);
+                $mail->Subject = 'Confirmá tu cuenta';
+                $mail->Body    = "
+                    <h2>¡Gracias por registrarte, $nombre!</h2>
+                    <p>Hacé clic para confirmar tu cuenta:</p>
+                    <a href='http://localhost/TP/EntornosGraficos/public/confirmar.php?token=$token'>Confirmar cuenta</a>
+                ";
+
+                $mail->send();
+                echo "Registro exitoso. Revisa tu email para confirmar tu cuenta.";
+            } catch (Exception $e) {
+                echo "No se pudo enviar el correo: {$mail->ErrorInfo}";
+            }
         } else {
             echo "<div class='alert alert-success'>¡Registro exitoso! Tu cuenta será revisada por un administrador.</div>";
         }
