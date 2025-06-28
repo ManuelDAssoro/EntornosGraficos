@@ -81,45 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/local-editar.css">
-    <style>
-        .page-header {
-            background: linear-gradient(135deg, #ffc107 0%, #ff8c00 100%);
-            color: white;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-        }
-        .form-card {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
-        .form-label {
-            font-weight: 600;
-            color: #495057;
-        }
-        .required-field::after {
-            content: " *";
-            color: #dc3545;
-        }
-        .btn-action {
-            padding: 0.75rem 2rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .input-group-text {
-            background-color: #f8f9fa;
-            border-color: #dee2e6;
-        }
-        .local-info {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 10px;
-            padding: 1rem;
-            margin-bottom: 2rem;
-        }
-    </style>
 </head>
 <body class="bg-light">
     <!-- Navigation -->
