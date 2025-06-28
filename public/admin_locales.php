@@ -241,8 +241,7 @@ $mensajes_exito = [
                                             </a>
                                             <a href="local_eliminar.php?id=<?= $local['codLocal'] ?>" 
                                                class="btn btn-sm btn-danger btn-action" 
-                                               title="Eliminar local"
-                                               onclick="return confirm('¿Estás seguro que deseas eliminar este local?')">
+                                               title="Eliminar local">
                                                 <i class="fas fa-trash"></i> Eliminar
                                             </a>
                                         </div>
