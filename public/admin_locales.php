@@ -48,70 +48,237 @@ $mensajes_exito = [
     'eliminado' => 'El local fue eliminado correctamente.'
 ];
 ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Locales - Mi Shopping</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        .filter-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .table-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .btn-action {
+            margin: 0 2px;
+        }
+        .stats-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .navbar-brand {
+            font-weight: bold;
+        }
+        .nav-link.active {
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="dashboard_admin.php">
+                <i class="fas fa-store"></i> Mi Shopping
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav me-auto">
+                    <a class="nav-link" href="dashboard_admin.php">Dashboard</a>
+                    <a class="nav-link active" href="admin_locales.php">Locales</a>
+                </div>
+                <div class="d-flex">
+                    <?php include 'layout/header.php'; ?>
+                </div>
+            </div>
+        </div>
+    </nav>
 
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="mb-0">
+                        <i class="fas fa-building"></i> Administrar Locales
+                    </h1>
+                    <p class="mb-0 mt-2">Gestiona todos los locales del shopping</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <div class="stats-card">
+                        <h3 class="text-primary mb-0"><?= count($locales) ?></h3>
+                        <small class="text-muted">Total Locales</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="container">
+        <!-- Success Messages -->
+        <?php if (isset($mensajes_exito[$mensaje])): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle me-2"></i>
+                <?= $mensajes_exito[$mensaje] ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        <?php endif; ?>
 
-<h2>Administrar Locales</h2>
+        <!-- Filter Section -->
+        <div class="filter-card">
+            <h5 class="mb-3">
+                <i class="fas fa-filter"></i> Filtros de Búsqueda
+            </h5>
 
-<?php if (isset($mensajes_exito[$mensaje])): ?>
-  <div class="alert alert-success">
-    <?= $mensajes_exito[$mensaje] ?>
-  </div>
-<?php endif; ?>
+            <form method="GET" class="row g-3">
+                <div class="col-md-4">
+                    <label for="nombre" class="form-label">Nombre del Local</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-store"></i></span>
+                        <input type="text" id="nombre" name="nombre" class="form-control" 
+                               placeholder="Buscar por nombre..." value="<?= htmlspecialchars($nombre) ?>">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="ubicacion" class="form-label">Ubicación</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                        <input type="text" id="ubicacion" name="ubicacion" class="form-control" 
+                               placeholder="Buscar por ubicación..." value="<?= htmlspecialchars($ubicacion) ?>">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="rubro" class="form-label">Rubro</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-tags"></i></span>
+                        <input type="text" id="rubro" name="rubro" class="form-control" 
+                               placeholder="Buscar por rubro..." value="<?= htmlspecialchars($rubro) ?>">
+                    </div>
+                </div>
+                <div class="col-12 d-flex gap-2 mt-3">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Buscar
+                    </button>
+                    <a href="admin_locales.php" class="btn btn-outline-secondary">
+                        <i class="fas fa-times"></i> Limpiar
+                    </a>
+                </div>
+            </form>
+        </div>
 
-<!-- Filtro de búsqueda -->
-<form method="GET" class="row g-3 mb-4">
-  <div class="col-md-3">
-    <input type="text" name="nombre" class="form-control" placeholder="Nombre del Local" value="<?= htmlspecialchars($nombre) ?>">
-  </div>
-  <div class="col-md-3">
-    <input type="text" name="ubicacion" class="form-control" placeholder="Ubicación" value="<?= htmlspecialchars($ubicacion) ?>">
-  </div>
-  <div class="col-md-3">
-    <input type="text" name="rubro" class="form-control" placeholder="Rubro" value="<?= htmlspecialchars($rubro) ?>">
-  </div>
-  <div class="col-md-3 d-flex align-items-center">
-    <button type="submit" class="btn btn-primary me-2">Buscar</button>
-    <a href="admin_locales.php" class="btn btn-secondary">Limpiar</a>
-  </div>
-</form>
+        <!-- Action Buttons -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5 class="mb-0">Resultados de la búsqueda</h5>
+            <a href="local_nuevo.php" class="btn btn-success btn-lg">
+                <i class="fas fa-plus"></i> Nuevo Local
+            </a>
+        </div>
 
-<!-- Botón de alta -->
-<div class="mb-3">
-  <a href="local_nuevo.php" class="btn btn-success">➕ Nuevo Local</a>
-</div>
+        <!-- Results Table -->
+        <div class="table-card">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th><i class="fas fa-store"></i> Nombre</th>
+                            <th><i class="fas fa-map-marker-alt"></i> Ubicación</th>
+                            <th><i class="fas fa-tags"></i> Rubro</th>
+                            <th><i class="fas fa-user"></i> Dueño</th>
+                            <th style="width: 200px;" class="text-center"><i class="fas fa-cogs"></i> Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (count($locales) > 0): ?>
+                            <?php foreach ($locales as $local): ?>
+                                <tr>
+                                    <td>
+                                        <strong><?= htmlspecialchars($local['nombreLocal']) ?></strong>
+                                    </td>
+                                    <td>
+                                        <span class="text-muted"><?= htmlspecialchars($local['ubicacionLocal']) ?></span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-info"><?= htmlspecialchars($local['rubroLocal']) ?></span>
+                                    </td>
+                                    <td>
+                                        <?php if ($local['nombreUsuario']): ?>
+                                            <i class="fas fa-user text-success"></i> 
+                                            <?= htmlspecialchars($local['nombreUsuario']) ?>
+                                        <?php else: ?>
+                                            <span class="text-muted">
+                                                <i class="fas fa-user-slash"></i> Sin asignar
+                                            </span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="btn-group" role="group">
+                                            <a href="local_editar.php?id=<?= $local['codLocal'] ?>" 
+                                               class="btn btn-sm btn-warning btn-action" 
+                                               title="Editar local">
+                                                <i class="fas fa-edit"></i> Editar
+                                            </a>
+                                            <a href="local_eliminar.php?id=<?= $local['codLocal'] ?>" 
+                                               class="btn btn-sm btn-danger btn-action" 
+                                               title="Eliminar local"
+                                               onclick="return confirm('¿Estás seguro que deseas eliminar este local?')">
+                                                <i class="fas fa-trash"></i> Eliminar
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="5" class="text-center py-5">
+                                    <div class="text-muted">
+                                        <i class="fas fa-search fa-3x mb-3"></i>
+                                        <h5>No se encontraron locales</h5>
+                                        <p>Intenta modificar los filtros de búsqueda o crea un nuevo local.</p>
+                                        <a href="local_nuevo.php" class="btn btn-primary">
+                                            <i class="fas fa-plus"></i> Crear Primer Local
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-<!-- Tabla de resultados -->
-<table class="table table-bordered table-striped">
-  <thead class="table-dark">
-    <tr>
-      <th>Nombre</th>
-      <th>Ubicación</th>
-      <th>Rubro</th>
-      <th>Dueño</th>
-      <th style="width: 180px;">Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php if (count($locales) > 0): ?>
-      <?php foreach ($locales as $local): ?>
-        <tr>
-          <td><?= htmlspecialchars($local['nombreLocal']) ?></td>
-          <td><?= htmlspecialchars($local['ubicacionLocal']) ?></td>
-          <td><?= htmlspecialchars($local['rubroLocal']) ?></td>
-          <td><?= htmlspecialchars($local['nombreUsuario']) ?: '<em>Sin asignar</em>' ?></td>
-          <td>
-            <a href="local_editar.php?id=<?= $local['codLocal'] ?>" class="btn btn-sm btn-warning">✏️ Editar</a>
-            <a href="local_eliminar.php?id=<?= $local['codLocal'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro que deseas eliminar este local?')">🗑️ Eliminar</a>
-          </td>
-        </tr>
-      <?php endforeach; ?>
-    <?php else: ?>
-      <tr>
-        <td colspan="5" class="text-center">No se encontraron locales.</td>
-      </tr>
-    <?php endif; ?>
-  </tbody>
-</table>
+    <!-- Footer -->
+    <footer class="bg-dark text-light text-center py-4 mt-5">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 Mi Shopping. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js"></script>
+</body>
+</html>
 
 

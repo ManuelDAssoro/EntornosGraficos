@@ -4,6 +4,22 @@ if (!isset($_SESSION['usuario_id'])) {
     header("Location: login.php");
     exit;
 }
+
+// Redirect to specific dashboard based on user type
+if (isset($_SESSION['tipoUsuario'])) {
+    switch ($_SESSION['tipoUsuario']) {
+        case 'administrador':
+            header("Location: dashboard_admin.php");
+            exit;
+        case 'cliente':
+            header("Location: dashboard_cliente.php");
+            exit;
+        case 'dueño':
+            header("Location: dashboard_dueno.php");
+            exit;
+        // If tipoUsuario doesn't match any specific type, continue to generic dashboard
+    }
+}
 ?>
 
 <!DOCTYPE html>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'auth.php';
 requireRole('administrador');
 require_once '../config/db.php';
@@ -40,20 +41,158 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Local - Mi Shopping</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        .confirmation-card {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .warning-icon {
+            font-size: 4rem;
+            color: #dc3545;
+            margin-bottom: 1.5rem;
+        }
+        .local-name {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-left: 5px solid #dc3545;
+        }
+        .btn-action {
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0 0.5rem;
+        }
+        .danger-text {
+            color: #dc3545;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="dashboard_admin.php">
+                <i class="fas fa-store"></i> Mi Shopping
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav me-auto">
+                    <a class="nav-link" href="dashboard_admin.php">Dashboard</a>
+                    <a class="nav-link" href="admin_locales.php">Locales</a>
+                </div>
+                <div class="d-flex">
+                    <?php include 'layout/header.php'; ?>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-<?php include 'layout/header.php'; ?>
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="mb-0">
+                        <i class="fas fa-trash-alt"></i> Eliminar Local
+                    </h1>
+                    <p class="mb-0 mt-2">Confirma la eliminación del local</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <a href="admin_locales.php" class="btn btn-light">
+                        <i class="fas fa-arrow-left"></i> Volver al Listado
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<h2>Eliminar Local</h2>
+    <div class="container">
+        <!-- Error Messages -->
+        <?php if ($error): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <strong>Error:</strong> <?= htmlspecialchars($error) ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        <?php endif; ?>
 
-<?php if ($error): ?>
-  <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
-<?php endif; ?>
+        <!-- Confirmation Card -->
+        <div class="confirmation-card">
+            <div class="warning-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            
+            <h3 class="danger-text mb-4">¡Acción Irreversible!</h3>
+            
+            <p class="lead">¿Estás seguro que quieres eliminar el siguiente local?</p>
+            
+            <div class="local-name">
+                <div class="d-flex align-items-center justify-content-center">
+                    <i class="fas fa-store text-danger me-3 fa-2x"></i>
+                    <div>
+                        <h4 class="mb-0 danger-text"><?= htmlspecialchars($local['nombreLocal']) ?></h4>
+                        <small class="text-muted">ID: #<?= $codLocal ?></small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert alert-warning mt-4" role="alert">
+                <i class="fas fa-info-circle me-2"></i>
+                <strong>Advertencia:</strong> Esta acción no se puede deshacer. El local será eliminado permanentemente de la base de datos.
+            </div>
 
-<p>¿Estás seguro que quieres eliminar el local <strong><?= htmlspecialchars($local['nombreLocal']) ?></strong>?</p>
+            <form method="POST" class="mt-4">
+                <div class="d-flex justify-content-center gap-3">
+                    <button type="submit" name="confirm" value="no" class="btn btn-outline-secondary btn-action">
+                        <i class="fas fa-times"></i> No, Cancelar
+                    </button>
+                    <button type="submit" name="confirm" value="sí" class="btn btn-danger btn-action" 
+                            onclick="return confirm('¿Estás completamente seguro? Esta acción no se puede deshacer.')">
+                        <i class="fas fa-trash"></i> Sí, Eliminar
+                    </button>
+                </div>
+            </form>
+            
+            <div class="mt-4">
+                <small class="text-muted">
+                    <i class="fas fa-shield-alt"></i> 
+                    Siempre puedes volver al listado sin realizar cambios
+                </small>
+            </div>
+        </div>
+    </div>
 
-<form method="POST">
-  <button type="submit" name="confirm" value="sí" class="btn btn-danger">Sí, eliminar</button>
-  <button type="submit" name="confirm" value="no" class="btn btn-secondary">No, cancelar</button>
-</form>
+    <!-- Footer -->
+    <footer class="bg-dark text-light text-center py-4 mt-5">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 Mi Shopping. Todos los derechos reservados.</p>
+        </div>
+    </footer>
 
-<?php include 'layout/footer.php'; ?>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js"></script>
+</body>
+</html>
