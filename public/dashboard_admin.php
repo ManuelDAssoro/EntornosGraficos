@@ -137,7 +137,7 @@ $locales_recientes = $stmt->fetchAll();
     <div class="container">
         <!-- Statistics Cards -->
         <div class="row mb-5">
-            <div class="col-lg-3 col-md-6 mb-4">
+            <div class="col-lg-4 col-md-6 mb-4">
                 <div class="stats-card">
                     <div class="stats-icon text-primary">
                         <i class="bi bi-shop"></i>
@@ -146,7 +146,7 @@ $locales_recientes = $stmt->fetchAll();
                     <h6 class="text-muted">Total Locales</h6>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 mb-4">
+            <!-- <div class="col-lg-3 col-md-6 mb-4">
                 <div class="stats-card">
                     <div class="stats-icon text-success">
                         <i class="bi bi-person-check"></i>
@@ -154,8 +154,8 @@ $locales_recientes = $stmt->fetchAll();
                     <div class="stats-number text-success"><?= $stats['locales_asignados'] ?></div>
                     <h6 class="text-muted">Locales Asignados</h6>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4">
+            </div> -->
+            <div class="col-lg-4 col-md-6 mb-4">
                 <div class="stats-card">
                     <div class="stats-icon text-warning">
                         <i class="bi bi-person-badge"></i>
@@ -164,7 +164,7 @@ $locales_recientes = $stmt->fetchAll();
                     <h6 class="text-muted">Dueños Registrados</h6>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 mb-4">
+            <div class="col-lg-4 col-md-6 mb-4">
                 <div class="stats-card">
                     <div class="stats-icon text-info">
                         <i class="bi bi-people"></i>
