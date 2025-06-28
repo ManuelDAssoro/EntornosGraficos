@@ -41,64 +41,7 @@ $locales_recientes = $stmt->fetchAll();
     <title>Dashboard Admin - Mi Shopping</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        .page-header {
-            background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%);
-            color: white;
-            padding: 3rem 0;
-            margin-bottom: 2rem;
-        }
-        .stats-card {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            height: 100%;
-        }
-        .stats-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-        .stats-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-        .quick-actions {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
-        .recent-activity {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-        .action-btn {
-            border-radius: 10px;
-            padding: 1rem 1.5rem;
-            font-weight: 600;
-            text-decoration: none;
-            display: block;
-            transition: all 0.3s ease;
-        }
-        .action-btn:hover {
-            box-shadow: 0 0 0 1px #000;
-            text-decoration: none;
-        }
-        .welcome-section {
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 2rem;
-            backdrop-filter: blur(10px);
-        }
-    </style>
+    <link rel="stylesheet" href="css/dashboard-admin.css">
 </head>
 <body class="bg-light">
     <!-- Navigation -->

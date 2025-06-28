@@ -61,40 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Nuevo Local - Mi Shopping</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        .page-header {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-        }
-        .form-card {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
-        .form-label {
-            font-weight: 600;
-            color: #495057;
-        }
-        .required-field::after {
-            content: " *";
-            color: #dc3545;
-        }
-        .btn-action {
-            padding: 0.75rem 2rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .input-group-text {
-            background-color: #f8f9fa;
-            border-color: #dee2e6;
-        }
-    </style>
+    <link rel="stylesheet" href="css/local-nuevo.css">
 </head>
 <body class="bg-light">
     <!-- Navigation -->
@@ -235,6 +202,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </footer>
 
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js"></script>
 </body>
 </html>

@@ -56,48 +56,7 @@ $mensajes_exito = [
     <title>Administrar Locales - Mi Shopping</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <style>
-        .page-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-        }
-        .filter-card {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .table-card {
-            background: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .btn-action {
-            margin: 0 2px;
-        }
-        .stats-card {
-            background: white;
-            border-radius: 10px;
-            padding: 1rem;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .navbar-brand {
-            font-weight: bold;
-        }
-        .nav-link.active {
-            background-color: rgba(255,255,255,0.1);
-            border-radius: 5px;
-        }
-        .table-responsive {
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-        }
-    </style>
+    <link rel="stylesheet" href="css/admin-locales.css">
 </head>
 <body class="bg-light">
     <!-- Navigation -->
