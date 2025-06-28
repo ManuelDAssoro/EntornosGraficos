@@ -29,7 +29,7 @@
             <select class="form-select" id="tipoUsuario" name="tipoUsuario" required>
                 <option value="">Selecciona una opción</option>
                 <option value="cliente">Cliente</option>
-                <option value="dueñoLocal">Dueño de Local</option>
+                <option value="dueño">Dueño de Local</option>
             </select>
             <div class="invalid-feedback">
                 Selecciona el tipo de usuario.

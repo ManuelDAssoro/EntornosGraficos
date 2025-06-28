@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'config/db.php';
+require_once '../config/db.php';
 
 $errores = [];
 
@@ -16,10 +16,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $usuario = $stmt->fetch();
 
         if ($usuario && password_verify($claveUsuario, $usuario['claveUsuario'])) {
-            if ($usuario['estado'] !== 'pendiente') {
-                $_SESSION['usuario_id'] = $usuario['codUsuario'];
-                $_SESSION['tipoUsuario'] = $usuario['tipoUsuario'];
-                header("Location: dashboard.php");
+            if ($usuario['estado'] !== 'pendiente') {switch ($usuario['tipoUsuario']) {
+                    case 'administrador':
+                        header("Location: dashboard_admin.php");
+                        break;
+                    case 'cliente':
+                        header("Location: dashboard_cliente.php");
+                        break;
+                    case 'dueño':
+                        header("Location: dashboard_dueno.php");
+                        break;
+                    default:
+                        header("Location: dashboard.php");
+                        break;
+                }
                 exit;
             } else {
                 $errores[] = "Tu cuenta aún no está activada.";

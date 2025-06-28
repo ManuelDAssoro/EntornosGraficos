@@ -65,4 +65,4 @@ if (empty($errores)) {
     }
 }
 ?>
-<a href="register.php" class="btn btn-secondary mt-3">Volver al registro</a>
+<a href="index.php" class="btn btn-secondary mt-3">Volver al Inicio</a>

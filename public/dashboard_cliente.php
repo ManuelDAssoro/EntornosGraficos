@@ -1,6 +1,6 @@
 <?php
 require_once 'auth.php';
-requireRole('Cliente');
+requireRole('cliente');
 
 include 'layout/header.php';
 ?>

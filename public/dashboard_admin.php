@@ -1,6 +1,6 @@
 <?php
 require_once 'auth.php';
-requireRole('Admin');
+requireRole('administrador');
 
 include 'layout/header.php';
 ?>

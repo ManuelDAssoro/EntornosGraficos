@@ -1,7 +1,7 @@
 <?php
 require_once 'auth.php';
-requireRole('Admin');
-require_once 'config/db.php';
+requireRole('administrador');
+require_once '../config/db.php';
 
 // Captura filtros (todos opcionales)
 $nombre = trim($_GET['nombre'] ?? '');
