@@ -1,11 +1,12 @@
 <?php
 require_once 'auth.php';
 requireRole('administrador');
-
-include 'layout/header.php';
+include 'layout/header.php'; 
 ?>
 
-<h1>Panel de administración</h1>
-<p>Acceso completo al sistema.</p>
 
-<?php include 'layout/footer.php'; ?>
+
+<?php 
+include 'admin_locales.php';
+include 'layout/footer.php'; 
+?>

@@ -49,7 +49,7 @@ $mensajes_exito = [
 ];
 ?>
 
-<?php include 'layout/header.php'; ?>
+
 
 <h2>Administrar Locales</h2>
 
@@ -114,4 +114,4 @@ $mensajes_exito = [
   </tbody>
 </table>
 
-<?php include 'layout/footer.php'; ?>
+
