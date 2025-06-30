@@ -1,0 +1,510 @@
+/* Dashboard Dueño Specific Styles */
+
+/* Page header styling */
+.container h1 {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.container h1 i {
+    color: #007bff;
+    margin-right: 0.5rem;
+}
+
+/* Alert styling */
+.alert.alert-success {
+    border: none;
+    border-radius: 0.5rem;
+    background-color: #d1edff;
+    border-left: 4px solid #28a745;
+    margin-bottom: 2rem;
+}
+
+.alert.alert-success i {
+    color: #28a745;
+}
+
+/* New promotion button */
+.btn-primary {
+    border-radius: 0.5rem;
+    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,123,255,0.2);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,123,255,0.3);
+}
+
+.btn-primary i {
+    margin-right: 0.5rem;
+}
+
+/* Table styling */
+.table-responsive {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.table thead th {
+    border-radius: 0;
+    border: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
+}
+
+.table thead th:first-child {
+    border-top-left-radius: 0.5rem;
+}
+
+.table thead th:last-child {
+    border-top-right-radius: 0.5rem;
+}
+
+.table tbody td {
+    vertical-align: middle;
+    border-color: #e9ecef;
+    padding: 1rem;
+}
+
+/* Badge styling */
+.badge.bg-info {
+    background-color: #17a2b8 !important;
+    color: white;
+    font-weight: 500;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.25rem;
+}
+
+/* Delete button styling */
+.btn-danger.btn-sm {
+    border-radius: 0.25rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-danger.btn-sm:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(220,53,69,0.3);
+}
+
+.btn-danger.btn-sm i {
+    margin-right: 0.25rem;
+}
+
+/* Navbar brand styling */
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.navbar-brand i {
+    color: #ffc107;
+    margin-right: 0.5rem;
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+    .table-responsive table,
+    .table-responsive thead,
+    .table-responsive tbody,
+    .table-responsive th,
+    .table-responsive td,
+    .table-responsive tr {
+        display: block;
+    }
+    
+    .table-responsive thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    
+    .table-responsive tr {
+        border: 1px solid #ccc;
+        margin-bottom: 1rem;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        background: white;
+    }
+    
+    .table-responsive td {
+        border: none;
+        position: relative;
+        padding-left: 50% !important;
+        text-align: left;
+    }
+    
+    .table-responsive td:before {
+        content: attr(data-label) ": ";
+        position: absolute;
+        left: 1rem;
+        width: 45%;
+        text-align: left;
+        font-weight: bold;
+        color: #2c3e50;
+    }
+}
+
+/* Empty state (if needed) */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #6c757d;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    opacity: 0.5;
+    margin-bottom: 1rem;
+}
+
+.empty-state h5 {
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+/* No Local Assigned - Step-by-step Process Styles */
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 4rem 0;
+    margin-bottom: 2rem;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.hero-content {
+    text-align: center;
+}
+
+.welcome-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+    color: white;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    color: white !important;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-bottom: 0;
+    font-weight: 300;
+    color: white !important;
+}
+
+/* Steps Section */
+.steps-section {
+    padding: 3rem 0;
+    background: #f8f9fa;
+}
+
+.steps-header h2 {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.steps-header h2 i {
+    color: #007bff;
+    margin-right: 0.5rem;
+}
+
+.step-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    height: 100%;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+}
+
+.step-card.completed {
+    border-color: #28a745;
+    background: linear-gradient(45deg, #ffffff 95%, #28a745 95%);
+}
+
+.step-card.in-progress {
+    border-color: #ffc107;
+    background: linear-gradient(45deg, #ffffff 95%, #ffc107 95%);
+}
+
+.step-card.pending {
+    border-color: #6c757d;
+    background: linear-gradient(45deg, #ffffff 95%, #6c757d 95%);
+}
+
+.step-number {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+}
+
+.step-card.completed .step-number {
+    background: #28a745;
+    font-size: 2rem;
+}
+
+.step-card.in-progress .step-number {
+    background: #ffc107;
+}
+
+.step-card.pending .step-number {
+    background: #6c757d;
+}
+
+.step-content h4 {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.step-content p {
+    color: #6c757d;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.step-status {
+    text-align: center;
+}
+
+.step-status .badge {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-weight: 500;
+}
+
+/* Information Section */
+.info-section {
+    padding: 3rem 0;
+    background: white;
+}
+
+.info-cards {
+    margin-top: 2rem;
+}
+
+.info-card {
+    background: #f8f9fa;
+    border-radius: 1rem;
+    padding: 2rem;
+    height: 100%;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.info-card:hover {
+    background: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transform: translateY(-3px);
+}
+
+.info-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.info-content h5 {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.info-content p {
+    color: #6c757d;
+    margin-bottom: 0;
+    line-height: 1.6;
+}
+
+/* Contact Section */
+.contact-section {
+    padding: 3rem 0;
+    background: #f8f9fa;
+}
+
+.contact-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 3rem 2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.contact-card h4 {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.contact-card h4 i {
+    color: #007bff;
+    margin-right: 0.5rem;
+}
+
+.contact-card p {
+    color: #6c757d;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.contact-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.contact-buttons .btn {
+    border-radius: 2rem;
+    padding: 0.75rem 2rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.contact-buttons .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Stats cards for when user has local */
+.stats-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.stats-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+}
+
+.stats-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.stats-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.stats-label {
+    color: #6c757d;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.page-header {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.page-header h1 {
+    margin-bottom: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .step-card {
+        margin-bottom: 2rem;
+    }
+    
+    .contact-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .contact-buttons .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .stats-card {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-section {
+        padding: 2rem 0;
+    }
+    
+    .steps-section,
+    .info-section,
+    .contact-section {
+        padding: 2rem 0;
+    }
+    
+    .step-card,
+    .info-card,
+    .contact-card {
+        padding: 1.5rem;
+    }
+}
