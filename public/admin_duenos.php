@@ -30,13 +30,26 @@ $duenos = $stmt->fetchAll();
 </head>
 <body class="bg-light">
 
-<nav class="navbar navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="dashboard_admin.php">
-            <i class="bi bi-shop"></i> Mi Shopping
-        </a>
-    </div>
-</nav>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="dashboard_admin.php">
+                <i class="bi bi-shop"></i> Mi Shopping
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav me-auto">
+                    <a class="nav-link" href="dashboard_admin.php">Dashboard</a>
+                    <a class="nav-link active" href="admin_locales.php">Locales</a>
+                    <a class="nav-link" href="admin_duenos.php">Dueños</a>
+                </div>
+                <div class="d-flex">
+                    <?php include 'layout/header.php'; ?>
+                </div>
+            </div>
+        </div>
+    </nav>
 
 <div class="container mt-4">
     <h1><i class="bi bi-person-lines-fill"></i> Solicitudes de Dueños</h1>

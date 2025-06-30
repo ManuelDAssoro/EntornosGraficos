@@ -57,6 +57,7 @@ $locales_recientes = $stmt->fetchAll();
                 <div class="navbar-nav me-auto">
                     <a class="nav-link active" href="dashboard_admin.php">Dashboard</a>
                     <a class="nav-link" href="admin_locales.php">Locales</a>
+                    <a class="nav-link" href="admin_duenos.php">Dueños</a>
                 </div>
                 <div class="d-flex">
                     <?php include 'layout/header.php'; ?>
