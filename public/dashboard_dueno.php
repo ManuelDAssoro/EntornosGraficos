@@ -5,12 +5,10 @@ require_once '../config/db.php';
 
 $codUsuario = $_SESSION['usuario_id'];
 
-// Get user info
 $stmt = $pdo->prepare("SELECT nombreUsuario, estado FROM usuarios WHERE codUsuario = ?");
 $stmt->execute([$codUsuario]);
 $usuario = $stmt->fetch();
 
-// Check if user has a local assigned
 $stmt = $pdo->prepare("SELECT l.*, u.nombreUsuario as dueno_nombre FROM locales l LEFT JOIN usuarios u ON l.codUsuario = u.codUsuario WHERE l.codUsuario = ?");
 $stmt->execute([$codUsuario]);
 $local = $stmt->fetch();
@@ -21,7 +19,6 @@ $promociones = [];
 if ($hasLocal) {
     $codLocal = $local['codLocal'];
     
-    // Get promotions for this local
     try {
         $stmt = $pdo->prepare("
             SELECT p.*, 
@@ -34,7 +31,6 @@ if ($hasLocal) {
         $stmt->execute([$codLocal]);
         $promociones = $stmt->fetchAll();
     } catch (PDOException $e) {
-        // If promociones or uso_promociones table don't exist
         $promociones = [];
     }
 }
@@ -89,11 +85,9 @@ $mensajes = [
 </nav>
 
 <?php if (!$hasLocal): ?>
-<!-- No Local Assigned - Step-by-step Process -->
 <div class="container-fluid p-0">
     <div class="row min-vh-100 g-0">
         <div class="col-12">
-            <!-- Hero Section -->
             <div class="hero-section">
                 <div class="container">
                     <div class="row justify-content-center text-center">
@@ -110,7 +104,6 @@ $mensajes = [
                 </div>
             </div>
 
-            <!-- Steps Section -->
             <div class="steps-section">
                 <div class="container">
                     <div class="row">
@@ -123,7 +116,6 @@ $mensajes = [
                     </div>
 
                     <div class="row g-4">
-                        <!-- Step 1 -->
                         <div class="col-lg-4 col-md-6">
                             <div class="step-card completed">
                                 <div class="step-number">
@@ -141,7 +133,6 @@ $mensajes = [
                             </div>
                         </div>
 
-                        <!-- Step 2 -->
                         <div class="col-lg-4 col-md-6">
                             <div class="step-card in-progress">
                                 <div class="step-number">
@@ -161,7 +152,6 @@ $mensajes = [
                             </div>
                         </div>
 
-                        <!-- Step 3 -->
                         <div class="col-lg-4 col-md-6">
                             <div class="step-card pending">
                                 <div class="step-number">3</div>
@@ -180,7 +170,6 @@ $mensajes = [
                 </div>
             </div>
 
-            <!-- Information Section -->
             <div class="info-section">
                 <div class="container">
                     <div class="row justify-content-center">
@@ -216,7 +205,6 @@ $mensajes = [
                 </div>
             </div>
 
-            <!-- Refresh Section -->
             <div class="contact-section">
                 <div class="container">
                     <div class="row justify-content-center">
@@ -239,9 +227,7 @@ $mensajes = [
 </div>
 
 <?php else: ?>
-<!-- Has Local - Show Promotions Dashboard -->
 <div class="container mt-4">
-    <!-- Page Header -->
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col-md-8">
@@ -268,7 +254,6 @@ $mensajes = [
         </div>
     <?php endif; ?>
 
-    <!-- Stats Cards -->
     <div class="row mb-4">
         <div class="col-lg-3 col-md-6 mb-3">
             <div class="stats-card">
@@ -312,7 +297,6 @@ $mensajes = [
         </div>
     </div>
 
-    <!-- Promotions Table -->
     <?php if (count($promociones) > 0): ?>
     <div class="table-responsive">
         <table class="table table-bordered align-middle">

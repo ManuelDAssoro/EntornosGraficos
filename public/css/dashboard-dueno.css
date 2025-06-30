@@ -1,6 +1,4 @@
-/* Dashboard Dueño Specific Styles */
 
-/* Page header styling */
 .container h1 {
     color: #2c3e50;
     font-weight: 600;
@@ -12,7 +10,6 @@
     margin-right: 0.5rem;
 }
 
-/* Alert styling */
 .alert.alert-success {
     border: none;
     border-radius: 0.5rem;
@@ -25,7 +22,6 @@
     color: #28a745;
 }
 
-/* New promotion button */
 .btn-primary {
     border-radius: 0.5rem;
     font-weight: 500;
@@ -43,7 +39,6 @@
     margin-right: 0.5rem;
 }
 
-/* Table styling */
 .table-responsive {
     background: white;
     border-radius: 0.5rem;
@@ -75,7 +70,6 @@
     padding: 1rem;
 }
 
-/* Badge styling */
 .badge.bg-info {
     background-color: #17a2b8 !important;
     color: white;
@@ -84,7 +78,6 @@
     border-radius: 0.25rem;
 }
 
-/* Delete button styling */
 .btn-danger.btn-sm {
     border-radius: 0.25rem;
     font-weight: 500;
@@ -102,7 +95,6 @@
     margin-right: 0.25rem;
 }
 
-/* Navbar brand styling */
 .navbar-brand {
     font-weight: 600;
     font-size: 1.5rem;
@@ -113,7 +105,6 @@
     margin-right: 0.5rem;
 }
 
-/* Responsive table */
 @media (max-width: 768px) {
     .table-responsive table,
     .table-responsive thead,
@@ -156,7 +147,6 @@
     }
 }
 
-/* Empty state (if needed) */
 .empty-state {
     text-align: center;
     padding: 3rem 1rem;
@@ -174,9 +164,6 @@
     margin-bottom: 0.5rem;
 }
 
-/* No Local Assigned - Step-by-step Process Styles */
-
-/* Hero Section */
 .hero-section {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -214,7 +201,6 @@
     color: white !important;
 }
 
-/* Steps Section */
 .steps-section {
     padding: 3rem 0;
     background: #f8f9fa;
@@ -314,7 +300,6 @@
     font-weight: 500;
 }
 
-/* Information Section */
 .info-section {
     padding: 3rem 0;
     background: white;
@@ -364,7 +349,6 @@
     line-height: 1.6;
 }
 
-/* Contact Section */
 .contact-section {
     padding: 3rem 0;
     background: #f8f9fa;
@@ -413,7 +397,6 @@
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
-/* Stats cards for when user has local */
 .stats-card {
     background: white;
     border-radius: 1rem;
@@ -462,7 +445,6 @@
     margin-bottom: 0.5rem;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .hero-title {
         font-size: 2rem;

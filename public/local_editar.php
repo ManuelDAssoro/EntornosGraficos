@@ -103,8 +103,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </nav>
-
-    <!-- Page Header -->
     <div class="page-header">
         <div class="container">
             <div class="row align-items-center">
@@ -124,7 +122,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <div class="container">
-        <!-- Current Local Info -->
         <div class="local-info">
             <div class="d-flex align-items-center">
                 <i class="fas fa-info-circle text-warning fa-2x me-3"></i>
@@ -135,7 +132,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
 
-        <!-- Error Messages -->
         <?php if (!empty($errores)): ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <i class="fas fa-exclamation-triangle me-2"></i>
@@ -149,7 +145,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         <?php endif; ?>
 
-        <!-- Form Card -->
         <div class="form-card">
             <div class="row mb-4">
                 <div class="col-12">

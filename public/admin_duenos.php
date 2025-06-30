@@ -3,25 +3,20 @@ require_once 'auth.php';
 requireRole('administrador');
 require_once '../config/db.php';
 
-// Set page variables for header
 $page_title = 'Gestionar Dueños - Mi Shopping';
 $custom_css = 'admin-duenos.css';
 
-// Get filters
 $email = trim($_GET['email'] ?? '');
 $seccion = $_GET['seccion'] ?? 'solicitudes'; // 'solicitudes' or 'gestion'
 $estado = $_GET['estado'] ?? 'todos';
 $activo = $_GET['activo'] ?? 'todos';
 
-// Build WHERE conditions based on section
 $where = ["tipoUsuario = 'dueno'"];
 $params = [];
 
 if ($seccion === 'solicitudes') {
-    // Only pending requests
     $where[] = "estado = 'pendiente'";
 } else {
-    // All approved/rejected dueños for management
     $where[] = "estado != 'pendiente'";
 }
 
@@ -36,7 +31,6 @@ if ($seccion === 'gestion') {
         $params[] = $estado;
     }
 
-    // Since 'eliminado' column doesn't exist, we'll use 'estado' for filtering
     if ($activo !== 'todos') {
         if ($activo === 'activo') {
             $where[] = "estado = 'aprobado'";
@@ -46,7 +40,6 @@ if ($seccion === 'gestion') {
     }
 }
 
-// Get all dueños
 $sql = "SELECT u.*, l.nombreLocal, l.codLocal 
         FROM usuarios u 
         LEFT JOIN locales l ON u.codUsuario = l.codUsuario 
@@ -56,7 +49,6 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $duenos = $stmt->fetchAll();
 
-// Get statistics for all sections
 try {
     $sql_stats = "SELECT 
         SUM(CASE WHEN estado = 'pendiente' THEN 1 ELSE 0 END) as pendientes,
@@ -68,11 +60,9 @@ try {
     $stmt_stats->execute();
     $stats = $stmt_stats->fetch();
 } catch (Exception $e) {
-    // Fallback stats if query fails
     $stats = ['pendientes' => 0, 'aprobados' => 0, 'rechazados' => 0, 'activos' => 0];
 }
 
-// Handle actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
     $userId = $_POST['userId'] ?? '';
@@ -116,7 +106,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Messages for success notifications
 $mensaje = $_GET['mensaje'] ?? '';
 $mensajes_exito = [
     'aprobado' => 'El dueño fue aprobado exitosamente.',
@@ -126,7 +115,6 @@ $mensajes_exito = [
     'eliminado' => 'El dueño fue eliminado (rechazado).'
 ];
 
-// Section configurations
 $secciones = [
     'solicitudes' => [
         'titulo' => 'Solicitudes de Dueños',
@@ -142,11 +130,9 @@ $secciones = [
     ]
 ];
 
-// Include header
 include 'layout/header.php';
 ?>
 
-<!-- Page Header with Section Selector -->
 <div class="page-header">
     <div class="container">
         <div class="row align-items-center">
@@ -189,7 +175,6 @@ include 'layout/header.php';
 </div>
 
 <div class="container">
-    <!-- Success/Error Messages -->
     <?php if (isset($mensajes_exito[$mensaje])): ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <i class="bi bi-check-circle me-2"></i>
@@ -206,7 +191,6 @@ include 'layout/header.php';
         </div>
     <?php endif; ?>
 
-    <!-- Statistics Overview -->
     <div class="row mb-4">
         <div class="col-md-3">
             <div class="overview-card bg-warning">
@@ -254,7 +238,6 @@ include 'layout/header.php';
         </div>
     </div>
 
-    <!-- Filters Section -->
     <div class="filter-card">
         <h5 class="mb-3">
             <i class="bi bi-funnel"></i> Filtros de Búsqueda
@@ -305,7 +288,6 @@ include 'layout/header.php';
         </div>
     </div>
 
-    <!-- Table Section -->
     <div class="table-card">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="mb-0">
@@ -385,7 +367,6 @@ include 'layout/header.php';
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group btn-group-sm">
-                                        <!-- Estado Actions (only for solicitudes section) -->
                                         <?php if ($seccion === 'solicitudes' && $dueno['estado'] === 'pendiente'): ?>
                                             <form method="POST" style="display: inline;">
                                                 <input type="hidden" name="action" value="aprobar">
@@ -407,7 +388,6 @@ include 'layout/header.php';
                                             </form>
                                         <?php endif; ?>
                                         
-                                        <!-- User Status Actions (mainly for gestion section) -->
                                         <?php if ($seccion === 'gestion'): ?>
                                             <?php if ($dueno['estado'] === 'aprobado'): ?>
                                                 <form method="POST" style="display: inline;">
@@ -461,7 +441,6 @@ include 'layout/header.php';
 function cambiarSeccion(seccion) {
     const urlParams = new URLSearchParams(window.location.search);
     urlParams.set('seccion', seccion);
-    // Clear section-specific filters when changing sections
     if (seccion === 'solicitudes') {
         urlParams.delete('estado');
         urlParams.delete('activo');

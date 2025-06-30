@@ -45,7 +45,7 @@ if (empty($errores)) {
     $categoriaCliente = ($tipoUsuario === 'cliente') ? 'Inicial' : null;
     $estado = 'pendiente';
 
-    // For clients, set estado to 'activo' since we're not implementing email verification
+    // set estado to 'activo' since we're not implementing email verification when tipoUsuario is 'cliente'
     if ($tipoUsuario === 'cliente') {
         $estado = 'activo';
     }
@@ -85,7 +85,6 @@ if (empty($errores)) {
     <link rel="stylesheet" href="css/form-validation.css">
 </head>
 <body class="bg-light">
-    <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="index.php">
@@ -94,7 +93,6 @@ if (empty($errores)) {
         </div>
     </nav>
 
-    <!-- Page Header -->
     <div class="page-header">
         <div class="container">
             <div class="row justify-content-center">
@@ -190,7 +188,6 @@ if (empty($errores)) {
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="bg-dark text-light text-center py-4 mt-5">
         <div class="container">
             <p class="mb-0">&copy; 2025 Mi Shopping. Todos los derechos reservados.</p>

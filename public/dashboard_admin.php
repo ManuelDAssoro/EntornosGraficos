@@ -4,30 +4,23 @@ require_once 'auth.php';
 requireRole('administrador');
 require_once '../config/db.php';
 
-// Set page variables for header
 $page_title = 'Dashboard Admin - Mi Shopping';
 $custom_css = 'dashboard-admin.css';
 
-// Obtener estadísticas del dashboard
 $stats = [];
 
-// Total de locales
 $stmt = $pdo->query("SELECT COUNT(*) as total FROM locales");
 $stats['total_locales'] = $stmt->fetchColumn();
 
-// Locales con dueño asignado
 $stmt = $pdo->query("SELECT COUNT(*) as total FROM locales WHERE codUsuario IS NOT NULL");
 $stats['locales_asignados'] = $stmt->fetchColumn();
 
-// Total de usuarios dueños
 $stmt = $pdo->query("SELECT COUNT(*) as total FROM usuarios WHERE tipoUsuario = 'dueno'");
 $stats['total_duenos'] = $stmt->fetchColumn();
 
-// Total de usuarios clientes
 $stmt = $pdo->query("SELECT COUNT(*) as total FROM usuarios WHERE tipoUsuario = 'cliente'");
 $stats['total_clientes'] = $stmt->fetchColumn();
 
-// Locales recientes (últimos 5)
 $stmt = $pdo->query("
     SELECT l.nombreLocal, l.rubroLocal, u.nombreUsuario, l.codLocal
     FROM locales l
@@ -37,7 +30,6 @@ $stmt = $pdo->query("
 ");
 $locales_recientes = $stmt->fetchAll();
 
-// Include header
 include 'layout/header.php';
 ?>
     <!-- Page Header -->
@@ -53,7 +45,6 @@ include 'layout/header.php';
     </div>
 
     <div class="container">
-        <!-- Statistics Cards -->
         <div class="row mb-5">
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="stats-card">
@@ -94,7 +85,6 @@ include 'layout/header.php';
         </div>
 
         <div class="row">
-            <!-- Quick Actions -->
             <div class="col-lg-6 mb-4">
                 <div class="quick-actions">
                     <h4 class="mb-4">
@@ -123,7 +113,6 @@ include 'layout/header.php';
                 </div>
             </div>
 
-            <!-- Recent Activity -->
             <div class="col-lg-6 mb-4">
                 <div class="recent-activity">
                     <h4 class="mb-4">

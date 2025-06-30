@@ -3,16 +3,13 @@ require_once 'auth.php';
 requireRole('administrador');
 require_once '../config/db.php';
 
-// Set page variables for header
 $page_title = 'Gestionar Locales - Mi Shopping';
 $custom_css = 'admin-locales.css';
 
-// Captura filtros (todos opcionales)
 $nombre = trim($_GET['nombre'] ?? '');
 $ubicacion = trim($_GET['ubicacion'] ?? '');
 $rubro = trim($_GET['rubro'] ?? '');
 
-// Armado de WHERE dinámico
 $where = [];
 $params = [];
 
@@ -29,7 +26,6 @@ if ($rubro !== '') {
     $params[] = "%$rubro%";
 }
 
-// Consulta SQL con join para mostrar nombre del dueño
 $sql = "
     SELECT l.*, u.nombreUsuario
     FROM locales l
@@ -44,7 +40,6 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $locales = $stmt->fetchAll();
 
-// Mensajes de éxito
 $mensaje = $_GET['mensaje'] ?? '';
 $mensajes_exito = [
     'creado' => 'El local fue creado correctamente.',
@@ -52,7 +47,6 @@ $mensajes_exito = [
     'eliminado' => 'El local fue eliminado correctamente.'
 ];
 
-// Include header
 include 'layout/header.php';
 ?>
 
@@ -77,7 +71,6 @@ include 'layout/header.php';
     </div>
 
     <div class="container">
-        <!-- Success Messages -->
         <?php if (isset($mensajes_exito[$mensaje])): ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <i class="bi bi-check-circle me-2"></i>
@@ -86,7 +79,6 @@ include 'layout/header.php';
             </div>
         <?php endif; ?>
 
-        <!-- Filter Section -->
         <div class="filter-card">
             <h5 class="mb-3">
                 <i class="bi bi-funnel"></i> Filtros de Búsqueda
@@ -128,7 +120,6 @@ include 'layout/header.php';
             </form>
         </div>
 
-        <!-- Action Buttons -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h5 class="mb-0">Resultados de la búsqueda</h5>
             <a href="local_nuevo.php" class="btn btn-success btn-lg">
@@ -136,7 +127,6 @@ include 'layout/header.php';
             </a>
         </div>
 
-        <!-- Results Table -->
         <div class="table-card">
             <div class="table-responsive">
                 <table class="table table-hover">

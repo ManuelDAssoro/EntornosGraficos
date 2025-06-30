@@ -25,7 +25,6 @@ try {
     $stmt->execute([$codPromo]);
     $promocion = $stmt->fetch();
 } catch (PDOException $e) {
-    // Promociones table might not exist
     $promocion = false;
 }
 
@@ -54,7 +53,6 @@ if ($yaUsada) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Record promotion usage (if table exists)
     try {
         $stmt = $pdo->prepare("
             INSERT INTO uso_promociones (codPromo, codUsuario, fechaUso, estado)

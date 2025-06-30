@@ -1,12 +1,8 @@
-/* Form Validation Styles */
-
-/* Navbar styling */
 .navbar-brand {
     font-weight: bold;
     font-size: 1.25rem;
 }
 
-/* Page header with gradient */
 .page-header {
     background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
     color: white;
@@ -30,7 +26,6 @@
     margin-right: 0.5rem;
 }
 
-/* Result card styling */
 .result-card {
     background: white;
     border-radius: 20px;
@@ -40,7 +35,6 @@
     margin-bottom: 2rem;
 }
 
-/* Success/Error icons */
 .success-icon,
 .error-icon {
     font-size: 4rem;
@@ -69,7 +63,6 @@
     75% { transform: translateX(5px); }
 }
 
-/* Alert styling */
 .alert {
     border-radius: 15px;
     padding: 2rem;
@@ -109,7 +102,6 @@
     margin-bottom: 0;
 }
 
-/* Next steps section */
 .next-steps {
     background: #f8f9fa;
     border-radius: 15px;
@@ -155,7 +147,6 @@
     color: #495057;
 }
 
-/* Action buttons */
 .action-buttons {
     margin-top: 2rem;
     display: flex;
@@ -235,12 +226,10 @@
     color: white;
 }
 
-/* Footer styling */
 footer {
     margin-top: 4rem;
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     .page-header {
         padding: 2rem 0;
@@ -280,7 +269,6 @@ footer {
     }
 }
 
-/* Animation for the entire result card */
 .result-card {
     animation: slideInUp 0.8s ease-out;
 }

@@ -5,13 +5,11 @@ require_once '../config/db.php';
 
 $codUsuario = $_SESSION['usuario_id'];
 
-// Get user information
 $stmt = $pdo->prepare("SELECT nombreUsuario FROM usuarios WHERE codUsuario = ?");
 $stmt->execute([$codUsuario]);
 $usuario = $stmt->fetch();
 $nombreUsuario = $usuario['nombreUsuario'] ?? 'Usuario';
 
-// Handle messages
 $mensaje = $_GET['mensaje'] ?? '';
 $error = $_GET['error'] ?? '';
 
@@ -24,10 +22,8 @@ $errores = [
     'promocion_ya_usada' => 'Ya has utilizado esta promoción anteriormente.'
 ];
 
-// Get user's promociones used (if table exists)
 $promocionesUsadas = [];
 try {
-    // First check if the table exists
     $stmt = $pdo->query("SHOW TABLES LIKE 'uso_promociones'");
     if ($stmt->rowCount() > 0) {
         $stmt = $pdo->prepare("
@@ -43,11 +39,10 @@ try {
         $promocionesUsadas = $stmt->fetchAll();
     }
 } catch (PDOException $e) {
-    // Table uso_promociones might not exist yet
+    // uso_promociones might not exist yet
     $promocionesUsadas = [];
 }
 
-// Get available promocions (if table exists)
 $promocionesDisponibles = [];
 try {
     $stmt = $pdo->prepare("
@@ -63,7 +58,6 @@ try {
     $stmt->execute();
     $promocionesDisponibles = $stmt->fetchAll();
 } catch (PDOException $e) {
-    // Table promociones might not exist yet
     $promocionesDisponibles = [];
 }
 ?>
@@ -111,7 +105,6 @@ try {
         </div>
     </div>
 
-    <!-- Stats Cards -->
     <div class="row mb-4">
         <div class="col-md-6">
             <div class="card stats-card">
@@ -145,7 +138,6 @@ try {
         </div>
     </div>
 
-    <!-- Available Promotions -->
     <div class="row mb-4">
         <div class="col-12">
             <h3><i class="bi bi-gift"></i> Promociones Disponibles</h3>
@@ -201,7 +193,6 @@ try {
         <?php endif; ?>
     </div>
 
-    <!-- Recent Usage -->
     <?php if (count($promocionesUsadas) > 0): ?>
         <div class="row mt-5">
             <div class="col-12">

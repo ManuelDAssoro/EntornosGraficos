@@ -3,7 +3,6 @@ require_once 'auth.php';
 requireRole('dueno');
 require_once '../config/db.php';
 
-// Set page variables for header
 $page_title = 'Nueva Promoción - Mi Shopping';
 $custom_css = 'promocion-nueva.css';
 
@@ -37,12 +36,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Include header
 include 'layout/header.php';
 ?>
 
 <div class="container mt-4">
-    <!-- Page Header -->
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col-md-8">
@@ -59,7 +56,6 @@ include 'layout/header.php';
         </div>
     </div>
 
-    <!-- Form Card -->
     <div class="form-card">
         <form method="POST" class="row g-3">
             <div class="col-md-12">
@@ -136,11 +132,10 @@ function toggleCheckbox(dayId) {
     const checkbox = document.getElementById(dayId);
     checkbox.checked = !checkbox.checked;
     
-    // Trigger change event for any potential validation
     checkbox.dispatchEvent(new Event('change'));
 }
 
-// Prevent double-toggle when clicking directly on checkbox or label
+// prevent double-toggle when clicking directly on checkbox or label
 document.addEventListener('DOMContentLoaded', function() {
     const checkboxes = document.querySelectorAll('.form-check-input');
     const labels = document.querySelectorAll('.form-check-label');
