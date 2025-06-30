@@ -1,0 +1,280 @@
+/* Dashboard Cliente Specific Styles */
+
+/* Page header styling */
+.container h1 {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.container h1 i {
+    color: #007bff;
+    margin-right: 0.5rem;
+}
+
+.lead {
+    color: #6c757d;
+    margin-bottom: 2rem;
+}
+
+/* Navbar brand styling */
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.navbar-brand i {
+    color: #ffc107;
+    margin-right: 0.5rem;
+}
+
+/* Stats Cards */
+.stats-card {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+.stats-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+}
+
+.stats-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.stats-card h5 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.stats-card .card-text {
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+/* Section headers */
+h3 {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+h3 i {
+    color: #007bff;
+    margin-right: 0.5rem;
+}
+
+/* Promotion Cards */
+.promo-card {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.promo-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.promo-card .card-header {
+    border-bottom: none;
+    padding: 1rem;
+    font-weight: 600;
+}
+
+.promo-card .card-header h6 {
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+}
+
+.promo-card .card-header i {
+    margin-right: 0.5rem;
+}
+
+.promo-card .card-body {
+    padding: 1.5rem;
+}
+
+.promo-card .card-title {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.promo-card .card-text {
+    margin-bottom: 0.75rem;
+}
+
+.promo-card .card-text i {
+    margin-right: 0.5rem;
+    color: #007bff;
+}
+
+.promo-card .badge {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.promo-card .card-footer {
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    padding: 1rem;
+}
+
+.promo-card .btn {
+    font-weight: 500;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.promo-card .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,123,255,0.3);
+}
+
+/* Table styling */
+.table-responsive {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin-top: 1.5rem;
+}
+
+.table thead th {
+    border-radius: 0;
+    border: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
+    padding: 1rem;
+}
+
+.table thead th:first-child {
+    border-top-left-radius: 1rem;
+}
+
+.table thead th:last-child {
+    border-top-right-radius: 1rem;
+}
+
+.table tbody td {
+    vertical-align: middle;
+    border-color: #e9ecef;
+    padding: 1rem;
+}
+
+.table tbody td i {
+    color: #007bff;
+    margin-right: 0.5rem;
+}
+
+/* Badge styling */
+.badge.bg-info {
+    background-color: #17a2b8 !important;
+    color: white;
+}
+
+.badge.bg-success {
+    background-color: #28a745 !important;
+    color: white;
+}
+
+/* Empty state */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #6c757d;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.empty-state i {
+    font-size: 4rem;
+    opacity: 0.5;
+    margin-bottom: 1rem;
+    color: #007bff;
+}
+
+.empty-state h5 {
+    color: #495057;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.empty-state p {
+    margin-bottom: 0;
+    font-size: 1rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .stats-card {
+        margin-bottom: 1rem;
+    }
+    
+    .promo-card {
+        margin-bottom: 1.5rem;
+    }
+    
+    .container h1 {
+        font-size: 1.75rem;
+    }
+    
+    h3 {
+        font-size: 1.5rem;
+    }
+    
+    .stats-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+    }
+    
+    .stats-card h5 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Animation for cards */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.promo-card, .stats-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Hover effects for interactive elements */
+.card:hover {
+    cursor: default;
+}
+
+.btn:hover {
+    cursor: pointer;
+}
