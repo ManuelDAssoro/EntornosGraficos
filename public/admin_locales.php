@@ -3,6 +3,10 @@ require_once 'auth.php';
 requireRole('administrador');
 require_once '../config/db.php';
 
+// Set page variables for header
+$page_title = 'Gestionar Locales - Mi Shopping';
+$custom_css = 'admin-locales.css';
+
 // Captura filtros (todos opcionales)
 $nombre = trim($_GET['nombre'] ?? '');
 $ubicacion = trim($_GET['ubicacion'] ?? '');
@@ -47,41 +51,12 @@ $mensajes_exito = [
     'editado' => 'El local fue editado correctamente.',
     'eliminado' => 'El local fue eliminado correctamente.'
 ];
-?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administrar Locales - Mi Shopping</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="css/admin-locales.css">
-</head>
-<body class="bg-light">
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="dashboard_admin.php">
-                <i class="bi bi-shop"></i> Mi Shopping
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <div class="navbar-nav me-auto">
-                    <a class="nav-link" href="dashboard_admin.php">Dashboard</a>
-                    <a class="nav-link active" href="admin_locales.php">Locales</a>
-                    <a class="nav-link" href="admin_duenos.php">Dueños</a>
-                </div>
-                <div class="d-flex">
-                    <?php include 'layout/header.php'; ?>
-                </div>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Page Header -->
+// Include header
+include 'layout/header.php';
+?>
+
+<!-- Page Header -->
     <div class="page-header">
         <div class="container">
             <div class="row align-items-center">
@@ -233,15 +208,6 @@ $mensajes_exito = [
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-light text-center py-4 mt-5">
-        <div class="container">
-            <p class="mb-0">&copy; 2025 Mi Shopping. Todos los derechos reservados.</p>
-        </div>
-    </footer>
-
-    <script src="js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<?php include 'layout/footer.php'; ?>
 
 

@@ -3,9 +3,11 @@ require_once 'auth.php';
 requireRole('administrador');
 require_once '../config/db.php';
 
+// Set page variables for header
+$page_title = 'Gestionar Dueños - Mi Shopping';
+$custom_css = 'admin-duenos.css';
 
 $email = trim($_GET['email'] ?? '');
-
 
 $where = ["tipoUsuario = 'dueno'", "estado = 'pendiente'"];
 $params = [];
@@ -26,40 +28,12 @@ $mensajes_exito = [
     'aprobado' => 'El dueño fue aprobado y notificado por email.',
     'rechazado' => 'El dueño fue rechazado y notificado por email.'
 ];
+
+// Include header
+include 'layout/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Gestionar Dueños - Mi Shopping</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="css/admin-duenos.css">
-</head>
-<body class="bg-light">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="dashboard_admin.php">
-                <i class="bi bi-shop"></i> Mi Shopping
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <div class="navbar-nav me-auto">
-                    <a class="nav-link" href="dashboard_admin.php">Dashboard</a>
-                    <a class="nav-link" href="admin_locales.php">Locales</a>
-                    <a class="nav-link active" href="admin_duenos.php">Dueños</a>
-                </div>
-                <div class="d-flex">
-                    <?php include 'layout/header.php'; ?>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Page Header -->
+<!-- Page Header -->
     <div class="page-header">
         <div class="container">
             <div class="row align-items-center">
@@ -151,6 +125,4 @@ $mensajes_exito = [
     </div>
 </div>
 
-<script src="js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<?php include 'layout/footer.php'; ?>
