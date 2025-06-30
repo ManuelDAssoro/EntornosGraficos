@@ -40,6 +40,23 @@ $duenos = $stmt->fetchAll();
 
 <div class="container mt-4">
     <h1><i class="bi bi-person-lines-fill"></i> Solicitudes de Dueños</h1>
+
+    <?php
+$mensaje = $_GET['mensaje'] ?? '';
+$mensajes_exito = [
+    'aprobado' => 'El dueño fue aprobado y notificado por email.',
+    'rechazado' => 'El dueño fue rechazado y notificado por email.'
+];
+
+if (isset($mensajes_exito[$mensaje])): ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle me-2"></i>
+        <?= $mensajes_exito[$mensaje] ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<?php endif; ?>
+
+
     <p>Gestiona las cuentas de dueños que están pendientes de aprobación.</p>
 
     <!-- Filtros -->
