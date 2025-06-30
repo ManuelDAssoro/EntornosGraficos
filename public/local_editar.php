@@ -20,7 +20,7 @@ if (!$local) {
 }
 
 // Traer usuarios tipo "Dueño"
-$duenosStmt = $pdo->query("SELECT codUsuario, nombreUsuario FROM usuarios WHERE tipoUsuario = 'Dueño' ORDER BY nombreUsuario");
+$duenosStmt = $pdo->query("SELECT codUsuario, nombreUsuario FROM usuarios WHERE tipoUsuario = 'dueno' ORDER BY nombreUsuario");
 $duenos = $duenosStmt->fetchAll();
 
 // Inicializar variables con datos actuales

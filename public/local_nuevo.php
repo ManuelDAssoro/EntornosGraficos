@@ -5,7 +5,7 @@ requireRole('administrador');
 require_once '../config/db.php';
 
 // Traer usuarios tipo "Dueño"
-$stmt = $pdo->query("SELECT codUsuario, nombreUsuario FROM usuarios WHERE tipoUsuario = 'Dueño' ORDER BY nombreUsuario");
+$stmt = $pdo->query("SELECT codUsuario, nombreUsuario FROM usuarios WHERE tipoUsuario = 'dueno' ORDER BY nombreUsuario");
 $duenos = $stmt->fetchAll();
 
 // Inicialización

@@ -16,11 +16,11 @@ $stmt = $pdo->query("SELECT COUNT(*) as total FROM locales WHERE codUsuario IS N
 $stats['locales_asignados'] = $stmt->fetchColumn();
 
 // Total de usuarios dueños
-$stmt = $pdo->query("SELECT COUNT(*) as total FROM usuarios WHERE tipoUsuario = 'Dueño'");
+$stmt = $pdo->query("SELECT COUNT(*) as total FROM usuarios WHERE tipoUsuario = 'dueno'");
 $stats['total_duenos'] = $stmt->fetchColumn();
 
 // Total de usuarios clientes
-$stmt = $pdo->query("SELECT COUNT(*) as total FROM usuarios WHERE tipoUsuario = 'Cliente'");
+$stmt = $pdo->query("SELECT COUNT(*) as total FROM usuarios WHERE tipoUsuario = 'cliente'");
 $stats['total_clientes'] = $stmt->fetchColumn();
 
 // Locales recientes (últimos 5)
