@@ -14,7 +14,7 @@ if (isset($_SESSION['tipoUsuario'])) {
         case 'cliente':
             header("Location: dashboard_cliente.php");
             exit;
-        case 'dueño':
+        case 'dueno':
             header("Location: dashboard_dueno.php");
             exit;
         // If tipoUsuario doesn't match any specific type, continue to generic dashboard

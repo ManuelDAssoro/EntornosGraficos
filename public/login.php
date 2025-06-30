@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     case 'cliente':
                         header("Location: dashboard_cliente.php");
                         break;
-                    case 'dueño':
+                    case 'dueno':
                         header("Location: dashboard_dueno.php");
                         break;
                     default:
