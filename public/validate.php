@@ -1,9 +1,14 @@
 <?php
 require_once '../config/db.php';
 
+// Email verification system is not implemented yet
+// Token column doesn't exist in database
+echo "<div class='alert alert-info'>La verificación por email no está implementada actualmente.</div>";
+echo "<div class='alert alert-success'>Las cuentas de cliente se activan automáticamente al registrarse.</div>";
+
+/*
+// Original token validation code (disabled until token column is added to database)
 $token = $_GET['token'] ?? '';
-// Falta hacer la logica para venir desde el mail
-// Revisar el codigo incompleto en form_validation.php
 if (empty($token)) {
     echo "<div class='alert alert-danger'>Error al validar Token.</div>";
     exit;
@@ -20,5 +25,6 @@ if ($user) {
 } else {
     echo "<div class='alert alert-danger'>El enlace no es válido o la cuenta ya fue validada.</div>";
 }
+*/
 ?>
 <a href='index.php' class='btn btn-primary mt-3'>Ir al inicio</a>

@@ -1,6 +1,13 @@
 <?php
 require '../config/db.php';
 
+// Email confirmation system is not implemented yet
+// Required database columns don't exist
+echo "<div class='alert alert-info'>El sistema de confirmación por email no está implementado actualmente.</div>";
+echo "<div class='alert alert-success'>Las cuentas se activan automáticamente al registrarse.</div>";
+
+/*
+// Original confirmation code (disabled until proper database structure is implemented)
 $token = $_GET['token'] ?? '';
 
 if ($token) {
@@ -21,3 +28,6 @@ if ($token) {
 } else {
     echo "Falta el token.";
 }
+*/
+?>
+<a href='index.php' class='btn btn-primary mt-3'>Ir al inicio</a>
