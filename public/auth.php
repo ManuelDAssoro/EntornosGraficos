@@ -3,7 +3,10 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Requiere estar logueado
+function isLoggedIn() {
+    return isset($_SESSION['usuario_id']);
+}
+
 function requireLogin() {
     if (!isset($_SESSION['usuario_id'])) {
         header("Location: login.php");
@@ -11,7 +14,6 @@ function requireLogin() {
     }
 }
 
-// Requiere rol específico
 function requireRole($role) {
     requireLogin();
     if ($_SESSION['tipoUsuario'] !== $role) {
@@ -20,7 +22,6 @@ function requireRole($role) {
     }
 }
 
-// Requiere varios roles
 function requireRoles(array $roles) {
     requireLogin();
     if (!in_array($_SESSION['tipoUsuario'], $roles)) {
