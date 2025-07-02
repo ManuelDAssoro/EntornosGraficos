@@ -109,6 +109,12 @@ include 'layout/header.php';
                                 Buscar Locales
                             </a>
                         </div>
+                        <div class="col-12">
+                            <a href="admin_novedades.php" class="action-btn btn btn-warning w-100">
+                                <i class="bi bi-newspaper me-2"></i>
+                                Gestionar Novedades
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
