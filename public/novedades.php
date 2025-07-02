@@ -4,52 +4,81 @@ require_once '../config/db.php';
 require_once 'categoria_functions.php';
 
 $usuario_logueado = isLoggedIn();
-$categoria_cliente = 'Inicial';
+$categoria_cliente = 'unlogged';
 
 if ($usuario_logueado) {
-    $categoria_cliente = $_SESSION['categoriaCliente'] ?? 'Inicial';
+    $categoria_cliente = strtolower($_SESSION['categoriaCliente'] ?? 'inicial');
+}
+
+function canAccessNews($userCategory, $newsCategory) {
+    $hierarchy = ['unlogged' => 1, 'inicial' => 2, 'medium' => 3, 'premium' => 4];
+    $userLevel = $hierarchy[$userCategory] ?? 1;
+    $newsLevel = $hierarchy[$newsCategory] ?? 1;
+    return $userLevel >= $newsLevel;
 }
 
 $noticias = [];
 
-$categoriaFilter = getCategoriaFilterSQL($categoria_cliente, 'p');
-$stmt = $pdo->prepare("
-    SELECT p.*, l.nombreLocal, l.rubroLocal,
-           'promocion' as tipo_noticia,
-           p.fechaDesdePromo as fecha_noticia
-    FROM promociones p
-    JOIN locales l ON p.codLocal = l.codLocal
-    WHERE p.estadoPromo = 'activa'
-    AND p.fechaDesdePromo >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
-    AND $categoriaFilter
-    ORDER BY p.fechaDesdePromo DESC
-    LIMIT 10
-");
-$stmt->execute();
-$promociones_recientes = $stmt->fetchAll();
-
-$stmt = $pdo->prepare("
-    SELECT l.*,
-           'nuevo_local' as tipo_noticia,
-           CURDATE() as fecha_noticia
-    FROM locales l
-    WHERE l.codLocal IN (
-        SELECT MAX(codLocal) 
-        FROM locales 
-        GROUP BY nombreLocal 
-        ORDER BY codLocal DESC 
-        LIMIT 5
-    )
-    ORDER BY l.codLocal DESC
-");
-$stmt->execute();
-$locales_recientes = $stmt->fetchAll();
-
-foreach ($promociones_recientes as $promo) {
-    $noticias[] = $promo;
+try {
+    $stmt = $pdo->prepare("
+        SELECT *, 'novedad' as tipo_noticia, fecha_publicacion as fecha_noticia
+        FROM novedades 
+        WHERE estado = 'activa' 
+        AND fecha_publicacion <= CURDATE()
+        ORDER BY fecha_publicacion DESC
+        LIMIT 20
+    ");
+    $stmt->execute();
+    $novedades_db = $stmt->fetchAll();
+    
+    foreach ($novedades_db as $novedad) {
+        if (canAccessNews($categoria_cliente, $novedad['categoria_minima'])) {
+            $noticias[] = $novedad;
+        }
+    }
+} catch (PDOException $e) {
+    $noticias = [];
 }
-foreach ($locales_recientes as $local) {
-    $noticias[] = $local;
+
+try {
+    $categoriaFilter = getCategoriaFilterSQL($categoria_cliente === 'unlogged' ? 'inicial' : $categoria_cliente, 'p');
+    $stmt = $pdo->prepare("
+        SELECT p.*, l.nombreLocal, l.rubroLocal,
+               'promocion' as tipo_noticia,
+               p.fechaDesdePromo as fecha_noticia
+        FROM promociones p
+        JOIN locales l ON p.codLocal = l.codLocal
+        WHERE p.estadoPromo = 'activa'
+        AND p.fechaDesdePromo >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+        AND $categoriaFilter
+        ORDER BY p.fechaDesdePromo DESC
+        LIMIT 10
+    ");
+    $stmt->execute();
+    $promociones_recientes = $stmt->fetchAll();
+    
+    foreach ($promociones_recientes as $promo) {
+        $noticias[] = $promo;
+    }
+} catch (PDOException $e) {
+    // Skip promotion news if there's an error
+}
+
+try {
+    $stmt = $pdo->prepare("
+        SELECT l.*, 'nuevo_local' as tipo_noticia, CURDATE() as fecha_noticia
+        FROM locales l
+        ORDER BY l.codLocal DESC
+        LIMIT 5
+    ");
+    $stmt->execute();
+    $locales_recientes = $stmt->fetchAll();
+    
+    foreach ($locales_recientes as $local) {
+        $noticias[] = $local;
+    }
+} catch (PDOException $e) {
+    // Skip local news if there's an error
 }
 
 usort($noticias, function($a, $b) {
@@ -181,7 +210,31 @@ include 'layout/header.php';
                 </div>
             <?php else: ?>
                 <?php foreach ($noticias as $index => $noticia): ?>
-                    <?php if ($noticia['tipo_noticia'] === 'promocion'): ?>
+                    <?php if ($noticia['tipo_noticia'] === 'novedad'): ?>
+                        <div class="card news-card mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="badge bg-primary me-2">
+                                        <i class="bi bi-newspaper"></i> Novedad
+                                    </span>
+                                    <span class="badge bg-<?= $noticia['categoria_minima'] === 'premium' ? 'success' : ($noticia['categoria_minima'] === 'medium' ? 'warning' : ($noticia['categoria_minima'] === 'inicial' ? 'secondary' : 'info')) ?>">
+                                        <?= ucfirst($noticia['categoria_minima']) ?>
+                                    </span>
+                                </div>
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar"></i>
+                                    <?= date('d/m/Y', strtotime($noticia['fecha_noticia'])) ?>
+                                </small>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">
+                                    <i class="bi bi-megaphone text-primary"></i>
+                                    <?= htmlspecialchars($noticia['titulo']) ?>
+                                </h5>
+                                <p class="card-text"><?= nl2br(htmlspecialchars($noticia['contenido'])) ?></p>
+                            </div>
+                        </div>
+                    <?php elseif ($noticia['tipo_noticia'] === 'promocion'): ?>
                         <div class="card news-card mb-4">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <div>
@@ -223,7 +276,7 @@ include 'layout/header.php';
                                 </div>
                             </div>
                         </div>
-                    <?php else: ?>
+                    <?php elseif ($noticia['tipo_noticia'] === 'nuevo_local'): ?>
                         <div class="card news-card mb-4">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <div>
@@ -251,19 +304,16 @@ include 'layout/header.php';
                                                 </span>
                                             <?php endif; ?>
                                             <?php if (!empty($noticia['rubroLocal'])): ?>
-                                                <span class="badge bg-primary text-white">
+                                                <span class="badge bg-light text-dark">
                                                     <i class="bi bi-tag"></i> <?= htmlspecialchars($noticia['rubroLocal']) ?>
                                                 </span>
                                             <?php endif; ?>
                                         </div>
-                                        <p class="text-muted mt-2 mb-0">
-                                            Un nuevo local se ha sumado al shopping. ¡Visítalo y descubre lo que tiene para ofrecerte!
-                                        </p>
                                     </div>
                                     <div class="col-md-4 text-end">
                                         <a href="buscar_por_codigo.php?codigo=<?= $noticia['codLocal'] ?>" 
-                                           class="btn btn-outline-primary">
-                                            <i class="bi bi-search"></i> Ver Promociones
+                                           class="btn btn-info">
+                                            <i class="bi bi-eye"></i> Ver Local
                                         </a>
                                     </div>
                                 </div>
