@@ -2,25 +2,48 @@
 require_once 'auth.php';
 requireRole('cliente');
 require_once '../config/db.php';
+require_once 'categoria_functions.php';
 
-$codPromo = $_GET['id'] ?? null;
+$codPromo = $_GET['codigo'] ?? $_GET['id'] ?? null;
 $codUsuario = $_SESSION['usuario_id'];
+$confirmar = $_POST['confirmar'] ?? false;
 
 if (!$codPromo) {
     header("Location: dashboard_cliente.php");
     exit;
 }
 
-// Check if promotion exists and is active
+$stmt = $pdo->prepare("SELECT nombreUsuario, categoriaCliente FROM usuarios WHERE codUsuario = ?");
+$stmt->execute([$codUsuario]);
+$usuario = $stmt->fetch();
+$categoriaCliente = $usuario['categoriaCliente'] ?? 'inicial';
+
+$mensaje = '';
+$error = '';
+
+if ($confirmar) {
+    $resultado = usarPromocion($codUsuario, $codPromo, $pdo);
+    
+    if ($resultado['success']) {
+        $upgradeMessage = '';
+        if ($resultado['nueva_categoria'] !== $resultado['categoria_anterior']) {
+            $upgradeMessage = "&upgrade=" . $resultado['nueva_categoria'];
+        }
+        header("Location: dashboard_cliente.php?mensaje=promocion_usada" . $upgradeMessage);
+        exit;
+    } else {
+        $error = $resultado['error'];
+    }
+}
+
 try {
     $stmt = $pdo->prepare("
-        SELECT p.*, l.nombreLocal 
+        SELECT p.*, l.nombreLocal, l.ubicacionLocal, l.rubroLocal
         FROM promociones p
         JOIN locales l ON p.codLocal = l.codLocal
         WHERE p.codPromo = ? 
         AND p.estadoPromo = 'activa'
-        AND p.fechaDesdePromo <= CURDATE()
-        AND p.fechaHastaPromo >= CURDATE()
+        AND (p.fechaDesdePromo <= CURDATE() AND p.fechaHastaPromo >= CURDATE())
     ");
     $stmt->execute([$codPromo]);
     $promocion = $stmt->fetch();
@@ -33,17 +56,16 @@ if (!$promocion) {
     exit;
 }
 
-// Check if user already used this promotion
-$yaUsada = false;
+if (!puedeAccederPromocion($categoriaCliente, $promocion['categoriaCliente'])) {
+    header("Location: dashboard_cliente.php?error=categoria_insuficiente&requerida=" . $promocion['categoriaCliente']);
+    exit;
+}
+
 try {
-    $stmt = $pdo->prepare("
-        SELECT * FROM uso_promociones 
-        WHERE codPromo = ? AND codUsuario = ?
-    ");
+    $stmt = $pdo->prepare("SELECT codUso FROM uso_promociones WHERE codPromo = ? AND codUsuario = ?");
     $stmt->execute([$codPromo, $codUsuario]);
     $yaUsada = $stmt->fetch();
 } catch (PDOException $e) {
-    // uso_promociones table might not exist yet
     $yaUsada = false;
 }
 
@@ -52,91 +74,154 @@ if ($yaUsada) {
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        $stmt = $pdo->prepare("
-            INSERT INTO uso_promociones (codPromo, codUsuario, fechaUso, estado)
-            VALUES (?, ?, NOW(), 'usado')
-        ");
-        
-        if ($stmt->execute([$codPromo, $codUsuario])) {
-            header("Location: dashboard_cliente.php?mensaje=promocion_usada");
-            exit;
-        } else {
-            $error = "Error al procesar la promoción. Intenta nuevamente.";
-        }
-    } catch (PDOException $e) {
-        // If table doesn't exist, just redirect with success message
-        header("Location: dashboard_cliente.php?mensaje=promocion_usada");
-        exit;
-    }
-}
-?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Usar Promoción - Mi Shopping</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="css/usar-promocion.css">
-</head>
-<body class="bg-light">
+$progreso = getCategoryProgress($codUsuario, $pdo);
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+$page_title = 'Usar Promoción - Mi Shopping';
+$custom_css = 'usar-promocion.css';
+include 'layout/header.php';
+?>
+
+<div class="hero-section bg-success text-white">
     <div class="container">
-        <a class="navbar-brand" href="dashboard_cliente.php">
-            <i class="bi bi-person-circle"></i> Mi Panel
-        </a>
-        <div class="d-flex">
-            <?php include 'layout/header.php'; ?>
+        <div class="row align-items-center py-4">
+            <div class="col-md-8">
+                <h1 class="display-6 fw-bold mb-2">
+                    <i class="bi bi-check-circle"></i> Usar Promoción
+                </h1>
+                <p class="lead mb-0">Confirma el uso de esta promoción en <?= htmlspecialchars($promocion['nombreLocal']) ?></p>
+            </div>
+            <div class="col-md-4 text-end">
+                <?= getCategoryBadge($categoriaCliente) ?>
+            </div>
         </div>
     </div>
-</nav>
+</div>
 
-<div class="container mt-4">
+<div class="container my-5">
+    <?php if ($error): ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            <strong>Error:</strong> <?= htmlspecialchars($error) ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <?php endif; ?>
+
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">
-                        <i class="bi bi-ticket-perforated"></i> Usar Promoción
-                    </h4>
+            <!-- User Category Status -->
+            <div class="card mb-4 category-card">
+                <div class="card-header bg-light">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h6 class="mb-0">
+                                <i class="bi bi-person-badge"></i> 
+                                Tu Categoría: <?= getCategoryBadge($categoriaCliente) ?>
+                            </h6>
+                        </div>
+                        <div class="col-auto">
+                            <small class="text-muted">
+                                <i class="bi bi-graph-up"></i>
+                                <?= $progreso['used'] ?> promociones usadas
+                            </small>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
-                    <?php if (isset($error)): ?>
-                        <div class="alert alert-danger">
-                            <i class="bi bi-exclamation-triangle"></i> <?= $error ?>
+                    <?php if ($progreso['next_level']): ?>
+                        <p class="mb-2">
+                            <strong>Progreso hacia <?= $progreso['next_level_name'] ?>:</strong>
+                            <?= $progreso['used'] ?> / <?= $progreso['next_level'] ?> promociones
+                        </p>
+                        <div class="progress mb-2">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: <?= $progreso['progress_percent'] ?>%"
+                                 aria-valuenow="<?= $progreso['progress_percent'] ?>" 
+                                 aria-valuemin="0" aria-valuemax="100">
+                                <?= round($progreso['progress_percent']) ?>%
+                            </div>
                         </div>
+                        <small class="text-muted">
+                            Te faltan <?= $progreso['next_level'] - $progreso['used'] ?> promociones para alcanzar <?= $progreso['next_level_name'] ?>
+                        </small>
+                    <?php else: ?>
+                        <p class="text-success mb-0">
+                            <i class="bi bi-trophy"></i> ¡Felicitaciones! Has alcanzado la categoría máxima.
+                        </p>
                     <?php endif; ?>
+                </div>
+            </div>
 
-                    <div class="promotion-details">
-                        <h5><?= htmlspecialchars($promocion['textoPromo']) ?></h5>
-                        <p class="text-muted">
-                            <i class="bi bi-shop"></i> <strong><?= htmlspecialchars($promocion['nombreLocal']) ?></strong>
-                        </p>
-                        <p class="text-muted">
-                            <i class="bi bi-calendar"></i> Válido hasta: <?= $promocion['fechaHastaPromo'] ?>
-                        </p>
-                        <p class="text-muted">
-                            <i class="bi bi-calendar-week"></i> Días: <?= $promocion['diasSemana'] ?>
-                        </p>
-                        <span class="badge bg-info mb-3"><?= ucfirst($promocion['categoriaCliente']) ?></span>
+            <!-- Promotion Details -->
+            <div class="card promotion-card">
+                <div class="card-header bg-primary text-white">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h5 class="mb-0">
+                                <i class="bi bi-shop"></i> <?= htmlspecialchars($promocion['nombreLocal']) ?>
+                            </h5>
+                            <?php if (!empty($promocion['ubicacionLocal'])): ?>
+                                <small class="opacity-75">
+                                    <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($promocion['ubicacionLocal']) ?>
+                                </small>
+                            <?php endif; ?>
+                        </div>
+                        <div class="col-auto">
+                            <?= getCategoryBadge($promocion['categoriaCliente']) ?>
+                        </div>
                     </div>
-
+                </div>
+                <div class="card-body">
+                    <div class="promotion-content mb-4">
+                        <h4 class="text-primary mb-3">
+                            <i class="bi bi-percent"></i> <?= htmlspecialchars($promocion['textoPromo']) ?>
+                        </h4>
+                        
+                        <div class="row mb-3">
+                            <?php if (!empty($promocion['rubroLocal'])): ?>
+                                <div class="col-md-6">
+                                    <div class="info-item">
+                                        <i class="bi bi-tag text-info"></i>
+                                        <strong>Rubro:</strong> <?= htmlspecialchars($promocion['rubroLocal']) ?>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                            
+                            <div class="col-md-6">
+                                <div class="info-item">
+                                    <i class="bi bi-calendar-check text-warning"></i>
+                                    <strong>Válido hasta:</strong> <?= date('d/m/Y', strtotime($promocion['fechaHastaPromo'])) ?>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <?php if (!empty($promocion['diasSemana'])): ?>
+                            <div class="info-item mb-3">
+                                <i class="bi bi-clock text-secondary"></i>
+                                <strong>Días válidos:</strong> <?= htmlspecialchars($promocion['diasSemana']) ?>
+                            </div>
+                        <?php endif; ?>
+                        
+                        <div class="info-item">
+                            <i class="bi bi-people text-success"></i>
+                            <strong>Categoría requerida:</strong> <?= getCategoryBadge($promocion['categoriaCliente']) ?>
+                        </div>
+                    </div>
+                    
                     <div class="alert alert-info">
-                        <i class="bi bi-info-circle"></i>
-                        <strong>¿Estás seguro que quieres usar esta promoción?</strong>
-                        <p class="mb-0 mt-2">Una vez utilizada, no podrás volver a usarla. Asegúrate de estar en el local correspondiente.</p>
+                        <i class="bi bi-info-circle me-2"></i>
+                        <strong>¿Confirmas el uso de esta promoción?</strong><br>
+                        Una vez confirmado, esta promoción se marcará como utilizada y no podrás usarla nuevamente.
+                        Además, se contabilizará para tu progreso de categoría.
                     </div>
-
-                    <form method="post" class="d-flex gap-2">
-                        <button type="submit" class="btn btn-success">
-                            <i class="bi bi-check-circle"></i> Sí, usar promoción
-                        </button>
-                        <a href="dashboard_cliente.php" class="btn btn-secondary">
-                            <i class="bi bi-x-circle"></i> Cancelar
+                </div>
+                <div class="card-footer bg-light">
+                    <form method="POST" class="d-flex gap-3 justify-content-end">
+                        <a href="dashboard_cliente.php" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Cancelar
                         </a>
+                        <button type="submit" name="confirmar" value="1" class="btn btn-success btn-lg">
+                            <i class="bi bi-check-circle"></i> Confirmar Uso
+                        </button>
                     </form>
                 </div>
             </div>
@@ -144,6 +229,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
-<script src="js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<?php include 'layout/footer.php'; ?>
