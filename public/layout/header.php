@@ -55,6 +55,9 @@ if (isset($_SESSION['usuario_id'])) {
                         <a class="nav-link <?= $current_page === 'admin_duenos.php' ? 'active' : '' ?>" href="admin_duenos.php">
                             <i class="bi bi-person-lines-fill"></i> Dueños
                         </a>
+                        <a class="nav-link <?= $current_page === 'admin_novedades.php' ? 'active' : '' ?>" href="admin_novedades.php">
+                            <i class="bi bi-newspaper"></i> Novedades
+                        </a>
                     <?php elseif ($user_role === 'dueno'): ?>
                         <a class="nav-link <?= $current_page === 'dashboard_dueno.php' ? 'active' : '' ?>" href="dashboard_dueno.php">
                             <i class="bi bi-house"></i> Dashboard
