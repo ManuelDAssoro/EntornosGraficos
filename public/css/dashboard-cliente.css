@@ -215,6 +215,63 @@ h3 i {
     font-size: 1rem;
 }
 
+/* Action Cards */
+.action-card {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+.action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 25px rgba(0,0,0,0.15);
+}
+
+.action-card:hover {
+    animation: icon-bounce 0.6s ease-out;
+}
+
+@keyframes icon-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+@keyframes icon-bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.action-card .btn {
+    transition: all 0.3s ease;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+}
+
+.action-card .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Action card hover effects per type */
+.action-card:nth-child(1):hover {
+    border-left: 4px solid #007bff;
+}
+
+.action-card:nth-child(2):hover {
+    border-left: 4px solid #17a2b8;
+}
+
+.action-card:nth-child(3):hover {
+    border-left: 4px solid #ffc107;
+}
+
+.action-card:nth-child(4):hover {
+    border-left: 4px solid #28a745;
+}
+
 @media (max-width: 768px) {
     .stats-card {
         margin-bottom: 1rem;

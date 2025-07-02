@@ -72,6 +72,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
 
     <a href="register.php" class="btn btn-link mt-3">¿No tienes cuenta? Regístrate</a>
+    
+    <form action="index.php" method="get">
+      <button type="submit" style="margin-top:20px; padding:10px 20px;">← Volver al inicio</button>
+    </form>
+
   </div>
 </body>
 </html>

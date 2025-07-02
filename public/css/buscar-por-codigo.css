@@ -1,0 +1,268 @@
+/* Buscar por Código - Client Functionality */
+
+.hero-section {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="15" height="15" fill="rgba(255,255,255,0.1)" rx="2"/><rect x="70" y="30" width="20" height="20" fill="rgba(255,255,255,0.1)" rx="3"/><rect x="30" y="60" width="12" height="12" fill="rgba(255,255,255,0.1)" rx="2"/></svg>');
+    animation: float 8s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(5deg); }
+}
+
+.hero-icon {
+    opacity: 0.3;
+    animation: scan 4s ease-in-out infinite;
+}
+
+@keyframes scan {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    25% { opacity: 0.6; transform: scale(1.1); }
+    50% { opacity: 0.4; transform: scale(1.05); }
+    75% { opacity: 0.7; transform: scale(1.1); }
+}
+
+.search-card {
+    border: none;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border-radius: 1rem;
+}
+
+.search-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+}
+
+.input-group-lg .input-group-text {
+    padding: 1rem 1.5rem;
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    color: #6c757d;
+}
+
+.input-group-lg .form-control {
+    padding: 1rem 1.5rem;
+    border: 2px solid #e9ecef;
+    font-size: 1.1rem;
+}
+
+.input-group-lg .form-control:focus {
+    border-color: #17a2b8;
+    box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
+}
+
+.input-group-lg .btn {
+    padding: 1rem 2rem;
+    border: 2px solid #17a2b8;
+}
+
+.example-code {
+    padding: 1rem;
+    margin: 0.5rem 0;
+    background: #f8f9fa;
+    border-radius: 0.75rem;
+    border: 2px dashed #dee2e6;
+    transition: all 0.3s ease;
+}
+
+.example-code:hover {
+    border-color: #17a2b8;
+    background: #e8f4f5;
+    transform: translateY(-2px);
+}
+
+.example-code i {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.local-info-card {
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.local-info-card .card-header {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+    padding: 1.5rem;
+}
+
+.promotion-card {
+    border: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border-radius: 0.75rem;
+}
+
+.promotion-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.promotion-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #2c3e50;
+    line-height: 1.4;
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border-left: 4px solid #ffc107;
+}
+
+.promotion-details {
+    background: #f1f3f4;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+}
+
+.promotion-details .badge {
+    margin-bottom: 0.5rem;
+}
+
+/* QR Code Scanner Animation */
+.search-card .display-1 {
+    animation: qr-pulse 2s ease-in-out infinite;
+}
+
+@keyframes qr-pulse {
+    0%, 100% { 
+        transform: scale(1);
+        color: #17a2b8;
+    }
+    50% { 
+        transform: scale(1.1);
+        color: #20c997;
+    }
+}
+
+/* Form validation styles */
+.was-validated .form-control:valid {
+    border-color: #28a745;
+    padding-right: calc(1.5em + 1rem);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='m2.3 6.73.3.3.3-.3L7.7 1 8 1.3l-4.8 4.8L0 3.3l.3-.3L2.3 6.73z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.25rem) center;
+    background-size: calc(0.75em + 0.5rem) calc(0.75em + 0.5rem);
+}
+
+.was-validated .form-control:invalid {
+    border-color: #dc3545;
+    padding-right: calc(1.5em + 1rem);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath d='m5.8 4.6l.4-.4.4.4M5.8 7.4l.4.4.4-.4M5.8 7.4'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.25rem) center;
+    background-size: calc(0.75em + 0.5rem) calc(0.75em + 0.5rem);
+}
+
+/* Warning states */
+.card.border-warning {
+    border-width: 2px !important;
+    border-style: solid !important;
+}
+
+.card.border-warning .display-4 {
+    animation: warning-shake 1s ease-in-out;
+}
+
+@keyframes warning-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Success states */
+.local-info-card.found {
+    animation: found-bounce 0.6s ease-out;
+}
+
+@keyframes found-bounce {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Local Cards Styles */
+.local-card {
+    border: 1px solid #e9ecef;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+}
+
+.local-card:hover {
+    border-color: #17a2b8;
+    box-shadow: 0 4px 8px rgba(23, 162, 184, 0.15);
+}
+
+.local-card .card-title {
+    color: #495057;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.local-card .card-footer {
+    border-top: 1px solid #f8f9fa;
+    padding: 0.75rem 1rem;
+}
+
+.local-card .promotion-count {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid #f8f9fa;
+}
+
+.local-card .badge {
+    font-size: 0.75rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-section .display-5 {
+        font-size: 2rem;
+    }
+    
+    .hero-section .lead {
+        font-size: 1rem;
+    }
+    
+    .hero-icon {
+        display: none;
+    }
+    
+    .input-group-lg .form-control,
+    .input-group-lg .input-group-text,
+    .input-group-lg .btn {
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+    }
+    
+    .example-code {
+        padding: 0.75rem;
+        margin: 0.25rem 0;
+    }
+    
+    .promotion-card {
+        margin-bottom: 1rem;
+    }
+    
+    .btn-action {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}

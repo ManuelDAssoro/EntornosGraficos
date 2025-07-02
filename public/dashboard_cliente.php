@@ -39,7 +39,6 @@ try {
         $promocionesUsadas = $stmt->fetchAll();
     }
 } catch (PDOException $e) {
-    // uso_promociones might not exist yet
     $promocionesUsadas = [];
 }
 
@@ -138,6 +137,73 @@ try {
         </div>
     </div>
 
+    <!-- Client Action Cards -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3><i class="bi bi-compass"></i> ¿Qué querés hacer hoy?</h3>
+            <p>Accede rápidamente a todas las funcionalidades disponibles para clientes.</p>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card action-card h-100 text-center">
+                <div class="card-body">
+                    <div class="action-icon text-primary mb-3">
+                        <i class="bi bi-search display-4"></i>
+                    </div>
+                    <h5 class="card-title">Buscar Descuentos</h5>
+                    <p class="card-text text-muted">Explora todas las promociones disponibles en el shopping</p>
+                    <a href="buscar_descuentos.php" class="btn btn-primary">
+                        <i class="bi bi-search"></i> Explorar
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card action-card h-100 text-center">
+                <div class="card-body">
+                    <div class="action-icon text-info mb-3">
+                        <i class="bi bi-qr-code display-4"></i>
+                    </div>
+                    <h5 class="card-title">Buscar por Código</h5>
+                    <p class="card-text text-muted">Ingresa el código de un local para ver sus ofertas</p>
+                    <a href="buscar_por_codigo.php" class="btn btn-info">
+                        <i class="bi bi-qr-code"></i> Ingresar Código
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card action-card h-100 text-center">
+                <div class="card-body">
+                    <div class="action-icon text-warning mb-3">
+                        <i class="bi bi-newspaper display-4"></i>
+                    </div>
+                    <h5 class="card-title">Novedades</h5>
+                    <p class="card-text text-muted">Mantente al día con las últimas noticias del shopping</p>
+                    <a href="novedades.php" class="btn btn-warning">
+                        <i class="bi bi-newspaper"></i> Ver Novedades
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card action-card h-100 text-center">
+                <div class="card-body">
+                    <div class="action-icon text-success mb-3">
+                        <i class="bi bi-receipt display-4"></i>
+                    </div>
+                    <h5 class="card-title">Mis Promociones</h5>
+                    <p class="card-text text-muted">Ver el historial de promociones que has utilizado</p>
+                    <a href="#promociones-usadas" class="btn btn-success" onclick="document.getElementById('promociones-usadas').scrollIntoView();">
+                        <i class="bi bi-list-check"></i> Ver Historial
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row mb-4">
         <div class="col-12">
             <h3><i class="bi bi-gift"></i> Promociones Disponibles</h3>
@@ -194,7 +260,7 @@ try {
     </div>
 
     <?php if (count($promocionesUsadas) > 0): ?>
-        <div class="row mt-5">
+        <div class="row mt-5" id="promociones-usadas">
             <div class="col-12">
                 <h3><i class="bi bi-clock-history"></i> Promociones Recientes</h3>
                 <p>Historial de tus últimas promociones utilizadas.</p>

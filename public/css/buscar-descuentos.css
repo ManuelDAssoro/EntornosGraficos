@@ -1,0 +1,148 @@
+/* Buscar Descuentos - Client Functionality */
+
+.hero-section {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="3" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="70" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.hero-icon {
+    opacity: 0.3;
+    animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.05); }
+}
+
+.search-card {
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.search-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.promotion-card {
+    border: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.promotion-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.promotion-card .card-header {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+    padding: 1rem;
+}
+
+.promotion-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #2c3e50;
+    line-height: 1.4;
+}
+
+.promotion-dates,
+.days-available {
+    background: #f8f9fa;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border-left: 4px solid #28a745;
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+}
+
+.example-code {
+    padding: 1rem;
+    margin: 0.5rem 0;
+    background: #f8f9fa;
+    border-radius: 0.5rem;
+    border: 2px dashed #dee2e6;
+}
+
+.example-code:hover {
+    border-color: #007bff;
+    background: #e3f2fd;
+}
+
+/* Filter Cards */
+.card-header {
+    border-bottom: 2px solid #e9ecef;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-section .display-5 {
+        font-size: 2rem;
+    }
+    
+    .hero-section .lead {
+        font-size: 1rem;
+    }
+    
+    .hero-icon {
+        display: none;
+    }
+    
+    .promotion-card {
+        margin-bottom: 1rem;
+    }
+    
+    .btn-action {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Loading states */
+.promotion-card.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.promotion-card.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Badge styling */
+.badge {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.75rem;
+}

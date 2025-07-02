@@ -13,6 +13,7 @@ if (!$codPromo) {
     exit;
 }
 
+// Get user info and category
 $stmt = $pdo->prepare("SELECT nombreUsuario, categoriaCliente FROM usuarios WHERE codUsuario = ?");
 $stmt->execute([$codUsuario]);
 $usuario = $stmt->fetch();
@@ -21,6 +22,7 @@ $categoriaCliente = $usuario['categoriaCliente'] ?? 'inicial';
 $mensaje = '';
 $error = '';
 
+// Handle promotion usage
 if ($confirmar) {
     $resultado = usarPromocion($codUsuario, $codPromo, $pdo);
     
@@ -36,6 +38,7 @@ if ($confirmar) {
     }
 }
 
+// Get promotion details
 try {
     $stmt = $pdo->prepare("
         SELECT p.*, l.nombreLocal, l.ubicacionLocal, l.rubroLocal
@@ -56,13 +59,15 @@ if (!$promocion) {
     exit;
 }
 
+// Check category access
 if (!puedeAccederPromocion($categoriaCliente, $promocion['categoriaCliente'])) {
     header("Location: dashboard_cliente.php?error=categoria_insuficiente&requerida=" . $promocion['categoriaCliente']);
     exit;
 }
 
+// Check if already used
 try {
-    $stmt = $pdo->prepare("SELECT codUso FROM uso_promociones WHERE codPromo = ? AND codUsuario = ?");
+    $stmt = $pdo->prepare("SELECT id FROM uso_promociones WHERE codPromo = ? AND codUsuario = ?");
     $stmt->execute([$codPromo, $codUsuario]);
     $yaUsada = $stmt->fetch();
 } catch (PDOException $e) {
@@ -74,6 +79,7 @@ if ($yaUsada) {
     exit;
 }
 
+// Get category progress
 $progreso = getCategoryProgress($codUsuario, $pdo);
 
 $page_title = 'Usar Promoción - Mi Shopping';

@@ -37,11 +37,14 @@
         </div>
         <button type="submit" class="btn btn-primary">Registrarse</button>
     </form>
+
+    <form action="index.php" method="get">
+      <button type="submit" style="margin-top:20px; padding:10px 20px;">← Volver al inicio</button>
+    </form>
+
 </div>
 <script src="js/bootstrap.bundle.min.js"></script>
 <script>
-
-    // Validacion del lado del cliente
 
 (() => {
   'use strict'
