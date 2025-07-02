@@ -239,7 +239,74 @@ try {
         }
     }
     
-    // Final statistics
+    echo "<h3>📰 Creando Novedades de Prueba con Sistema de Categorías...</h3>";
+    
+    try {
+        // First, let's drop the table if it exists and recreate it properly
+        $pdo->exec("DROP TABLE IF EXISTS novedades");
+        
+        $sql = "CREATE TABLE novedades (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            titulo VARCHAR(255) NOT NULL,
+            contenido TEXT NOT NULL,
+            categoria_minima ENUM('unlogged', 'inicial', 'medium', 'premium') DEFAULT 'unlogged',
+            fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            fecha_publicacion DATE DEFAULT (CURRENT_DATE),
+            estado ENUM('activa', 'inactiva') DEFAULT 'activa',
+            codUsuario INT,
+            INDEX idx_categoria (categoria_minima),
+            INDEX idx_estado (estado),
+            INDEX idx_fecha (fecha_publicacion)
+        )";
+        
+        $pdo->exec($sql);
+        echo "<p style='color: blue;'>📋 Tabla 'novedades' creada exitosamente.</p>";
+        
+        // Get admin user ID
+        $admin_id = 1;
+        $stmt = $pdo->prepare("SELECT codUsuario FROM usuarios WHERE tipoUsuario = 'administrador' LIMIT 1");
+        $stmt->execute();
+        $admin = $stmt->fetch();
+        if ($admin) {
+            $admin_id = $admin['codUsuario'];
+        }
+        
+        $novedades_data = [
+            ['¡Bienvenidos al Shopping Mi Shopping!', 'Descubre todas las promociones y ofertas especiales que tenemos para ti. Navega sin necesidad de registrarte y explora nuestros locales.', 'unlogged'],
+            ['Nuevo sistema de registro de clientes', 'Ahora puedes registrarte como cliente para acceder a promociones exclusivas y hacer seguimiento de tus descuentos utilizados.', 'unlogged'],
+            ['Sistema de categorías para clientes registrados', 'Los clientes registrados pueden avanzar de categoría utilizando promociones: Inicial (0-2 usos), Medium (3-9 usos), y Premium (10+ usos). ¡Cada categoría desbloquea mejores ofertas!', 'inicial'],
+            ['Beneficios exclusivos para clientes Medium', 'Los clientes de categoría Medium ahora tienen acceso a promociones especiales de fin de semana y descuentos adicionales en locales seleccionados.', 'medium'],
+            ['Programa VIP para clientes Premium', 'Los clientes Premium disfrutan de acceso exclusivo a las mejores promociones, ofertas flash y eventos especiales del shopping.', 'premium'],
+            ['Nuevos locales se suman al shopping', 'Este mes damos la bienvenida a nuevos comercios que amplían nuestra oferta gastronómica y de entretenimiento.', 'inicial'],
+            ['Promociones de temporada disponibles', 'No te pierdas las ofertas especiales de temporada en indumentaria, electrónicos y mucho más.', 'unlogged'],
+            ['¿Sabías que puedes buscar por código?', 'Utiliza nuestro sistema de búsqueda por código para encontrar rápidamente las promociones de tu local favorito.', 'inicial'],
+            ['Eventos especiales para clientes Premium', 'Los clientes Premium tienen acceso anticipado a eventos de lanzamiento y degustaciones exclusivas.', 'premium'],
+            ['Horarios extendidos en locales gastronómicos', 'Varios restaurantes y cafeterías del shopping han extendido sus horarios para ofrecerte mayor comodidad.', 'medium']
+        ];
+        
+        $novedades_created = 0;
+        $novedades_existed = 0;
+        
+        $stmt = $pdo->prepare("INSERT INTO novedades (titulo, contenido, categoria_minima, codUsuario) VALUES (?, ?, ?, ?)");
+        
+        foreach ($novedades_data as $novedad_data) {
+            [$titulo, $contenido, $categoria] = $novedad_data;
+            
+            try {
+                $stmt->execute([$titulo, $contenido, $categoria, $admin_id]);
+                echo "<p style='color: green;'>✅ Novedad creada: $titulo (Categoría: $categoria)</p>";
+                $novedades_created++;
+            } catch (PDOException $e) {
+                echo "<p style='color: orange;'>⚠️ Error creando novedad '$titulo': " . $e->getMessage() . "</p>";
+            }
+        }
+        
+    } catch (PDOException $e) {
+        echo "<p style='color: red;'>❌ Error configurando novedades: " . $e->getMessage() . "</p>";
+        $novedades_created = 0;
+        $novedades_existed = 0;
+    }
+    
     echo "<h2>📈 Resumen de Datos Creados</h2>";
     
     $stmt = $pdo->prepare("SELECT tipoUsuario, estado, COUNT(*) as count FROM usuarios GROUP BY tipoUsuario, estado ORDER BY tipoUsuario, estado");
@@ -291,6 +358,22 @@ try {
     $stmt->execute();
     $usage_stats = $stmt->fetch();
     
+    // Check if novedades table exists and has estado column
+    try {
+        $stmt = $pdo->prepare("SELECT COUNT(*) as total_novedades FROM novedades WHERE estado = 'activa'");
+        $stmt->execute();
+        $novedades_stats = $stmt->fetch();
+    } catch(Exception $e) {
+        // Fallback if estado column doesn't exist or table doesn't exist
+        try {
+            $stmt = $pdo->prepare("SELECT COUNT(*) as total_novedades FROM novedades");
+            $stmt->execute();
+            $novedades_stats = $stmt->fetch();
+        } catch(Exception $e2) {
+            $novedades_stats = ['total_novedades' => 0];
+        }
+    }
+    
     echo "<div style='background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 20px 0;'>";
     echo "<h3>📊 Estadísticas Finales:</h3>";
     echo "<ul>";
@@ -299,9 +382,12 @@ try {
     echo "<li><strong>Locales creados:</strong> $locales_created</li>";
     echo "<li><strong>Locales que ya existían:</strong> $locales_existed</li>";
     echo "<li><strong>Promociones creadas:</strong> $promociones_created</li>";
+    echo "<li><strong>Novedades creadas:</strong> $novedades_created</li>";
+    echo "<li><strong>Novedades que ya existían:</strong> $novedades_existed</li>";
     echo "<li><strong>Total de locales:</strong> " . $locale_stats['total_locales'] . "</li>";
     echo "<li><strong>Locales con dueño asignado:</strong> " . $locale_stats['locales_asignados'] . "</li>";
     echo "<li><strong>Registros de uso de promociones:</strong> " . $usage_stats['total_usage'] . "</li>";
+    echo "<li><strong>Novedades activas:</strong> " . $novedades_stats['total_novedades'] . "</li>";
     echo "</ul>";
     
     if (count($promo_stats) > 0) {
@@ -333,9 +419,11 @@ try {
     echo "<h4>Ahora podés probar:</h4>";
     echo "<ul>";
     echo "<li><strong>Sistema de Categorías:</strong> Usuarios con diferentes niveles de acceso</li>";
+    echo "<li><strong>Sistema de Novedades:</strong> Noticias categorizadas por nivel de cliente</li>";
     echo "<li><strong>Navegación sin Registro:</strong> Acceso público a promociones básicas</li>";
     echo "<li><strong>Progreso de Categorías:</strong> Uso de promociones para subir de nivel</li>";
     echo "<li><strong>Filtrado por Categoría:</strong> Promociones específicas según nivel</li>";
+    echo "<li><strong>Gestión de Novedades:</strong> Administradores pueden crear noticias categorizadas</li>";
     echo "<li><strong>Solicitudes de Dueños:</strong> 3 solicitudes pendientes para aprobar/rechazar</li>";
     echo "<li><strong>Gestión de Dueños:</strong> Dueños activos y rechazados para gestionar</li>";
     echo "<li><strong>Asignación de Locales:</strong> Dueños sin locales asignados</li>";
@@ -360,9 +448,11 @@ try {
     echo "<p>Ya tenés todos los datos necesarios para probar completamente el sistema de gestión del shopping con:</p>";
     echo "<ul>";
     echo "<li>🌟 <strong>Sistema de categorías de clientes (Inicial, Medium, Premium)</strong></li>";
-    echo "<li>👁️ <strong>Acceso público para consultar promociones</strong></li>";
+    echo "<li>� <strong>Sistema de novedades categorizadas</strong></li>";
+    echo "<li>�👁️ <strong>Acceso público para consultar promociones</strong></li>";
     echo "<li>🎯 <strong>Promociones específicas por categoría</strong></li>";
     echo "<li>📈 <strong>Progreso automático de categorías</strong></li>";
+    echo "<li>📝 <strong>Gestión de novedades por administradores</strong></li>";
     echo "<li>👥 <strong>Gestión completa de usuarios y locales</strong></li>";
     echo "</ul>";
     echo "</div>";
