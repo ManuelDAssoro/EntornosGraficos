@@ -2,7 +2,8 @@ FROM php:8.2-cli
 
 # Instala extensiones necesarias
 RUN docker-php-ext-install mysqli pdo pdo_mysql
-RUN apt-get update && apt-get install -y php-pgsql
+RUN docker-php-ext-install pgsql pdo_pgsql
+RUN apt-get update && apt-get install -y libpq-dev
 
 
 # Copia el código al contenedor
