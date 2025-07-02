@@ -1,21 +1,17 @@
 <?php
-// filepath: config/db.php
+//cambiamos de MySQL a PostgreSQL para poder hacer el deploy en render.com
+$host = 'dpg-d1i9ijur433s73a7e640-a';
+$db   = 'postgresql_gc48';
+$user = 'postgresql_gc48_user';
+$pass = 'MGyQ538yVhNbliX8MAkdejsohq8yM7sT';
+$port = '5432';
 
-$host = 'localhost';
-$db   = 'shopping_db'; 
-$user = 'root';            
-$pass = '';                
-$charset = 'utf8mb4';
-
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
-];
+$dsn = "pgsql:host=$host;port=$port;dbname=$db;";
 
 try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (\PDOException $e) {
-    throw new \PDOException($e->getMessage(), (int)$e->getCode());
+    $pdo = new PDO($dsn, $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Error de conexión: " . $e->getMessage());
 }
+
