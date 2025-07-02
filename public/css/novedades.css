@@ -1,0 +1,309 @@
+/* Novedades - Client Functionality */
+
+.hero-section {
+    background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon points="20,10 30,25 15,25" fill="rgba(255,255,255,0.1)"/><polygon points="75,35 85,50 70,50" fill="rgba(255,255,255,0.1)"/><polygon points="45,65 55,80 40,80" fill="rgba(255,255,255,0.1)"/></svg>');
+    animation: float 10s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    33% { transform: translateY(-10px) translateX(5px); }
+    66% { transform: translateY(5px) translateX(-5px); }
+}
+
+.hero-icon {
+    opacity: 0.3;
+    animation: megaphone 3s ease-in-out infinite;
+}
+
+@keyframes megaphone {
+    0%, 100% { 
+        opacity: 0.3; 
+        transform: scale(1) rotate(0deg); 
+    }
+    25% { 
+        opacity: 0.5; 
+        transform: scale(1.1) rotate(-5deg); 
+    }
+    50% { 
+        opacity: 0.4; 
+        transform: scale(1.05) rotate(0deg); 
+    }
+    75% { 
+        opacity: 0.6; 
+        transform: scale(1.1) rotate(5deg); 
+    }
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%);
+}
+
+.stats-card {
+    border: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border-radius: 1rem;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.stats-icon {
+    animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.stats-card:nth-child(1) .stats-icon {
+    animation-delay: 0s;
+}
+
+.stats-card:nth-child(2) .stats-icon {
+    animation-delay: 0.3s;
+}
+
+.stats-card:nth-child(3) .stats-icon {
+    animation-delay: 0.6s;
+}
+
+.featured-news {
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-radius: 1rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.news-card {
+    border: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+.news-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.news-card .card-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: none;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.news-card .badge {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    animation: badge-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes badge-glow {
+    0% { box-shadow: 0 0 5px rgba(0,0,0,0.1); }
+    100% { box-shadow: 0 0 15px rgba(0,0,0,0.2); }
+}
+
+.badge.bg-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+}
+
+.badge.bg-info {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%) !important;
+}
+
+.badge.bg-primary {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
+}
+
+.news-details {
+    margin: 1rem 0;
+}
+
+.news-details .badge {
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Card entrance animations */
+.news-card {
+    animation: slideInUp 0.6s ease-out;
+}
+
+.news-card:nth-child(odd) {
+    animation: slideInLeft 0.6s ease-out;
+}
+
+.news-card:nth-child(even) {
+    animation: slideInRight 0.6s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Icon specific animations */
+.bi-gift {
+    animation: gift-shake 2s ease-in-out infinite;
+}
+
+@keyframes gift-shake {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-3deg); }
+    75% { transform: rotate(3deg); }
+}
+
+.bi-shop {
+    animation: shop-pulse 2s ease-in-out infinite;
+}
+
+@keyframes shop-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.bi-percent {
+    animation: percent-spin 3s linear infinite;
+}
+
+@keyframes percent-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Call to action styling */
+.card.bg-gradient-primary {
+    background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%) !important;
+    box-shadow: 0 15px 35px rgba(111, 66, 193, 0.3);
+}
+
+.card.bg-gradient-primary:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px rgba(111, 66, 193, 0.4);
+}
+
+/* Empty state styling */
+.text-center .display-1 {
+    animation: empty-float 3s ease-in-out infinite;
+}
+
+@keyframes empty-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-section .display-5 {
+        font-size: 2rem;
+    }
+    
+    .hero-section .lead {
+        font-size: 1rem;
+    }
+    
+    .hero-icon {
+        display: none;
+    }
+    
+    .stats-card {
+        margin-bottom: 1rem;
+    }
+    
+    .news-card {
+        margin-bottom: 1rem;
+    }
+    
+    .news-card .row .col-md-4 {
+        margin-top: 1rem;
+        text-align: center !important;
+    }
+    
+    .btn-action {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .d-flex.gap-3 {
+        flex-direction: column;
+    }
+    
+    .d-flex.gap-3 .btn {
+        width: 100%;
+    }
+}
+
+/* Loading states */
+.news-card.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.news-card.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Hover effects for interactive elements */
+.btn:hover {
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
+.card:hover .badge {
+    animation-duration: 1s;
+}
