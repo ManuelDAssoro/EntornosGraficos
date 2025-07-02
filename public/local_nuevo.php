@@ -1,14 +1,11 @@
 <?php
-session_start();
 require_once 'auth.php';
 requireRole('administrador');
 require_once '../config/db.php';
 
-// Traer usuarios tipo "Dueño"
 $stmt = $pdo->query("SELECT codUsuario, nombreUsuario FROM usuarios WHERE tipoUsuario = 'dueno' ORDER BY nombreUsuario");
 $duenos = $stmt->fetchAll();
 
-// Inicialización
 $errores = [];
 $nombreLocal = '';
 $ubicacionLocal = '';
@@ -16,13 +13,11 @@ $rubroLocal = '';
 $codUsuario = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Captura de datos
     $nombreLocal = trim($_POST['nombreLocal'] ?? '');
     $ubicacionLocal = trim($_POST['ubicacionLocal'] ?? '');
     $rubroLocal = trim($_POST['rubroLocal'] ?? '');
     $codUsuario = trim($_POST['codUsuario'] ?? '');
 
-    // Validación
     if (empty($nombreLocal)) {
         $errores[] = "El nombre del local es obligatorio.";
     }
@@ -31,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errores[] = "Selecciona un dueño válido.";
     }
 
-    // Si no hay errores → insertar
     if (empty($errores)) {
         $stmt = $pdo->prepare(
             "INSERT INTO locales (nombreLocal, ubicacionLocal, rubroLocal, codUsuario)
@@ -52,57 +46,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuevo Local - Mi Shopping</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="css/local-nuevo.css">
-</head>
-<body class="bg-light">
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="dashboard_admin.php">
-                <i class="bi bi-shop"></i> Mi Shopping
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <div class="navbar-nav me-auto">
-                    <a class="nav-link" href="dashboard_admin.php">Dashboard</a>
-                    <a class="nav-link" href="admin_locales.php">Locales</a>
-                </div>
-                <div class="d-flex">
-                    <?php include 'layout/header.php'; ?>
-                </div>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Page Header -->
-    <div class="page-header">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <h1 class="mb-0">
-                        <i class="fas fa-plus-circle"></i> Nuevo Local
-                    </h1>
-                    <p class="mb-0 mt-2">Agrega un nuevo local al shopping</p>
-                </div>
-                <div class="col-md-4 text-end">
-                    <a href="admin_locales.php" class="btn btn-light">
-                        <i class="fas fa-arrow-left"></i> Volver al Listado
-                    </a>
-                </div>
+$page_title = 'Nuevo Local - Mi Shopping';
+$custom_css = 'local-nuevo.css';
+include 'layout/header.php';
+?>
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="mb-0">
+                    <i class="bi bi-plus-circle"></i> Nuevo Local
+                </h1>
+                <p class="mb-0 mt-2">Agrega un nuevo local al shopping</p>
+            </div>
+            <div class="col-md-4 text-end">
+                <a href="admin_locales.php" class="btn btn-light">
+                    <i class="bi bi-arrow-left"></i> Volver al Listado
+                </a>
             </div>
         </div>
     </div>
+</div>
 
     <div class="container">
         <!-- Error Messages -->
@@ -175,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </select>
                     </div>
                     <div class="form-text">
-                        <i class="fas fa-info-circle"></i> Puedes asignar un dueño ahora o hacerlo más tarde
+                        <i class="bi bi-info-circle"></i> Puedes asignar un dueño ahora o hacerlo más tarde
                     </div>
                 </div>
                 
@@ -183,10 +150,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <hr class="my-4">
                     <div class="d-flex gap-3 justify-content-end">
                         <a href="admin_locales.php" class="btn btn-outline-secondary btn-action">
-                            <i class="fas fa-times"></i> Cancelar
+                            <i class="bi bi-x"></i> Cancelar
                         </a>
                         <button type="submit" class="btn btn-success btn-action">
-                            <i class="fas fa-save"></i> Guardar Local
+                            <i class="bi bi-save"></i> Guardar Local
                         </button>
                     </div>
                 </div>
@@ -194,13 +161,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-light text-center py-4 mt-5">
-        <div class="container">
-            <p class="mb-0">&copy; 2025 Mi Shopping. Todos los derechos reservados.</p>
-        </div>
-    </footer>
-
-    <script src="js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<?php include 'layout/footer.php'; ?>

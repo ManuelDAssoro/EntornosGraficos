@@ -46,8 +46,6 @@
 <script src="js/bootstrap.bundle.min.js"></script>
 <script>
 
-    // Validacion del lado del cliente
-
 (() => {
   'use strict'
   const forms = document.querySelectorAll('.needs-validation')
