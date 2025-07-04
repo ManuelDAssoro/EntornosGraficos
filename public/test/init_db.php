@@ -6,10 +6,10 @@ try {
     
     // Eliminar tablas existentes si existen (para empezar limpio)
     echo "<h2>🧹 Limpiando base de datos...</h2>";
-    // $pdo->exec("DROP TABLE IF EXISTS uso_promociones CASCADE");
-    // $pdo->exec("DROP TABLE IF EXISTS promociones CASCADE");
-    // $pdo->exec("DROP TABLE IF EXISTS novedades CASCADE");
-    // $pdo->exec("DROP TABLE IF EXISTS locales CASCADE");
+    $pdo->exec("DROP TABLE IF EXISTS uso_promociones CASCADE");
+    $pdo->exec("DROP TABLE IF EXISTS promociones CASCADE");
+    $pdo->exec("DROP TABLE IF EXISTS novedades CASCADE");
+    $pdo->exec("DROP TABLE IF EXISTS locales CASCADE");
     $pdo->exec("DROP TABLE IF EXISTS usuarios CASCADE");
     echo "✅ Tablas anteriores eliminadas<br>";
     

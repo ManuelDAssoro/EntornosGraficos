@@ -5,8 +5,8 @@ require_once '../config/db.php';
 $errores = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nombreUsuario = trim($_POST['nombreUsuario'] ?? '');
-    $claveUsuario = trim($_POST['claveUsuario'] ?? '');
+    $nombreUsuario = isset($_POST['nombreUsuario']) ? trim($_POST['nombreUsuario']) : '';
+    $claveUsuario = isset($_POST['claveUsuario']) ? trim($_POST['claveUsuario']) : '';
 
     if (empty($nombreUsuario) || empty($claveUsuario)) {
         $errores[] = "Debes completar todos los campos.";
@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute([$nombreUsuario]);
         $usuario = $stmt->fetch();
 
-        if ($usuario && password_verify($claveUsuario, $usuario['claveUsuario'])) {
+        if ($usuario && !empty($usuario['claveUsuario']) && password_verify($claveUsuario, $usuario['claveUsuario'])) {
             if ($usuario['estado'] !== 'pendiente') {
                 $_SESSION['usuario_id'] = $usuario['codUsuario'];
                 $_SESSION['tipoUsuario'] = $usuario['tipoUsuario'];
