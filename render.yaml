@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: EntornosGraficos
+    env: docker
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: postgresql
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: postgresql
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: postgresql
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: postgresql
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: postgresql
+          property: password

@@ -1,10 +1,9 @@
 <?php
-//cambiamos de MySQL a PostgreSQL para poder hacer el deploy en render.com
-$host = 'dpg-d1i9ijur433s73a7e640-a';
-$db   = 'postgresql_gc48';
-$user = 'postgresql_gc48_user';
-$pass = 'MGyQ538yVhNbliX8MAkdejsohq8yM7sT';
-$port = '5432';
+$host = $_ENV['DB_HOST'];
+$db   = $_ENV['DB_NAME'];
+$user = $_ENV['DB_USER'];
+$pass = $_ENV['DB_PASSWORD'];
+$port = $_ENV['DB_PORT'];
 
 $dsn = "pgsql:host=$host;port=$port;dbname=$db;";
 
@@ -14,4 +13,3 @@ try {
 } catch (PDOException $e) {
     die("Error de conexión: " . $e->getMessage());
 }
-
