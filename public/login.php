@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute([$nombreUsuario]);
         $usuario = $stmt->fetch();
 
-        if ($usuario && !empty($usuario['claveUsuario']) && password_verify($claveUsuario, $usuario['claveUsuario'])) {
+        if ($usuario && !empty($usuario['claveUsuario']) && password_verify($claveUsuario, trim($usuario['claveUsuario']))) {
             if ($usuario['estado'] !== 'pendiente') {
                 $_SESSION['usuario_id'] = $usuario['codUsuario'];
                 $_SESSION['tipoUsuario'] = $usuario['tipoUsuario'];

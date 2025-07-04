@@ -77,10 +77,10 @@ try {
         } else {
             if ($tipo === 'cliente') {
                 $stmt = $pdo->prepare("INSERT INTO usuarios (nombreUsuario, claveUsuario, tipoUsuario, estado, categoriaCliente) VALUES (?, ?, ?, ?, ?)");
-                $stmt->execute([$email, password_hash('demo123', PASSWORD_DEFAULT), $tipo, $estado, $categoria]);
+                $stmt->execute([$email, password_hash('demo123', PASSWORD_BCRYPT), $tipo, $estado, $categoria]);
             } else {
                 $stmt = $pdo->prepare("INSERT INTO usuarios (nombreUsuario, claveUsuario, tipoUsuario, estado) VALUES (?, ?, ?, ?)");
-                $stmt->execute([$email, password_hash('demo123', PASSWORD_DEFAULT), $tipo, $estado]);
+                $stmt->execute([$email, password_hash('demo123', PASSWORD_BCRYPT), $tipo, $estado]);
             }
             
             $categoryText = ($categoria && $tipo === 'cliente') ? " - Categoría: $categoria" : "";
