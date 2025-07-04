@@ -6,10 +6,10 @@ try {
     
     // Eliminar tablas existentes si existen (para empezar limpio)
     echo "<h2>🧹 Limpiando base de datos...</h2>";
-    $pdo->exec("DROP TABLE IF EXISTS uso_promociones CASCADE");
-    $pdo->exec("DROP TABLE IF EXISTS promociones CASCADE");
-    $pdo->exec("DROP TABLE IF EXISTS novedades CASCADE");
-    $pdo->exec("DROP TABLE IF EXISTS locales CASCADE");
+    // $pdo->exec("DROP TABLE IF EXISTS uso_promociones CASCADE");
+    // $pdo->exec("DROP TABLE IF EXISTS promociones CASCADE");
+    // $pdo->exec("DROP TABLE IF EXISTS novedades CASCADE");
+    // $pdo->exec("DROP TABLE IF EXISTS locales CASCADE");
     $pdo->exec("DROP TABLE IF EXISTS usuarios CASCADE");
     echo "✅ Tablas anteriores eliminadas<br>";
     
@@ -20,8 +20,8 @@ try {
         codUsuario SERIAL PRIMARY KEY,
         nombreUsuario VARCHAR(100) NOT NULL,
         claveUsuario VARCHAR(255) NOT NULL,
-        tipoUsuario VARCHAR(20) NOT NULL CHECK (tipoUsuario IN ('administrador', 'dueño de local', 'cliente')),
-        categoriaCliente VARCHAR(20) CHECK (categoriaCliente IN ('Inicial', 'Medium', 'Premium')),
+        tipoUsuario VARCHAR(20) NOT NULL CHECK (tipoUsuario IN ('administrador', 'dueno', 'cliente')),
+        categoriaCliente VARCHAR(20) CHECK (categoriaCliente IN ('inicial', 'medium', 'premium')),
         estado VARCHAR(20) DEFAULT 'pendiente'
     )";
     $pdo->exec($sql);
