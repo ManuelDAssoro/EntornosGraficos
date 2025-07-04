@@ -44,7 +44,7 @@ try {
         textoNovedad VARCHAR(200) NOT NULL,
         fechaDesdeNovedad DATE NOT NULL,
         fechaHastaNovedad DATE NOT NULL,
-        tipoUsuario VARCHAR(20) NOT NULL CHECK (tipoUsuario IN ('administrador', 'dueño de local', 'cliente'))
+        tipoUsuario VARCHAR(20) NOT NULL CHECK (tipoUsuario IN ('administrador', 'dueno', 'cliente'))
     )";
     $pdo->exec($sql);
     echo "✅ Tabla 'novedades' creada<br>";
@@ -55,7 +55,7 @@ try {
         textoPromo VARCHAR(200) NOT NULL,
         fechaDesdePromo DATE NOT NULL,
         fechaHastaPromo DATE NOT NULL,
-        categoriaCliente VARCHAR(20) NOT NULL CHECK (categoriaCliente IN ('Inicial', 'Medium', 'Premium')),
+        categoriaCliente VARCHAR(20) NOT NULL CHECK (categoriaCliente IN ('inicial', 'medium', 'premium')),
         diasSemana VARCHAR(20) NOT NULL,
         estadoPromo VARCHAR(20) DEFAULT 'pendiente' CHECK (estadoPromo IN ('pendiente', 'aprobada', 'denegada')),
         codLocal INTEGER REFERENCES locales(codLocal)
@@ -89,10 +89,10 @@ try {
     
     // Insertar más usuarios de prueba
     $usuarios = [
-        ['dueño@local1.com', password_hash('local123', PASSWORD_DEFAULT), 'dueño de local', null, 'aprobado'],
-        ['cliente1@email.com', password_hash('cliente123', PASSWORD_DEFAULT), 'cliente', 'Inicial', 'aprobado'],
-        ['cliente2@email.com', password_hash('cliente456', PASSWORD_DEFAULT), 'cliente', 'Medium', 'aprobado'],
-        ['cliente3@email.com', password_hash('cliente789', PASSWORD_DEFAULT), 'cliente', 'Premium', 'aprobado']
+        ['dueño@local1.com', password_hash('local123', PASSWORD_BCRYPT), 'dueno', null, 'aprobado'],
+        ['cliente1@email.com', password_hash('cliente123', PASSWORD_BCRYPT), 'cliente', 'inicial', 'aprobado'],
+        ['cliente2@email.com', password_hash('cliente456', PASSWORD_BCRYPT), 'cliente', 'medium', 'aprobado'],
+        ['cliente3@email.com', password_hash('cliente789', PASSWORD_BCRYPT), 'cliente', 'premium', 'aprobado']
     ];
     
     foreach ($usuarios as $usuario) {
@@ -102,15 +102,15 @@ try {
     
     // Insertar local de prueba
     $stmt = $pdo->prepare("INSERT INTO locales (nombreLocal, ubicacionLocal, rubroLocal, codUsuario) VALUES (?, ?, ?, ?)");
-    $stmt->execute(['jorge', 'rosario', 'bronce', 2]); // usuario 2 es el dueño de local
+    $stmt->execute(['jorge', 'rosario', 'bronce', 2]); // usuario 2 es el dueno
     echo "✅ Local de prueba creado<br>";
     
     // Insertar algunas promociones de prueba
     $stmt = $pdo->prepare("INSERT INTO promociones (textoPromo, fechaDesdePromo, fechaHastaPromo, categoriaCliente, diasSemana, estadoPromo, codLocal) VALUES (?, ?, ?, ?, ?, ?, ?)");
     $promociones = [
-        ['20% descuento en toda la tienda', '2025-07-01', '2025-07-31', 'Inicial', 'Lunes,Martes', 'aprobada', 1],
-        ['Oferta especial clientes Medium', '2025-07-01', '2025-08-15', 'Medium', 'Miércoles,Jueves', 'aprobada', 1],
-        ['Descuento VIP clientes Premium', '2025-07-01', '2025-12-31', 'Premium', 'Viernes,Sábado', 'pendiente', 1]
+        ['20% descuento en toda la tienda', '2025-07-01', '2025-07-31', 'inicial', 'Lunes,Martes', 'aprobada', 1],
+        ['Oferta especial clientes Medium', '2025-07-01', '2025-08-15', 'medium', 'Miércoles,Jueves', 'aprobada', 1],
+        ['Descuento VIP clientes Premium', '2025-07-01', '2025-12-31', 'premium', 'Viernes,Sábado', 'pendiente', 1]
     ];
     
     foreach ($promociones as $promo) {
@@ -123,7 +123,7 @@ try {
     $novedades = [
         ['Nuevas funcionalidades disponibles', '2025-07-01', '2025-07-31', 'administrador'],
         ['Promociones de verano disponibles', '2025-07-01', '2025-08-31', 'cliente'],
-        ['Herramientas de gestión mejoradas', '2025-07-01', '2025-07-15', 'dueño de local']
+        ['Herramientas de gestión mejoradas', '2025-07-01', '2025-07-15', 'dueno']
     ];
     
     foreach ($novedades as $novedad) {
@@ -153,7 +153,7 @@ try {
     echo "<p><strong>Usuarios creados:</strong></p>";
     echo "<ul>";
     echo "<li>admin@admin.com / admin123 (Administrador)</li>";
-    echo "<li>dueño@local1.com / local123 (Dueño de Local)</li>";
+    echo "<li>dueño@local1.com / local123 (dueno)</li>";
     echo "<li>cliente1@email.com / cliente123 (Cliente Inicial)</li>";
     echo "<li>cliente2@email.com / cliente456 (Cliente Medium)</li>";
     echo "<li>cliente3@email.com / cliente789 (Cliente Premium)</li>";
