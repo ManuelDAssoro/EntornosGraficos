@@ -1,11 +1,11 @@
 <?php
-$host = $_ENV['DB_HOST'];
-$db   = $_ENV['DB_NAME'];
-$user = $_ENV['DB_USER'];
-$pass = $_ENV['DB_PASSWORD'];
-$port = $_ENV['DB_PORT'];
+$host = getenv('DB_HOST');
+$db   = getenv('DB_NAME');
+$user = getenv('DB_USER');
+$pass = getenv('DB_PASSWORD');
+$port = getenv('DB_PORT');
 
-$dsn = "pgsql:host=$host;port=$port;dbname=$db;";
+$dsn = "pgsql:host=$host;port=$port;dbname=$db";
 
 try {
     $pdo = new PDO($dsn, $user, $pass);
