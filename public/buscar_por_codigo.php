@@ -329,22 +329,22 @@ include 'layout/header.php';
                                 <div class="col-md-6 col-lg-4 mb-3">
                                     <div class="card h-100 local-card" 
                                          style="cursor: pointer;" 
-                                         onclick="buscarLocal('<?= htmlspecialchars($local['codLocal']) ?>')">
+                                         onclick="buscarLocal('<?= htmlspecialchars($local['codLocal'] ?? '') ?>')">
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between align-items-start mb-2">
                                                 <h6 class="card-title mb-1">
                                                     <i class="bi bi-shop text-primary"></i>
-                                                    <?= htmlspecialchars($local['nombreLocal']) ?>
+                                                    <?= htmlspecialchars($local['nombreLocal'] ?? '') ?>
                                                 </h6>
                                                 <span class="badge bg-light text-dark">
-                                                    ID: <?= $local['codLocal'] ?>
+                                                    ID: <?= htmlspecialchars($local['codLocal'] ?? '') ?>
                                                 </span>
                                             </div>
                                             
                                             <?php if (!empty($local['ubicacionLocal'])): ?>
                                                 <p class="card-text small text-muted mb-2">
                                                     <i class="bi bi-geo-alt"></i>
-                                                    <?= htmlspecialchars($local['ubicacionLocal']) ?>
+                                                    <?= htmlspecialchars($local['ubicacionLocal'] ?? '') ?>
                                                 </p>
                                             <?php endif; ?>
                                             
@@ -352,7 +352,7 @@ include 'layout/header.php';
                                                 <p class="card-text small mb-2">
                                                     <span class="badge bg-secondary">
                                                         <i class="bi bi-tag"></i>
-                                                        <?= htmlspecialchars($local['rubroLocal']) ?>
+                                                        <?= htmlspecialchars($local['rubroLocal'] ?? '') ?>
                                                     </span>
                                                 </p>
                                             <?php endif; ?>
@@ -360,7 +360,7 @@ include 'layout/header.php';
                                             <div class="promotion-count">
                                                 <small class="text-muted">
                                                     <i class="bi bi-percent"></i>
-                                                    <?= $local['total_promociones'] ?> promociones activas
+                                                    <?= htmlspecialchars($local['total_promociones'] ?? '0') ?> promociones activas
                                                 </small>
                                             </div>
                                         </div>
