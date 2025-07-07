@@ -43,7 +43,7 @@ function getPromocionesDisponibles($codUsuario, $pdo) {
         FROM promociones p
         JOIN locales l ON p.codLocal = l.codLocal
         WHERE p.estadoPromo = 'activa'
-        AND (p.fechaDesdePromo <= CURDATE() AND p.fechaHastaPromo >= CURDATE())
+        AND (p.fechaDesdePromo <= CURRENT_DATE AND p.fechaHastaPromo >= CURRENT_DATE)
         AND (
             (p.categoriaCliente = 'inicial') OR
             (p.categoriaCliente = 'medium' AND ? IN ('medium', 'premium')) OR
@@ -52,7 +52,7 @@ function getPromocionesDisponibles($codUsuario, $pdo) {
         AND (
             p.diasSemana = '' OR 
             p.diasSemana IS NULL OR
-            FIND_IN_SET(DAYNAME(CURDATE()), p.diasSemana) > 0
+            POSITION(TO_CHAR(CURRENT_DATE, 'Day') IN p.diasSemana) > 0
         )
         AND p.codPromo NOT IN (
             SELECT codPromo FROM uso_promociones WHERE codUsuario = ?
@@ -73,7 +73,7 @@ function usarPromocion($codUsuario, $codPromo, $pdo) {
             JOIN locales l ON p.codLocal = l.codLocal
             WHERE p.codPromo = ? 
             AND p.estadoPromo = 'activa'
-            AND (p.fechaDesdePromo <= CURDATE() AND p.fechaHastaPromo >= CURDATE())
+            AND (p.fechaDesdePromo <= CURRENT_DATE AND p.fechaHastaPromo >= CURRENT_DATE)
         ");
         $stmt->execute([$codPromo]);
         $promocion = $stmt->fetch();

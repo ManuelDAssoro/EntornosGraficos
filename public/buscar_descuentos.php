@@ -20,19 +20,20 @@ $query = "
     FROM promociones p
     JOIN locales l ON p.codLocal = l.codLocal
     WHERE p.estadoPromo = 'activa'
-    AND (p.fechaDesdePromo <= CURDATE() AND p.fechaHastaPromo >= CURDATE())
+    AND (p.fechaDesdePromo <= CURRENT_DATE AND p.fechaHastaPromo >= CURRENT_DATE)
     AND $categoriaFilter
 ";
 
 $params = [];
 
 if (!empty($filtro_rubro)) {
-    $query .= " AND l.rubroLocal LIKE ?";
+    $query .= " AND l.rubroLocal ILIKE ?";
     $params[] = "%$filtro_rubro%";
 }
 
 if (!empty($filtro_busqueda)) {
-    $query .= " AND (l.nombreLocal LIKE ? OR p.textoPromo LIKE ?)";
+    $query .= " AND (l.nombreLocal ILIKE ? OR p.textoPromo ILIKE ?)";
+
     $params[] = "%$filtro_busqueda%";
     $params[] = "%$filtro_busqueda%";
 }
@@ -58,19 +59,20 @@ include 'layout/header.php';
                 <h1 class="display-5 fw-bold mb-3">
                     <i class="bi bi-search"></i> Buscar Descuentos
                 </h1>
-                <p class="lead mb-0">Encuentra las mejores ofertas y promociones en todos los locales del shopping</p>
+                <p class="lead mb-0">Encuentra las mejores ofertas y promociones en todos los locales del shopping
+                </p>
                 <?php if ($usuario_logueado): ?>
-                    <div class="mt-3">
-                        <span class="badge bg-white text-primary fs-6">
-                            <i class="bi bi-star"></i> Tu categoría: <?= htmlspecialchars($categoria_cliente) ?>
-                        </span>
-                    </div>
+                <div class="mt-3">
+                    <span class="badge bg-white text-primary fs-6">
+                        <i class="bi bi-star"></i> Tu categoría: <?= htmlspecialchars($categoria_cliente) ?>
+                    </span>
+                </div>
                 <?php else: ?>
-                    <div class="mt-3">
-                        <span class="badge bg-warning text-dark fs-6">
-                            <i class="bi bi-eye"></i> Mostrando promociones básicas
-                        </span>
-                    </div>
+                <div class="mt-3">
+                    <span class="badge bg-warning text-dark fs-6">
+                        <i class="bi bi-eye"></i> Mostrando promociones básicas
+                    </span>
+                </div>
                 <?php endif; ?>
             </div>
             <div class="col-md-4 text-end">
@@ -84,11 +86,11 @@ include 'layout/header.php';
 
 <div class="container my-5">
     <?php if ($mensaje === 'promocion_usada'): ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle me-2"></i>
-            <strong>¡Excelente!</strong> Promoción utilizada exitosamente.
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle me-2"></i>
+        <strong>¡Excelente!</strong> Promoción utilizada exitosamente.
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
     <?php endif; ?>
 
     <!-- Search Filters -->
@@ -102,9 +104,9 @@ include 'layout/header.php';
                     <label for="busqueda" class="form-label">Buscar</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-search"></i></span>
-                        <input type="text" class="form-control" id="busqueda" name="busqueda" 
-                               value="<?= htmlspecialchars($filtro_busqueda) ?>"
-                               placeholder="Nombre del local o promoción">
+                        <input type="text" class="form-control" id="busqueda" name="busqueda"
+                            value="<?= htmlspecialchars($filtro_busqueda) ?>"
+                            placeholder="Nombre del local o promoción">
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -112,10 +114,10 @@ include 'layout/header.php';
                     <select class="form-select" id="rubro" name="rubro">
                         <option value="">Todos los rubros</option>
                         <?php foreach ($rubros as $rubro): ?>
-                            <option value="<?= htmlspecialchars($rubro['rubroLocal']) ?>" 
-                                    <?= $filtro_rubro === $rubro['rubroLocal'] ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($rubro['rubroLocal']) ?>
-                            </option>
+                        <option value="<?= htmlspecialchars($rubro['rubroLocal']) ?>"
+                            <?= $filtro_rubro === $rubro['rubroLocal'] ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($rubro['rubroLocal']) ?>
+                        </option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -146,94 +148,94 @@ include 'layout/header.php';
             </div>
 
             <?php if (empty($promociones)): ?>
-                <div class="text-center py-5">
-                    <div class="mb-4">
-                        <i class="bi bi-search display-1 text-muted"></i>
-                    </div>
-                    <h4 class="text-muted">No se encontraron promociones</h4>
-                    <p class="text-muted">
-                        <?php if (!empty($filtro_busqueda) || !empty($filtro_rubro)): ?>
-                            Intenta cambiar los filtros de búsqueda para encontrar más resultados.
-                        <?php else: ?>
-                            No hay promociones activas en este momento.
-                        <?php endif; ?>
-                    </p>
-                    <a href="buscar_descuentos.php" class="btn btn-primary">
-                        <i class="bi bi-arrow-clockwise"></i> Ver todas las promociones
-                    </a>
+            <div class="text-center py-5">
+                <div class="mb-4">
+                    <i class="bi bi-search display-1 text-muted"></i>
                 </div>
+                <h4 class="text-muted">No se encontraron promociones</h4>
+                <p class="text-muted">
+                    <?php if (!empty($filtro_busqueda) || !empty($filtro_rubro)): ?>
+                    Intenta cambiar los filtros de búsqueda para encontrar más resultados.
+                    <?php else: ?>
+                    No hay promociones activas en este momento.
+                    <?php endif; ?>
+                </p>
+                <a href="buscar_descuentos.php" class="btn btn-primary">
+                    <i class="bi bi-arrow-clockwise"></i> Ver todas las promociones
+                </a>
+            </div>
             <?php else: ?>
-                <div class="row">
-                    <?php foreach ($promociones as $promo): ?>
-                        <div class="col-md-6 col-lg-4 mb-4">
-                            <div class="card h-100 promotion-card">
-                                <div class="card-header bg-gradient-primary text-white">
-                                    <h6 class="mb-0">
-                                        <i class="bi bi-shop"></i>
-                                        <?= htmlspecialchars($promo['nombreLocal']) ?>
-                                    </h6>
-                                    <?php if (!empty($promo['rubroLocal'])): ?>
-                                        <small class="opacity-75">
-                                            <i class="bi bi-tag"></i> <?= htmlspecialchars($promo['rubroLocal']) ?>
-                                        </small>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="card-body">
-                                    <div class="promotion-text mb-3">
-                                        <i class="bi bi-percent text-warning"></i>
-                                        <?= htmlspecialchars($promo['textoPromo']) ?>
-                                    </div>
-                                    
-                                    <?php if (!empty($promo['ubicacionLocal'])): ?>
-                                        <div class="mb-2">
-                                            <small class="text-muted">
-                                                <i class="bi bi-geo-alt"></i>
-                                                <?= htmlspecialchars($promo['ubicacionLocal']) ?>
-                                            </small>
-                                        </div>
-                                    <?php endif; ?>
-                                    
-                                    <div class="promotion-dates mb-3">
-                                        <small class="text-muted">
-                                            <i class="bi bi-calendar-check"></i>
-                                            Válido hasta: <?= date('d/m/Y', strtotime($promo['fechaHastaPromo'])) ?>
-                                        </small>
-                                    </div>
-                                    
-                                    <?php if (!empty($promo['diasSemana'])): ?>
-                                        <div class="days-available mb-3">
-                                            <small class="text-muted">
-                                                <i class="bi bi-clock"></i>
-                                                Días: <?= htmlspecialchars($promo['diasSemana']) ?>
-                                            </small>
-                                        </div>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="card-footer bg-transparent">
-                                    <?php if ($usuario_logueado): ?>
-                                        <a href="usar_promocion.php?codigo=<?= $promo['codPromo'] ?>" 
-                                           class="btn btn-success w-100">
-                                            <i class="bi bi-check-circle"></i> Usar Promoción
-                                        </a>
-                                    <?php else: ?>
-                                        <div class="text-center">
-                                            <p class="text-muted mb-2">
-                                                <i class="bi bi-info-circle"></i>
-                                                Registrate para usar esta promoción
-                                            </p>
-                                            <a href="register.php" class="btn btn-primary me-2">
-                                                <i class="bi bi-person-plus"></i> Registrarse
-                                            </a>
-                                            <a href="login.php" class="btn btn-outline-primary">
-                                                <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
-                                            </a>
-                                        </div>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
+            <div class="row">
+                <?php foreach ($promociones as $promo): ?>
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 promotion-card">
+                        <div class="card-header bg-gradient-primary text-white">
+                            <h6 class="mb-0">
+                                <i class="bi bi-shop"></i>
+                                <?= htmlspecialchars($promo['nombreLocal']) ?>
+                            </h6>
+                            <?php if (!empty($promo['rubroLocal'])): ?>
+                            <small class="opacity-75">
+                                <i class="bi bi-tag"></i> <?= htmlspecialchars($promo['rubroLocal']) ?>
+                            </small>
+                            <?php endif; ?>
                         </div>
-                    <?php endforeach; ?>
+                        <div class="card-body">
+                            <div class="promotion-text mb-3">
+                                <i class="bi bi-percent text-warning"></i>
+                                <?= htmlspecialchars($promo['textoPromo']) ?>
+                            </div>
+
+                            <?php if (!empty($promo['ubicacionLocal'])): ?>
+                            <div class="mb-2">
+                                <small class="text-muted">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <?= htmlspecialchars($promo['ubicacionLocal']) ?>
+                                </small>
+                            </div>
+                            <?php endif; ?>
+
+                            <div class="promotion-dates mb-3">
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar-check"></i>
+                                    Válido hasta: <?= date('d/m/Y', strtotime($promo['fechaHastaPromo'])) ?>
+                                </small>
+                            </div>
+
+                            <?php if (!empty($promo['diasSemana'])): ?>
+                            <div class="days-available mb-3">
+                                <small class="text-muted">
+                                    <i class="bi bi-clock"></i>
+                                    Días: <?= htmlspecialchars($promo['diasSemana']) ?>
+                                </small>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <?php if ($usuario_logueado): ?>
+                            <a href="usar_promocion.php?codigo=<?= $promo['codPromo'] ?>"
+                                class="btn btn-success w-100">
+                                <i class="bi bi-check-circle"></i> Usar Promoción
+                            </a>
+                            <?php else: ?>
+                            <div class="text-center">
+                                <p class="text-muted mb-2">
+                                    <i class="bi bi-info-circle"></i>
+                                    Registrate para usar esta promoción
+                                </p>
+                                <a href="register.php" class="btn btn-primary me-2">
+                                    <i class="bi bi-person-plus"></i> Registrarse
+                                </a>
+                                <a href="login.php" class="btn btn-outline-primary">
+                                    <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+                                </a>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
                 </div>
+                <?php endforeach; ?>
+            </div>
             <?php endif; ?>
         </div>
     </div>

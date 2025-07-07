@@ -227,7 +227,7 @@ try {
                 
                 if (!$stmt->fetch()) {
                     // Create usage record
-                    $stmt = $pdo->prepare("INSERT INTO uso_promociones (codUsuario, codPromo, fechaUso, estado) VALUES (?, ?, NOW() - INTERVAL ? DAY, 'usado')");
+                    $stmt = $pdo->prepare("INSERT INTO uso_promociones (codUsuario, codPromo, fechaUso, estado) VALUES (?, ?, NOW() - (? || ' days')::interval, 'usado')");
                     $stmt->execute([$user['codUsuario'], $promo['codPromo'], rand(1, 30)]);
                     $created_usage++;
                 }
@@ -246,13 +246,13 @@ try {
         $pdo->exec("DROP TABLE IF EXISTS novedades");
         
         $sql = "CREATE TABLE novedades (
-            id INT AUTO_INCREMENT PRIMARY KEY,
+            id SERIAL PRIMARY KEY,
             titulo VARCHAR(255) NOT NULL,
             contenido TEXT NOT NULL,
-            categoria_minima ENUM('unlogged', 'inicial', 'medium', 'premium') DEFAULT 'unlogged',
+            categoria_minima VARCHAR(20) DEFAULT 'unlogged',
             fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            fecha_publicacion DATE DEFAULT (CURRENT_DATE),
-            estado ENUM('activa', 'inactiva') DEFAULT 'activa',
+            fecha_publicacion DATE DEFAULT CURRENT_DATE,
+            estado VARCHAR(20) DEFAULT 'activa',
             codUsuario INT,
             INDEX idx_categoria (categoria_minima),
             INDEX idx_estado (estado),

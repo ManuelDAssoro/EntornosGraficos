@@ -5,13 +5,13 @@ echo "<h1>🛠️ Configuración de Tabla Novedades</h1>";
 
 try {
     $sql = "CREATE TABLE IF NOT EXISTS novedades (
-        id INT AUTO_INCREMENT PRIMARY KEY,
+        id SERIAL PRIMARY KEY,
         titulo VARCHAR(255) NOT NULL,
         contenido TEXT NOT NULL,
-        categoria_minima ENUM('unlogged', 'inicial', 'medium', 'premium') DEFAULT 'unlogged',
+        categoria_minima VARCHAR(20) DEFAULT 'unlogged',
         fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        fecha_publicacion DATE DEFAULT (CURRENT_DATE),
-        estado ENUM('activa', 'inactiva') DEFAULT 'activa',
+        fecha_publicacion DATE DEFAULT CURRENT_DATE,
+        estado VARCHAR(20) DEFAULT 'activa',
         codUsuario INT,
         FOREIGN KEY (codUsuario) REFERENCES usuarios(codUsuario)
     )";

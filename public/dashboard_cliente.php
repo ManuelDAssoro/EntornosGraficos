@@ -24,20 +24,17 @@ $errores = [
 
 $promocionesUsadas = [];
 try {
-    $stmt = $pdo->query("SHOW TABLES LIKE 'uso_promociones'");
-    if ($stmt->rowCount() > 0) {
-        $stmt = $pdo->prepare("
-            SELECT up.*, p.textoPromo, l.nombreLocal, l.ubicacionLocal as ubicacion
-            FROM uso_promociones up
-            JOIN promociones p ON up.codPromo = p.codPromo
-            JOIN locales l ON p.codLocal = l.codLocal
-            WHERE up.codUsuario = ?
-            ORDER BY up.fechaUso DESC
-            LIMIT 10
-        ");
-        $stmt->execute([$codUsuario]);
-        $promocionesUsadas = $stmt->fetchAll();
-    }
+    $stmt = $pdo->prepare("
+        SELECT up.*, p.textoPromo, l.nombreLocal, l.ubicacionLocal as ubicacion
+        FROM uso_promociones up
+        JOIN promociones p ON up.codPromo = p.codPromo
+        JOIN locales l ON p.codLocal = l.codLocal
+        WHERE up.codUsuario = ?
+        ORDER BY up.fechaUso DESC
+        LIMIT 10
+    ");
+    $stmt->execute([$codUsuario]);
+    $promocionesUsadas = $stmt->fetchAll();
 } catch (PDOException $e) {
     $promocionesUsadas = [];
 }
@@ -49,8 +46,8 @@ try {
         FROM promociones p
         JOIN locales l ON p.codLocal = l.codLocal
         WHERE p.estadoPromo = 'activa'
-        AND p.fechaDesdePromo <= CURDATE()
-        AND p.fechaHastaPromo >= CURDATE()
+        AND p.fechaDesdePromo <= CURRENT_DATE
+        AND p.fechaHastaPromo >= CURRENT_DATE
         ORDER BY p.fechaHastaPromo ASC
         LIMIT 6
     ");

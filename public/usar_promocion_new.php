@@ -46,7 +46,7 @@ try {
         JOIN locales l ON p.codLocal = l.codLocal
         WHERE p.codPromo = ? 
         AND p.estadoPromo = 'activa'
-        AND (p.fechaDesdePromo <= CURDATE() AND p.fechaHastaPromo >= CURDATE())
+        AND (p.fechaDesdePromo <= CURRENT_DATE AND p.fechaHastaPromo >= CURRENT_DATE)
     ");
     $stmt->execute([$codPromo]);
     $promocion = $stmt->fetch();

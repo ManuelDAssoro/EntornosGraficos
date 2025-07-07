@@ -14,15 +14,15 @@ $where = [];
 $params = [];
 
 if ($nombre !== '') {
-    $where[] = "l.nombreLocal LIKE ?";
+    $where[] = "l.nombreLocal ILIKE ?";
     $params[] = "%$nombre%";
 }
 if ($ubicacion !== '') {
-    $where[] = "l.ubicacionLocal LIKE ?";
+    $where[] = "l.ubicacionLocal ILIKE ?";
     $params[] = "%$ubicacion%";
 }
 if ($rubro !== '') {
-    $where[] = "l.rubroLocal LIKE ?";
+    $where[] = "l.rubroLocal ILIKE ?";
     $params[] = "%$rubro%";
 }
 

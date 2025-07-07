@@ -24,7 +24,7 @@ try {
         SELECT *, 'novedad' as tipo_noticia, fecha_publicacion as fecha_noticia
         FROM novedades 
         WHERE estado = 'activa' 
-        AND fecha_publicacion <= CURDATE()
+        AND fecha_publicacion <= CURRENT_DATE
         ORDER BY fecha_publicacion DESC
         LIMIT 20
     ");
@@ -49,7 +49,7 @@ try {
         FROM promociones p
         JOIN locales l ON p.codLocal = l.codLocal
         WHERE p.estadoPromo = 'activa'
-        AND p.fechaDesdePromo >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+        AND p.fechaDesdePromo >= (CURRENT_DATE - INTERVAL '30 days')
         AND $categoriaFilter
         ORDER BY p.fechaDesdePromo DESC
         LIMIT 10
@@ -66,7 +66,7 @@ try {
 
 try {
     $stmt = $pdo->prepare("
-        SELECT l.*, 'nuevo_local' as tipo_noticia, CURDATE() as fecha_noticia
+        SELECT l.*, 'nuevo_local' as tipo_noticia, CURRENT_DATE as fecha_noticia
         FROM locales l
         ORDER BY l.codLocal DESC
         LIMIT 5

@@ -21,8 +21,8 @@ if (!empty($codigo_local)) {
     $stmt = $pdo->prepare("
         SELECT * FROM locales 
         WHERE codLocal = ? 
-        OR nombreLocal LIKE ? 
-        OR ubicacionLocal LIKE ?
+        OR nombreLocal ILIKE ? 
+        OR ubicacionLocal ILIKE ?
         LIMIT 1
     ");
     $stmt->execute([$codigo_local, "%$codigo_local%", "%$codigo_local%"]);
@@ -34,7 +34,7 @@ if (!empty($codigo_local)) {
             SELECT * FROM promociones 
             WHERE codLocal = ? 
             AND estadoPromo = 'activa'
-            AND (fechaDesdePromo <= CURDATE() AND fechaHastaPromo >= CURDATE())
+            AND (fechaDesdePromo <= CURRENT_DATE AND fechaHastaPromo >= CURRENT_DATE)
             AND $categoriaFilter
             ORDER BY fechaHastaPromo
         ");
@@ -48,7 +48,7 @@ $stmt = $pdo->prepare("
     FROM locales l
     LEFT JOIN promociones p ON l.codLocal = p.codLocal 
         AND p.estadoPromo = 'activa'
-        AND (p.fechaDesdePromo <= CURDATE() AND p.fechaHastaPromo >= CURDATE())
+        AND (p.fechaDesdePromo <= CURRENT_DATE AND p.fechaHastaPromo >= CURRENT_DATE)
     GROUP BY l.codLocal
     ORDER BY l.nombreLocal
 ");

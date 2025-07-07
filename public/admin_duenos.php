@@ -21,7 +21,7 @@ if ($seccion === 'solicitudes') {
 }
 
 if ($email !== '') {
-    $where[] = "nombreUsuario LIKE ?";
+    $where[] = "nombreUsuario ILIKE ?";
     $params[] = "%$email%";
 }
 

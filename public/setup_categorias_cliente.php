@@ -4,7 +4,10 @@ require_once '../config/db.php';
 try {
     echo "<h2>🔍 Verificando estructura actual de la tabla usuarios</h2>";
     
-    $stmt = $pdo->query("DESCRIBE usuarios");
+    $stmt = $pdo->query("SELECT column_name, data_type, is_nullable, column_default
+    FROM information_schema.columns
+    WHERE table_name = 'usuarios'
+    ORDER BY ordinal_position");
     $columns = $stmt->fetchAll();
     
     echo "<table border='1' style='border-collapse: collapse; margin: 10px 0;'>";
@@ -34,7 +37,7 @@ try {
         echo "<p>Necesitamos agregar la columna categoriaCliente a la tabla usuarios.</p>";
         
         echo "<h3>🚀 Agregando columna categoriaCliente...</h3>";
-        $stmt = $pdo->exec("ALTER TABLE usuarios ADD COLUMN categoriaCliente ENUM('inicial', 'medium', 'premium') DEFAULT 'inicial'");
+        $stmt = $pdo->exec("ALTER TABLE usuarios ADD COLUMN categoriaCliente VARCHAR(20) CHECK (categoriaCliente IN ('inicial', 'medium', 'premium')) DEFAULT 'inicial'");
         echo "<p style='color: green;'>✅ Columna categoriaCliente agregada exitosamente.</p>";
     } else {
         echo "<h3>✅ La columna categoriaCliente ya existe</h3>";
@@ -52,19 +55,19 @@ try {
     
     // Check uso_promociones table
     echo "<h3>🔍 Verificando tabla uso_promociones</h3>";
-    $stmt = $pdo->query("SHOW TABLES LIKE 'uso_promociones'");
-    if ($stmt->rowCount() == 0) {
+    $stmt = $pdo->query("SELECT to_regclass('public.uso_promociones') as exists");
+    if (!$stmt->fetch()['exists']) {
         echo "<p>❌ Tabla uso_promociones no existe. Creándola...</p>";
         $createTable = "
         CREATE TABLE uso_promociones (
-            id INT AUTO_INCREMENT PRIMARY KEY,
+            id SERIAL PRIMARY KEY,
             codUsuario INT NOT NULL,
             codPromo INT NOT NULL,
             fechaUso TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            estado ENUM('usado', 'expirado') DEFAULT 'usado',
+            estado VARCHAR(20) DEFAULT 'usado' CHECK (estado IN ('usado', 'expirado')),
             FOREIGN KEY (codUsuario) REFERENCES usuarios(codUsuario),
             FOREIGN KEY (codPromo) REFERENCES promociones(codPromo),
-            UNIQUE KEY unique_uso (codUsuario, codPromo)
+            UNIQUE (codUsuario, codPromo)
         )";
         $pdo->exec($createTable);
         echo "<p style='color: green;'>✅ Tabla uso_promociones creada exitosamente.</p>";
@@ -78,7 +81,7 @@ try {
         SELECT 
             categoriaCliente,
             COUNT(*) as cantidad,
-            GROUP_CONCAT(nombreUsuario) as usuarios
+            STRING_AGG(nombreUsuario, ', ') as usuarios
         FROM usuarios 
         WHERE tipoUsuario = 'cliente' 
         GROUP BY categoriaCliente
