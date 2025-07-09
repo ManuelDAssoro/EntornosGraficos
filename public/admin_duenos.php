@@ -319,7 +319,7 @@ include 'layout/header.php';
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <i class="bi bi-person-circle me-2 text-muted"></i>
-                                        <?= htmlspecialchars($dueno['nombreUsuario']) ?>
+                                        <?= htmlspecialchars($dueno['nombreusuario']) ?>
                                     </div>
                                 </td>
                                 <td>
@@ -336,10 +336,10 @@ include 'layout/header.php';
                                     </span>
                                 </td>
                                 <td>
-                                    <?php if ($dueno['nombreLocal']): ?>
+                                    <?php if ($dueno['nombrelocal']): ?>
                                         <div class="d-flex align-items-center">
                                             <i class="bi bi-shop me-2 text-primary"></i>
-                                            <?= htmlspecialchars($dueno['nombreLocal']) ?>
+                                            <?= htmlspecialchars($dueno['nombrelocal']) ?>
                                         </div>
                                     <?php else: ?>
                                         <span class="text-muted">
@@ -362,7 +362,7 @@ include 'layout/header.php';
                                 <td>
                                     <small class="text-muted">
                                         <i class="bi bi-hash me-1"></i>
-                                        <?= $dueno['codUsuario'] ?>
+                                        <?= $dueno['codusuario'] ?>
                                     </small>
                                 </td>
                                 <td class="text-center">
@@ -370,7 +370,7 @@ include 'layout/header.php';
                                         <?php if ($seccion === 'solicitudes' && $dueno['estado'] === 'pendiente'): ?>
                                             <form method="POST" style="display: inline;">
                                                 <input type="hidden" name="action" value="aprobar">
-                                                <input type="hidden" name="userId" value="<?= $dueno['codUsuario'] ?>">
+                                                <input type="hidden" name="userId" value="<?= $dueno['codusuario'] ?>">
                                                 <button type="submit" class="btn btn-success btn-sm" 
                                                         title="Aprobar Solicitud"
                                                         onclick="return confirm('¿Aprobar esta solicitud de dueño?')">
@@ -379,7 +379,7 @@ include 'layout/header.php';
                                             </form>
                                             <form method="POST" style="display: inline;">
                                                 <input type="hidden" name="action" value="rechazar">
-                                                <input type="hidden" name="userId" value="<?= $dueno['codUsuario'] ?>">
+                                                <input type="hidden" name="userId" value="<?= $dueno['codusuario'] ?>">
                                                 <button type="submit" class="btn btn-danger btn-sm" 
                                                         title="Rechazar Solicitud"
                                                         onclick="return confirm('¿Rechazar esta solicitud de dueño?')">
@@ -392,7 +392,7 @@ include 'layout/header.php';
                                             <?php if ($dueno['estado'] === 'aprobado'): ?>
                                                 <form method="POST" style="display: inline;">
                                                     <input type="hidden" name="action" value="desactivar">
-                                                    <input type="hidden" name="userId" value="<?= $dueno['codUsuario'] ?>">
+                                                    <input type="hidden" name="userId" value="<?= $dueno['codusuario'] ?>">
                                                     <button type="submit" class="btn btn-warning btn-sm" 
                                                             title="Desactivar Usuario (Rechazar)"
                                                             onclick="return confirm('¿Desactivar este usuario? (Cambiar a Rechazado)')">
@@ -402,7 +402,7 @@ include 'layout/header.php';
                                             <?php elseif ($dueno['estado'] === 'rechazado'): ?>
                                                 <form method="POST" style="display: inline;">
                                                     <input type="hidden" name="action" value="activar">
-                                                    <input type="hidden" name="userId" value="<?= $dueno['codUsuario'] ?>">
+                                                    <input type="hidden" name="userId" value="<?= $dueno['codusuario'] ?>">
                                                     <button type="submit" class="btn btn-info btn-sm" 
                                                             title="Reactivar Usuario (Aprobar)">
                                                         <i class="bi bi-play-circle"></i>
