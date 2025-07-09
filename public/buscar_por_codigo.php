@@ -38,7 +38,7 @@ if (!empty($codigo_local)) {
             AND $categoriaFilter
             ORDER BY fechaHastaPromo
         ");
-        $stmt->execute([$local_encontrado['codLocal']]);
+        $stmt->execute([$local_encontrado['codlocal']]);
         $promociones_local = $stmt->fetchAll();
     }
 }
@@ -199,18 +199,18 @@ include 'layout/header.php';
                         <div class="row align-items-center">
                             <div class="col">
                                 <h4 class="mb-0">
-                                    <i class="bi bi-shop"></i> <?= htmlspecialchars($local_encontrado['nombreLocal']) ?>
+                                    <i class="bi bi-shop"></i> <?= htmlspecialchars($local_encontrado['nombrelocal']) ?>
                                 </h4>
-                                <?php if (!empty($local_encontrado['ubicacionLocal'])): ?>
+                                <?php if (!empty($local_encontrado['ubicacionlocal'])): ?>
                                     <small class="opacity-75">
-                                        <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($local_encontrado['ubicacionLocal']) ?>
+                                        <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($local_encontrado['ubicacionlocal']) ?>
                                     </small>
                                 <?php endif; ?>
                             </div>
                             <div class="col-auto">
-                                <?php if (!empty($local_encontrado['rubroLocal'])): ?>
+                                <?php if (!empty($local_encontrado['rubrolocal'])): ?>
                                     <span class="badge bg-light text-dark">
-                                        <i class="bi bi-tag"></i> <?= htmlspecialchars($local_encontrado['rubroLocal']) ?>
+                                        <i class="bi bi-tag"></i> <?= htmlspecialchars($local_encontrado['rubrolocal']) ?>
                                     </span>
                                 <?php endif; ?>
                             </div>
@@ -240,31 +240,31 @@ include 'layout/header.php';
                                             <div class="card-body">
                                                 <div class="promotion-text mb-3">
                                                     <i class="bi bi-percent text-warning me-2"></i>
-                                                    <?= htmlspecialchars($promo['textoPromo']) ?>
+                                                    <?= htmlspecialchars($promo['textopromo']) ?>
                                                 </div>
                                                 
                                                 <div class="promotion-details">
                                                     <div class="mb-2">
                                                         <small class="text-muted">
                                                             <i class="bi bi-calendar-check"></i>
-                                                            Válido hasta: <?= date('d/m/Y', strtotime($promo['fechaHastaPromo'])) ?>
+                                                            Válido hasta: <?= date('d/m/Y', strtotime($promo['fechahastapromo'])) ?>
                                                         </small>
                                                     </div>
                                                     
-                                                    <?php if (!empty($promo['diasSemana'])): ?>
+                                                    <?php if (!empty($promo['diassemana'])): ?>
                                                         <div class="mb-2">
                                                             <small class="text-muted">
                                                                 <i class="bi bi-clock"></i>
-                                                                Días: <?= htmlspecialchars($promo['diasSemana']) ?>
+                                                                Días: <?= htmlspecialchars($promo['diassemana']) ?>
                                                             </small>
                                                         </div>
                                                     <?php endif; ?>
                                                     
-                                                    <?php if (!empty($promo['categoriaCliente'])): ?>
+                                                    <?php if (!empty($promo['categoriacliente'])): ?>
                                                         <div class="mb-3">
                                                             <small class="text-muted">
                                                                 <i class="bi bi-people"></i>
-                                                                Categoría: <?= htmlspecialchars($promo['categoriaCliente']) ?>
+                                                                Categoría: <?= htmlspecialchars($promo['categoriacliente']) ?>
                                                             </small>
                                                         </div>
                                                     <?php endif; ?>
@@ -272,7 +272,7 @@ include 'layout/header.php';
                                             </div>
                                             <div class="card-footer bg-transparent">
                                                 <?php if ($usuario_logueado): ?>
-                                                    <a href="usar_promocion.php?codigo=<?= $promo['codPromo'] ?>" 
+                                                    <a href="usar_promocion.php?codigo=<?= $promo['codpromo'] ?>" 
                                                        class="btn btn-success w-100">
                                                         <i class="bi bi-check-circle"></i> Usar Promoción
                                                     </a>
@@ -329,30 +329,30 @@ include 'layout/header.php';
                                 <div class="col-md-6 col-lg-4 mb-3">
                                     <div class="card h-100 local-card" 
                                          style="cursor: pointer;" 
-                                         onclick="buscarLocal('<?= htmlspecialchars($local['codLocal'] ?? '') ?>')">
+                                         onclick="buscarLocal('<?= htmlspecialchars($local['codlocal'] ?? '') ?>')">
                                         <div class="card-body">
                                             <div class="d-flex justify-content-between align-items-start mb-2">
                                                 <h6 class="card-title mb-1">
                                                     <i class="bi bi-shop text-primary"></i>
-                                                    <?= htmlspecialchars($local['nombreLocal'] ?? '') ?>
+                                                    <?= htmlspecialchars($local['nombrelocal'] ?? '') ?>
                                                 </h6>
                                                 <span class="badge bg-light text-dark">
-                                                    ID: <?= htmlspecialchars($local['codLocal'] ?? '') ?>
+                                                    ID: <?= htmlspecialchars($local['codlocal'] ?? '') ?>
                                                 </span>
                                             </div>
                                             
-                                            <?php if (!empty($local['ubicacionLocal'])): ?>
+                                            <?php if (!empty($local['ubicacionlocal'])): ?>
                                                 <p class="card-text small text-muted mb-2">
                                                     <i class="bi bi-geo-alt"></i>
-                                                    <?= htmlspecialchars($local['ubicacionLocal'] ?? '') ?>
+                                                    <?= htmlspecialchars($local['ubicacionlocal'] ?? '') ?>
                                                 </p>
                                             <?php endif; ?>
                                             
-                                            <?php if (!empty($local['rubroLocal'])): ?>
+                                            <?php if (!empty($local['rubrolocal'])): ?>
                                                 <p class="card-text small mb-2">
                                                     <span class="badge bg-secondary">
                                                         <i class="bi bi-tag"></i>
-                                                        <?= htmlspecialchars($local['rubroLocal'] ?? '') ?>
+                                                        <?= htmlspecialchars($local['rubrolocal'] ?? '') ?>
                                                     </span>
                                                 </p>
                                             <?php endif; ?>

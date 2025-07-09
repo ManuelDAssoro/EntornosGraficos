@@ -38,13 +38,17 @@ try {
     $pdo->exec($sql);
     echo "✅ Tabla 'locales' creada<br>";
     
+    $pdo->exec("DROP TABLE IF EXISTS novedades CASCADE");
     // Crear tabla novedades
     $sql = "CREATE TABLE novedades (
-        codNovedad SERIAL PRIMARY KEY,
-        textoNovedad VARCHAR(200) NOT NULL,
-        fechaDesdeNovedad DATE NOT NULL,
-        fechaHastaNovedad DATE NOT NULL,
-        tipoUsuario VARCHAR(20) NOT NULL CHECK (tipoUsuario IN ('administrador', 'dueno', 'cliente'))
+        id SERIAL PRIMARY KEY,
+        titulo VARCHAR(255) NOT NULL,
+        contenido TEXT NOT NULL,
+        categoria_minima VARCHAR(20) DEFAULT 'unlogged',
+        fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        fecha_publicacion DATE DEFAULT CURRENT_DATE,
+        estado VARCHAR(20) DEFAULT 'activa',
+        codUsuario INT REFERENCES usuarios(codUsuario)
     )";
     $pdo->exec($sql);
     echo "✅ Tabla 'novedades' creada<br>";
@@ -118,14 +122,14 @@ try {
     }
     echo "✅ Promociones de prueba creadas<br>";
     
-    // Insertar algunas novedades
-    $stmt = $pdo->prepare("INSERT INTO novedades (textoNovedad, fechaDesdeNovedad, fechaHastaNovedad, tipoUsuario) VALUES (?, ?, ?, ?)");
+    // Insertar algunas novedades de prueba
+    $stmt = $pdo->prepare("INSERT INTO novedades (titulo, contenido, categoria_minima, fecha_publicacion, estado, codUsuario) VALUES (?, ?, ?, ?, ?, ?)");
     $novedades = [
-        ['Nuevas funcionalidades disponibles', '2025-07-01', '2025-07-31', 'administrador'],
-        ['Promociones de verano disponibles', '2025-07-01', '2025-08-31', 'cliente'],
-        ['Herramientas de gestión mejoradas', '2025-07-01', '2025-07-15', 'dueno']
+        ['Nuevas funcionalidades disponibles', 'Descubre las nuevas funciones del sistema.', 'unlogged', '2025-07-01', 'activa', 1],
+        ['Promociones de verano disponibles', 'Aprovecha las promociones de verano.', 'cliente', '2025-07-01', 'activa', 1],
+        ['Herramientas de gestión mejoradas', 'Mejoras en la gestión para dueños.', 'dueno', '2025-07-01', 'activa', 1]
     ];
-    
+
     foreach ($novedades as $novedad) {
         $stmt->execute($novedad);
     }
