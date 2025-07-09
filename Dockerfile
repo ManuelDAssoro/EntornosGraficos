@@ -1,18 +1,21 @@
-FROM php:8.2-cli
+FROM php:8.2-apache
 
-# Instala extensiones necesarias
-RUN docker-php-ext-install mysqli pdo pdo_mysql
-RUN apt-get update && apt-get install -y php-pgsql
+# Instalar extensiones necesarias
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    unzip \
+    zip \
+    git \
+    && docker-php-ext-install pdo_pgsql
 
+# Habilitar mod_rewrite
+RUN a2enmod rewrite
 
-# Copia el código al contenedor
+# Copiar configuración personalizada
+COPY apache.conf /etc/apache2/sites-available/000-default.conf
+
+# Copiar proyecto completo
 COPY . /var/www/html
 
-# Establece el directorio de trabajo
-WORKDIR /var/www/html
-
-# Expone el puerto 80
-EXPOSE 80
-
-# Comando para iniciar el servidor
-CMD ["php", "-S", "0.0.0.0:80", "-t", "public"]
+# Establecer permisos
+RUN chown -R www-data:www-data /var/www/html

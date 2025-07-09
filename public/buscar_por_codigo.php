@@ -44,21 +44,31 @@ if (!empty($codigo_local)) {
 }
 
 $stmt = $pdo->prepare("
-    SELECT l.*, COUNT(p.codPromo) as total_promociones
+    SELECT 
+        l.*, 
+        COALESCE(p.total_promociones, 0) AS total_promociones
     FROM locales l
-    LEFT JOIN promociones p ON l.codLocal = p.codLocal 
-        AND p.estadoPromo = 'activa'
-        AND (p.fechaDesdePromo <= CURDATE() AND p.fechaHastaPromo >= CURDATE())
-    GROUP BY l.codLocal
+    LEFT JOIN (
+        SELECT 
+            codLocal, 
+            COUNT(*) AS total_promociones
+        FROM promociones
+        WHERE estadoPromo = 'activa'
+          AND fechaDesdePromo <= CURRENT_DATE
+          AND fechaHastaPromo >= CURRENT_DATE
+        GROUP BY codLocal
+    ) p ON l.codLocal = p.codLocal
     ORDER BY l.nombreLocal
 ");
 $stmt->execute();
 $todos_locales = $stmt->fetchAll();
 
+
 $page_title = 'Buscar por Código - Mi Shopping';
 $custom_css = 'buscar-por-codigo.css';
 include 'layout/header.php';
 ?>
+
 
 <div class="hero-section bg-info text-white">
     <div class="container">

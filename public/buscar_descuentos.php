@@ -20,9 +20,10 @@ $query = "
     FROM promociones p
     JOIN locales l ON p.codLocal = l.codLocal
     WHERE p.estadoPromo = 'activa'
-    AND (p.fechaDesdePromo <= CURDATE() AND p.fechaHastaPromo >= CURDATE())
+    AND (p.fechaDesdePromo <= CURRENT_DATE AND p.fechaHastaPromo >= CURRENT_DATE)
     AND $categoriaFilter
 ";
+
 
 $params = [];
 
