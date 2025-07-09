@@ -33,7 +33,7 @@ $errores = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Capturar datos del form
-    $nombreLocal = trim($_POST['nombrelocal'] ?? '');
+    $nombreLocal = trim($_POST['nombreLocal'] ?? '');
     $ubicacionLocal = trim($_POST['ubicacionLocal'] ?? '');
     $rubroLocal = trim($_POST['rubroLocal'] ?? '');
     $codUsuario = trim($_POST['codUsuario'] ?? '');
