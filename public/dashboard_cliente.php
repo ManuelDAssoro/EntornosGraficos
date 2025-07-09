@@ -215,7 +215,7 @@ try {
                     <div class="card promo-card h-100">
                         <div class="card-header bg-primary text-white">
                             <h6 class="mb-0">
-                                <i class="bi bi-shop"></i> <?= htmlspecialchars($promo['nombreLocal']) ?>
+                                <i class="bi bi-shop"></i> <?= htmlspecialchars($promo['nombrelocal']) ?>
                             </h6>
                         </div>
                         <div class="card-body">
@@ -232,13 +232,13 @@ try {
                             </p>
                             <p class="card-text">
                                 <small class="text-muted">
-                                    <i class="bi bi-calendar-week"></i> Días: <?= $promo['diasSemana'] ?>
+                                    <i class="bi bi-calendar-week"></i> Días: <?= $promo['diassemana'] ?>
                                 </small>
                             </p>
                             <span class="badge bg-info"><?= ucfirst($promo['categoriacliente'] ?? '') ?></span>
                         </div>
                         <div class="card-footer">
-                            <a href="usar_promocion.php?id=<?= $promo['codPromo'] ?>" class="btn btn-primary btn-sm w-100" onclick="usarPromocion(<?= $promo['codpromo'] ?>)">
+                            <a href="usar_promocion.php?id=<?= $promo['codpromo'] ?>" class="btn btn-primary btn-sm w-100" onclick="usarPromocion(<?= $promo['codpromo'] ?>)">
                                 <i class="bi bi-check-circle"></i> Usar Promoción
                             </a>
                         </div>
@@ -279,12 +279,12 @@ try {
                         <tbody>
                             <?php foreach ($promocionesUsadas as $usado): ?>
                                 <tr>
-                                    <td><?= htmlspecialchars($usado['textoPromo']) ?></td>
+                                    <td><?= htmlspecialchars($usado['textopromo']) ?></td>
                                     <td>
-                                        <i class="bi bi-shop"></i> <?= htmlspecialchars($usado['nombreLocal']) ?>
+                                        <i class="bi bi-shop"></i> <?= htmlspecialchars($usado['nombrelocal']) ?>
                                         <br><small class="text-muted"><?= htmlspecialchars($usado['ubicacion']) ?></small>
                                     </td>
-                                    <td><?= date('d/m/Y H:i', strtotime($usado['fechaUso'])) ?></td>
+                                    <td><?= date('d/m/Y H:i', strtotime($usado['fechauso'])) ?></td>
                                     <td>
                                         <span class="badge bg-success"><?= ucfirst($usado['estado']) ?></span>
                                     </td>
