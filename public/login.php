@@ -14,9 +14,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $pdo->prepare("SELECT codUsuario, claveUsuario, tipoUsuario, estado FROM usuarios WHERE nombreUsuario = ?");
         $stmt->execute([$nombreUsuario]);
         $usuario = $stmt->fetch();
-        var_dump($usuario);
+        
         print_r($usuario);
-
+        echo "<pre>";
+        foreach ($stmt as $row) {
+            print_r($row);
+        }
+        echo "</pre>";
         if ($usuario && !empty($usuario['claveusuario']) && password_verify($claveUsuario, trim($usuario['claveusuario']))) {
             if ($usuario['estado'] !== 'pendiente') {
                 $_SESSION['usuario_id'] = $usuario['codusuario'];
