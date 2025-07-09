@@ -133,16 +133,16 @@ include 'layout/header.php';
                                             <i class="bi bi-shop text-primary"></i>
                                         </div>
                                         <div class="flex-grow-1">
-                                            <h6 class="mb-1"><?= htmlspecialchars($local['nombreLocal']) ?></h6>
+                                            <h6 class="mb-1"><?= htmlspecialchars($local['nombrelocal']) ?></h6>
                                             <small class="text-muted">
-                                                <?= $local['rubroLocal'] ? htmlspecialchars($local['rubroLocal']) : 'Sin rubro' ?>
-                                                <?php if ($local['nombreUsuario']): ?>
-                                                    • Dueño: <?= htmlspecialchars($local['nombreUsuario']) ?>
+                                                <?= $local['rubroLocal'] ? htmlspecialchars($local['rubrolocal']) : 'Sin rubro' ?>
+                                                <?php if ($local['nombreusuario']): ?>
+                                                    • Dueño: <?= htmlspecialchars($local['nombreusuario']) ?>
                                                 <?php endif; ?>
                                             </small>
                                         </div>
                                         <div>
-                                            <a href="local_editar.php?id=<?= $local['codLocal'] ?>" 
+                                            <a href="local_editar.php?id=<?= $local['codlocal'] ?>" 
                                                class="btn btn-sm btn-outline-primary">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
