@@ -243,24 +243,20 @@ try {
     
     try {
         // First, let's drop the table if it exists and recreate it properly
-        $pdo->exec("DROP TABLE IF EXISTS novedades");
-        
-        $sql = "CREATE TABLE novedades (
-            id SERIAL PRIMARY KEY,
-            titulo VARCHAR(255) NOT NULL,
-            contenido TEXT NOT NULL,
-            categoria_minima VARCHAR(20) DEFAULT 'unlogged',
-            fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            fecha_publicacion DATE DEFAULT CURRENT_DATE,
-            estado VARCHAR(20) DEFAULT 'activa',
-            codUsuario INT,
-            INDEX idx_categoria (categoria_minima),
-            INDEX idx_estado (estado),
-            INDEX idx_fecha (fecha_publicacion)
-        )";
-        
-        $pdo->exec($sql);
-        echo "<p style='color: blue;'>📋 Tabla 'novedades' creada exitosamente.</p>";
+        $pdo->exec("DROP TABLE IF EXISTS novedades CASCADE");
+    // Crear tabla novedades
+    $sql = "CREATE TABLE novedades (
+        id SERIAL PRIMARY KEY,
+        titulo VARCHAR(255) NOT NULL,
+        contenido TEXT NOT NULL,
+        categoria_minima VARCHAR(20) DEFAULT 'unlogged',
+        fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        fecha_publicacion DATE DEFAULT CURRENT_DATE,
+        estado VARCHAR(20) DEFAULT 'activa',
+        codUsuario INT REFERENCES usuarios(codUsuario)
+    )";
+    $pdo->exec($sql);
+    echo "✅ Tabla 'novedades' creada<br>";
         
         // Get admin user ID
         $admin_id = 1;
