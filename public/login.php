@@ -61,7 +61,7 @@ else {
                 $_SESSION['usuario_id'] = $usuario['codusuario'];
                 $_SESSION['tipoUsuario'] = $usuario['tipousuario'];
 
-                switch ($usuario['tipoUsuario']) {
+                switch ($usuario['tipousuario']) {
                     case 'administrador':
                         logDebug("Redireccionando a dashboard_admin.php");
                         header("Location: dashboard_admin.php");
