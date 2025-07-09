@@ -219,7 +219,7 @@ try {
                             </h6>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title"><?= htmlspecialchars($promo['textoPromo']) ?></h5>
+                            <h5 class="card-title"><?= htmlspecialchars($promo['textopromo'] ?? '') ?></h5>
                             <p class="card-text">
                                 <small class="text-muted">
                                     <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($promo['ubicacion']) ?>
@@ -227,7 +227,7 @@ try {
                             </p>
                             <p class="card-text">
                                 <small class="text-muted">
-                                    <i class="bi bi-calendar"></i> Válido hasta: <?= $promo['fechaHastaPromo'] ?>
+                                    <i class="bi bi-calendar"></i> Válido hasta: <?= $promo['fechahastapromo'] ?>
                                 </small>
                             </p>
                             <p class="card-text">
@@ -235,10 +235,10 @@ try {
                                     <i class="bi bi-calendar-week"></i> Días: <?= $promo['diasSemana'] ?>
                                 </small>
                             </p>
-                            <span class="badge bg-info"><?= ucfirst($promo['categoriaCliente']) ?></span>
+                            <span class="badge bg-info"><?= ucfirst($promo['categoriacliente'] ?? '') ?></span>
                         </div>
                         <div class="card-footer">
-                            <a href="usar_promocion.php?id=<?= $promo['codPromo'] ?>" class="btn btn-primary btn-sm w-100">
+                            <a href="usar_promocion.php?id=<?= $promo['codPromo'] ?>" class="btn btn-primary btn-sm w-100" onclick="usarPromocion(<?= $promo['codpromo'] ?>)">
                                 <i class="bi bi-check-circle"></i> Usar Promoción
                             </a>
                         </div>

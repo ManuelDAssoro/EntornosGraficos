@@ -161,7 +161,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-store"></i></span>
                         <input type="text" class="form-control" id="nombreLocal" name="nombreLocal" 
-                               value="<?= htmlspecialchars($nombreLocal) ?>" required
+                               value="<?= htmlspecialchars($local['nombrelocal'] ?? '') ?>"
+                               required
                                placeholder="Ej: Tienda de Ropa Moderna">
                     </div>
                 </div>
@@ -171,7 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
                         <input type="text" class="form-control" id="ubicacionLocal" name="ubicacionLocal" 
-                               value="<?= htmlspecialchars($ubicacionLocal) ?>"
+                               value="<?= htmlspecialchars($local['ubicacionlocal'] ?? '') ?>"
                                placeholder="Ej: Planta Baja - Local 15">
                     </div>
                 </div>
@@ -181,7 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-tags"></i></span>
                         <input type="text" class="form-control" id="rubroLocal" name="rubroLocal" 
-                               value="<?= htmlspecialchars($rubroLocal) ?>"
+                               value="<?= htmlspecialchars($local['rubrolocal'] ?? '') ?>"
                                placeholder="Ej: Indumentaria, Tecnología, Gastronomía">
                     </div>
                 </div>

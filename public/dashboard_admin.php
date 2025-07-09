@@ -133,7 +133,7 @@ include 'layout/header.php';
                                             <i class="bi bi-shop text-primary"></i>
                                         </div>
                                         <div class="flex-grow-1">
-                                            <h6 class="mb-1"><?= htmlspecialchars($local['nombrelocal']) ?></h6>
+                                            <h6 class="mb-1"><?= htmlspecialchars($local['nombrelocal'] ?? '') ?></h6>
                                             <small class="text-muted">
                                                 <?= $local['rubrolocal'] ? htmlspecialchars($local['rubrolocal']) : 'Sin rubro' ?>
                                                 <?php if ($local['nombreusuario']): ?>

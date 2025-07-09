@@ -17,7 +17,7 @@ if ($id) {
     $stmt->execute([$id]);
     $usuario = $stmt->fetch();
 
-    if ($usuario) {
+    if ($usuario && $usuario['tipousuario'] === 'dueno') {
         $emailDestino = $usuario['nombreUsuario'];
 
         $mail = new PHPMailer(true);

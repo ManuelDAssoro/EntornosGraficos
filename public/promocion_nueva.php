@@ -62,33 +62,33 @@ include 'layout/header.php';
                 <label class="form-label">
                     <i class="bi bi-megaphone"></i> Texto de la Promoción
                 </label>
-                <textarea name="textoPromo" class="form-control" rows="3" 
-                          placeholder="Ej: 20% de descuento en todos los productos" required></textarea>
+                <input type="text" name="textopromo" value="<?= htmlspecialchars($_POST['textopromo'] ?? '') ?>" class="form-control" 
+                          placeholder="Ej: 20% de descuento en todos los productos" required>
             </div>
             
             <div class="col-md-6">
                 <label class="form-label">
                     <i class="bi bi-calendar-check"></i> Fecha de Inicio
                 </label>
-                <input type="date" name="fechaDesdePromo" class="form-control" required>
+                <input type="date" name="fechadesdepromo" value="<?= htmlspecialchars($_POST['fechadesdepromo'] ?? '') ?>" class="form-control" required>
             </div>
             
             <div class="col-md-6">
                 <label class="form-label">
                     <i class="bi bi-calendar-x"></i> Fecha de Fin
                 </label>
-                <input type="date" name="fechaHastaPromo" class="form-control" required>
+                <input type="date" name="fechahastapromo" value="<?= htmlspecialchars($_POST['fechahastapromo'] ?? '') ?>" class="form-control" required>
             </div>
             
             <div class="col-md-6">
                 <label class="form-label">
                     <i class="bi bi-person-badge"></i> Categoría de Cliente
                 </label>
-                <select name="categoriaCliente" class="form-select" required>
+                <select name="categoriacliente" class="form-select" required>
                     <option value="">Seleccionar categoría...</option>
-                    <option value="Inicial">Inicial</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Premium">Premium</option>
+                    <option value="inicial" <?= ($_POST['categoriacliente'] ?? '') === 'inicial' ? 'selected' : '' ?>>Inicial</option>
+                    <option value="medium" <?= ($_POST['categoriacliente'] ?? '') === 'medium' ? 'selected' : '' ?>>Medium</option>
+                    <option value="premium" <?= ($_POST['categoriacliente'] ?? '') === 'premium' ? 'selected' : '' ?>>Premium</option>
                 </select>
             </div>
             

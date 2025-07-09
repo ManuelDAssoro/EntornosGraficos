@@ -231,9 +231,9 @@ include 'layout/header.php';
                             <div class="card-body">
                                 <h5 class="card-title mb-3">
                                     <i class="bi bi-megaphone text-primary"></i>
-                                    <?= htmlspecialchars($noticia['titulo']) ?>
+                                    <?= htmlspecialchars($noticia['titulo'] ?? '') ?>
                                 </h5>
-                                <p class="card-text"><?= nl2br(htmlspecialchars($noticia['contenido'])) ?></p>
+                                <p class="card-text"><?= nl2br(htmlspecialchars($noticia['contenido'] ?? '')) ?></p>
                             </div>
                         </div>
                     <?php elseif ($noticia['tipo_noticia'] === 'promocion'): ?>
@@ -243,7 +243,7 @@ include 'layout/header.php';
                                     <span class="badge bg-success me-2">
                                         <i class="bi bi-percent"></i> Nueva Promoción
                                     </span>
-                                    <strong><?= htmlspecialchars($noticia['nombrelocal']) ?></strong>
+                                    <strong><?= htmlspecialchars($noticia['nombrelocal'] ?? '') ?></strong>
                                 </div>
                                 <small class="text-muted">
                                     <i class="bi bi-calendar"></i>
@@ -255,12 +255,12 @@ include 'layout/header.php';
                                     <div class="col-md-8">
                                         <h5 class="card-title mb-3">
                                             <i class="bi bi-gift text-warning"></i>
-                                            <?= htmlspecialchars($noticia['textopromo']) ?>
+                                            <?= htmlspecialchars($noticia['textopromo'] ?? '') ?>
                                         </h5>
                                         <div class="news-details">
                                             <?php if (!empty($noticia['rubroLocal'])): ?>
                                                 <span class="badge bg-light text-dark me-2">
-                                                    <i class="bi bi-tag"></i> <?= htmlspecialchars($noticia['rubrolocal']) ?>
+                                                    <i class="bi bi-tag"></i> <?= htmlspecialchars($noticia['rubrolocal'] ?? '') ?>
                                                 </span>
                                             <?php endif; ?>
                                             <span class="badge bg-info text-white">
@@ -297,17 +297,17 @@ include 'layout/header.php';
                                     <div class="col-md-8">
                                         <h5 class="card-title mb-3">
                                             <i class="bi bi-shop text-primary"></i>
-                                            <?= htmlspecialchars($noticia['nombrelocal']) ?>
+                                            <?= htmlspecialchars($noticia['nombrelocal'] ?? '') ?>
                                         </h5>
                                         <div class="news-details">
                                             <?php if (!empty($noticia['ubicacionlocal'])): ?>
                                                 <span class="badge bg-light text-dark me-2">
-                                                    <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($noticia['ubicacionlocal']) ?>
+                                                    <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($noticia['ubicacionlocal'] ?? '') ?>
                                                 </span>
                                             <?php endif; ?>
                                             <?php if (!empty($noticia['rubrolocal'])): ?>
                                                 <span class="badge bg-light text-dark">
-                                                    <i class="bi bi-tag"></i> <?= htmlspecialchars($noticia['rubrolocal']) ?>
+                                                    <i class="bi bi-tag"></i> <?= htmlspecialchars($noticia['rubrolocal'] ?? '') ?>
                                                 </span>
                                             <?php endif; ?>
                                         </div>

@@ -29,3 +29,8 @@ function requireRoles(array $roles) {
         exit;
     }
 }
+
+$_SESSION['tipoUsuario'] = $usuario['tipousuario'];
+$_SESSION['categoriaCliente'] = $usuario['categoriacliente'] ?? 'inicial';
+
+$tipoUsuario = $_SESSION['tipoUsuario'] ?? null;

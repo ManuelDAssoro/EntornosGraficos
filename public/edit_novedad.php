@@ -74,12 +74,12 @@ include 'layout/header.php';
                         <div class="mb-3">
                             <label for="titulo" class="form-label">Título *</label>
                             <input type="text" class="form-control" id="titulo" name="titulo" 
-                                   value="<?= htmlspecialchars($_POST['titulo']) ?>" required maxlength="255">
+                                   value="<?= htmlspecialchars($novedad['titulo'] ?? '') ?>" required maxlength="255">
                         </div>
                         
                         <div class="mb-3">
                             <label for="contenido" class="form-label">Contenido *</label>
-                            <textarea class="form-control" id="contenido" name="contenido" rows="5" required><?= htmlspecialchars($_POST['contenido']) ?></textarea>
+                            <textarea class="form-control" id="contenido" name="contenido" rows="5" required><?= htmlspecialchars($novedad['contenido'] ?? '') ?></textarea>
                         </div>
                         
                         <div class="row">
@@ -98,7 +98,7 @@ include 'layout/header.php';
                                 <div class="mb-3">
                                     <label for="fecha_publicacion" class="form-label">Fecha de Publicación</label>
                                     <input type="date" class="form-control" id="fecha_publicacion" name="fecha_publicacion" 
-                                           value="<?= htmlspecialchars($_POST['fecha_publicacion']) ?>">
+                                           value="<?= htmlspecialchars($novedad['fecha_publicacion'] ?? '') ?>">
                                 </div>
                             </div>
                         </div>

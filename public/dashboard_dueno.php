@@ -231,11 +231,11 @@ $mensajes = [
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col-md-8">
-                <h1><i class="bi bi-megaphone"></i> Mi Local: <?= htmlspecialchars($local['nombreLocal']) ?></h1>
+                <h1><i class="bi bi-megaphone"></i> Mi Local: <?= htmlspecialchars($local['nombrelocal'] ?? '') ?></h1>
                 <p class="text-muted mb-0">
-                    <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($local['ubicacionLocal']) ?>
-                    <?php if ($local['rubroLocal']): ?>
-                        | <i class="bi bi-tag"></i> <?= htmlspecialchars($local['rubroLocal']) ?>
+                    <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($local['ubicacionlocal'] ?? '') ?>
+                    <?php if ($local['rubrolocal']): ?>
+                        | <i class="bi bi-tag"></i> <?= htmlspecialchars($local['rubrolocal'] ?? '') ?>
                     <?php endif; ?>
                 </p>
             </div>
@@ -314,11 +314,11 @@ $mensajes = [
             <tbody>
                 <?php foreach ($promociones as $promo): ?>
                     <tr>
-                        <td><?= htmlspecialchars($promo['textoPromo']) ?></td>
-                        <td><?= $promo['fechaDesdePromo'] ?> a <?= $promo['fechaHastaPromo'] ?></td>
+                        <td><?= htmlspecialchars($promo['textopromo'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($promo['fechadesdepromo'] ?? '') ?> a <?= htmlspecialchars($promo['fechahastapromo'] ?? '') ?></td>
                         <td><?= $promo['diasSemana'] ?></td>
                         <td><?= $promo['categoriaCliente'] ?></td>
-                        <td><span class="badge bg-info"><?= ucfirst($promo['estadoPromo']) ?></span></td>
+                        <td><span class="badge bg-info"><?= ucfirst($promo['estadopromo'] ?? '') ?></span></td>
                         <td><span class="badge bg-success"><?= $promo['totalUsos'] ?></span></td>
                         <td>
                             <a href="promocion_eliminar.php?id=<?= $promo['codPromo'] ?>" 

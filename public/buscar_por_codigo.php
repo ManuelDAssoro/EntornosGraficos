@@ -240,7 +240,7 @@ include 'layout/header.php';
                                             <div class="card-body">
                                                 <div class="promotion-text mb-3">
                                                     <i class="bi bi-percent text-warning me-2"></i>
-                                                    <?= htmlspecialchars($promo['textopromo']) ?>
+                                                    <?= htmlspecialchars($promo['textopromo'] ?? '') ?>
                                                 </div>
                                                 
                                                 <div class="promotion-details">
@@ -255,7 +255,7 @@ include 'layout/header.php';
                                                         <div class="mb-2">
                                                             <small class="text-muted">
                                                                 <i class="bi bi-clock"></i>
-                                                                Días: <?= htmlspecialchars($promo['diassemana']) ?>
+                                                                Días: <?= htmlspecialchars($promo['diassemana'] ?? '') ?>
                                                             </small>
                                                         </div>
                                                     <?php endif; ?>
@@ -264,7 +264,7 @@ include 'layout/header.php';
                                                         <div class="mb-3">
                                                             <small class="text-muted">
                                                                 <i class="bi bi-people"></i>
-                                                                Categoría: <?= htmlspecialchars($promo['categoriacliente']) ?>
+                                                                Categoría: <?= htmlspecialchars($promo['categoriacliente'] ?? '') ?>
                                                             </small>
                                                         </div>
                                                     <?php endif; ?>

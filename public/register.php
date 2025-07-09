@@ -12,7 +12,7 @@
     <form action="form_validation.php" method="POST" class="needs-validation" novalidate>
         <div class="mb-3">
             <label for="nombreUsuario" class="form-label">Email</label>
-            <input type="email" class="form-control" id="nombreUsuario" name="nombreUsuario" required>
+            <input type="email" class="form-control" id="nombreUsuario" name="nombreUsuario" value="<?= htmlspecialchars($_POST['nombreusuario'] ?? '') ?>" required>
             <div class="invalid-feedback">
                 Ingresa un email válido.
             </div>
@@ -28,8 +28,8 @@
             <label for="tipoUsuario" class="form-label">Tipo de Usuario</label>
             <select class="form-select" id="tipoUsuario" name="tipoUsuario" required>
                 <option value="">Selecciona una opción</option>
-                <option value="cliente">Cliente</option>
-                <option value="dueno">Dueño de Local</option>
+                <option value="cliente" <?= ($_POST['tipousuario'] ?? '') === 'cliente' ? 'selected' : '' ?>>Cliente</option>
+                <option value="dueno" <?= ($_POST['tipousuario'] ?? '') === 'dueno' ? 'selected' : '' ?>>Dueño de Local</option>
             </select>
             <div class="invalid-feedback">
                 Selecciona el tipo de usuario.

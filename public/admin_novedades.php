@@ -68,7 +68,8 @@ include 'layout/header.php';
                     <form method="POST">
                         <div class="mb-3">
                             <label for="titulo" class="form-label">Título *</label>
-                            <input type="text" class="form-control" id="titulo" name="titulo" required maxlength="255">
+                            <input type="text" class="form-control" id="titulo" name="titulo" required maxlength="255"
+                            value="<?= htmlspecialchars($_POST['titulo'] ?? '') ?>">
                         </div>
                         
                         <div class="mb-3">
@@ -91,7 +92,8 @@ include 'layout/header.php';
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="fecha_publicacion" class="form-label">Fecha de Publicación</label>
-                                    <input type="date" class="form-control" id="fecha_publicacion" name="fecha_publicacion" value="<?= date('Y-m-d') ?>">
+                                    <input type="date" class="form-control" id="fecha_publicacion" name="fecha_publicacion"
+                                    value="<?= htmlspecialchars($_POST['fecha_publicacion'] ?? date('Y-m-d')) ?>">
                                 </div>
                             </div>
                         </div>
@@ -132,7 +134,7 @@ include 'layout/header.php';
                                 <tbody>
                                     <?php foreach ($novedades as $novedad): ?>
                                         <tr>
-                                            <td><?= htmlspecialchars($novedad['titulo']) ?></td>
+                                            <td><?= htmlspecialchars($novedad['titulo'] ?? '') ?></td>
                                             <td>
                                                 <span class="badge bg-<?= $novedad['categoria_minima'] === 'premium' ? 'success' : ($novedad['categoria_minima'] === 'medium' ? 'warning' : ($novedad['categoria_minima'] === 'inicial' ? 'secondary' : 'info')) ?>">
                                                     <?= ucfirst($novedad['categoria_minima']) ?>
@@ -146,10 +148,12 @@ include 'layout/header.php';
                                             <td><?= date('d/m/Y', strtotime($novedad['fecha_publicacion'])) ?></td>
                                             <td><?= htmlspecialchars($novedad['nombreUsuario'] ?? 'Sistema') ?></td>
                                             <td>
-                                                <a href="edit_novedad.php?id=<?= $novedad['id'] ?>" class="btn btn-sm btn-outline-primary">
+                                                <a href="edit_novedad.php?id=<?= $novedad['id'] ?>" class="btn btn-sm btn-outline-primary"
+                                                onclick="editarNovedad(<?= $novedad['id'] ?>)">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
-                                                <a href="delete_novedad.php?id=<?= $novedad['id'] ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Está seguro?')">
+                                                <a href="delete_novedad.php?id=<?= $novedad['id'] ?>" class="btn btn-sm btn-outline-danger"
+                                                onclick="eliminarNovedad(<?= $novedad['id'] ?>)" onclick="return confirm('¿Está seguro?')">
                                                     <i class="bi bi-trash"></i>
                                                 </a>
                                             </td>

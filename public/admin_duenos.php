@@ -373,7 +373,7 @@ include 'layout/header.php';
                                                 <input type="hidden" name="userId" value="<?= $dueno['codusuario'] ?>">
                                                 <button type="submit" class="btn btn-success btn-sm" 
                                                         title="Aprobar Solicitud"
-                                                        onclick="return confirm('¿Aprobar esta solicitud de dueño?')">
+                                                        onclick="aprobarDueno(<?= $dueno['codusuario'] ?>)">
                                                     <i class="bi bi-check-circle"></i>
                                                 </button>
                                             </form>
@@ -382,7 +382,7 @@ include 'layout/header.php';
                                                 <input type="hidden" name="userId" value="<?= $dueno['codusuario'] ?>">
                                                 <button type="submit" class="btn btn-danger btn-sm" 
                                                         title="Rechazar Solicitud"
-                                                        onclick="return confirm('¿Rechazar esta solicitud de dueño?')">
+                                                        onclick="rechazarDueno(<?= $dueno['codusuario'] ?>)">
                                                     <i class="bi bi-x-circle"></i>
                                                 </button>
                                             </form>
@@ -398,7 +398,7 @@ include 'layout/header.php';
                                                             onclick="return confirm('¿Desactivar este usuario? (Cambiar a Rechazado)')">
                                                         <i class="bi bi-pause-circle"></i>
                                                     </button>
-                                                </form>
+                                                    </form>
                                             <?php elseif ($dueno['estado'] === 'rechazado'): ?>
                                                 <form method="POST" style="display: inline;">
                                                     <input type="hidden" name="action" value="activar">

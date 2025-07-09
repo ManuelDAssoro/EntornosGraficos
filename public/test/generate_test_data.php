@@ -303,6 +303,11 @@ try {
         $novedades_existed = 0;
     }
     
+    // Update promociones estado from 'aprobada' to 'activa'
+    $sql = "UPDATE promociones SET estadopromo = 'activa' WHERE estadopromo = 'aprobada'";
+    $count = $pdo->exec($sql);
+    echo "Promociones actualizadas: $count<br>";
+    
     echo "<h2>📈 Resumen de Datos Creados</h2>";
     
     $stmt = $pdo->prepare("SELECT tipoUsuario, estado, COUNT(*) as count FROM usuarios GROUP BY tipoUsuario, estado ORDER BY tipoUsuario, estado");

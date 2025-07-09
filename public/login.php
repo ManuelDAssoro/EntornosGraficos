@@ -61,6 +61,7 @@ else {
 
                 $_SESSION['usuario_id'] = $usuario['codusuario'];
                 $_SESSION['tipoUsuario'] = $usuario['tipousuario'];
+                $_SESSION['categoriaCliente'] = $usuario['categoriacliente'] ?? 'inicial';
 
                 switch ($usuario['tipousuario']) {
                     case 'administrador':
