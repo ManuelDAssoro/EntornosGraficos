@@ -17,11 +17,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         var_dump($usuario);
         print_r($usuario);
 
-        if ($usuario && !empty($usuario['claveUsuario']) && password_verify($claveUsuario, trim($usuario['claveUsuario']))) {
+        if ($usuario && !empty($usuario['claveusuario']) && password_verify($claveUsuario, trim($usuario['claveusuario']))) {
             if ($usuario['estado'] !== 'pendiente') {
-                $_SESSION['usuario_id'] = $usuario['codUsuario'];
-                $_SESSION['tipoUsuario'] = $usuario['tipoUsuario'];
-              switch ($usuario['tipoUsuario']) {
+                $_SESSION['usuario_id'] = $usuario['codusuario'];
+                $_SESSION['tipousuario'] = $usuario['tipousuario'];
+              switch ($usuario['tipousuario']) {
                     case 'administrador':
                         header("Location: dashboard_admin.php");
                         break;
