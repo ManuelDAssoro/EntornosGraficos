@@ -4,42 +4,100 @@ require_once '../config/db.php';
 
 $errores = [];
 
+
+$modoDebug = true;
+
+function logDebug($mensaje) {
+    global $modoDebug;
+    if ($modoDebug) {
+        echo "<pre>DEBUG: $mensaje</pre>";
+    }
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombreUsuario = isset($_POST['nombreUsuario']) ? trim($_POST['nombreUsuario']) : '';
     $claveUsuario = isset($_POST['claveUsuario']) ? trim($_POST['claveUsuario']) : '';
 
+
+// Validar entrada
+if (!$nombreUsuario ) {
+    $errores[] = "Faltan el nombre de usuario ";
+    logDebug("Entrada no válida: nombreUsuario faltante.");
+}
+else {
+    logDebug("Datos recibidos: nombreUsuario = '$nombreUsuario'");}
+if (!$claveUsuario) {
+   $errores[] = "Falta la contraseña.";
+    logDebug("Entrada no válida: claveUsuario faltantes.");
+} 
+else {
+    logDebug("Datos recibidos: claveUsuario = '$claveUsuario'");}
+
+
+
     if (empty($nombreUsuario) || empty($claveUsuario)) {
         $errores[] = "Debes completar todos los campos.";
+
     } else {
         $stmt = $pdo->prepare("SELECT codUsuario, claveUsuario, tipoUsuario, estado FROM usuarios WHERE nombreUsuario = ?");
         $stmt->execute([$nombreUsuario]);
         $usuario = $stmt->fetch();
-        
-        if ($usuario && !empty($usuario['claveUsuario']) && password_verify($claveUsuario, trim($usuario['claveUsuario']))) {
+
+    logDebug("Resultado de la query:");
+    logDebug(print_r($usuario, true)); // mostrar contenido del array
+
+ // Validar existencia del usuario
+    if ($usuario && !empty($usuario['claveUsuario'])) {
+        logDebug("Usuario encontrado, verificando contraseña...");
+
+        // Verificar contraseña
+        if (password_verify($claveUsuario, trim($usuario['claveUsuario']))) {
+            logDebug("Contraseña verificada correctamente.");
+
+            // Verificar estado del usuario
             if ($usuario['estado'] !== 'pendiente') {
+                logDebug("Cuenta activa. Redireccionando según tipo de usuario...");
+
                 $_SESSION['usuario_id'] = $usuario['codUsuario'];
                 $_SESSION['tipoUsuario'] = $usuario['tipoUsuario'];
-              switch ($usuario['tipoUsuario']) {
+
+                switch ($usuario['tipoUsuario']) {
                     case 'administrador':
+                        logDebug("Redireccionando a dashboard_admin.php");
                         header("Location: dashboard_admin.php");
                         break;
                     case 'cliente':
+                        logDebug("Redireccionando a dashboard_cliente.php");
                         header("Location: dashboard_cliente.php");
                         break;
                     case 'dueno':
+                        logDebug("Redireccionando a dashboard_dueno.php");
                         header("Location: dashboard_dueno.php");
                         break;
                     default:
+                        logDebug("Redireccionando a dashboard.php (tipo desconocido)");
                         header("Location: dashboard.php");
                         break;
                 }
                 exit;
             } else {
                 $errores[] = "Tu cuenta aún no está activada.";
+                logDebug("Cuenta pendiente de activación.");
             }
         } else {
-            $errores[] = "Usuario o contraseña incorrectos.";
+            $errores[] = "Contraseña incorrecta.";
+            logDebug("Fallo en la verificación de contraseña.");
         }
+    } else {
+        $errores[] = "El usuario no existe o clave vacía.";
+        logDebug("No se encontró el usuario en la base de datos.");
+    }
+}
+
+// Mostrar errores si hay alguno
+if (!empty($errores)) {
+    foreach ($errores as $error) {
+        echo "<p style='color:red;'>ERROR: $error</p>";
     }
 }
 ?>
