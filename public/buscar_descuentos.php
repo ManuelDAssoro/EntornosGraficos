@@ -115,8 +115,8 @@ include 'layout/header.php';
                         <option value="">Todos los rubros</option>
                         <?php foreach ($rubros as $rubro): ?>
                         <option value="<?= htmlspecialchars($rubro['rubroLocal']) ?>"
-                            <?= $filtro_rubro === $rubro['rubroLocal'] ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($rubro['rubroLocal']) ?>
+                            <?= $filtro_rubro === $rubro['rubrolocal'] ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($rubro['rubrolocal']) ?>
                         </option>
                         <?php endforeach; ?>
                     </select>
@@ -172,25 +172,25 @@ include 'layout/header.php';
                         <div class="card-header bg-gradient-primary text-white">
                             <h6 class="mb-0">
                                 <i class="bi bi-shop"></i>
-                                <?= htmlspecialchars($promo['nombreLocal']) ?>
+                                <?= htmlspecialchars($promo['nombrelocal']) ?>
                             </h6>
-                            <?php if (!empty($promo['rubroLocal'])): ?>
+                            <?php if (!empty($promo['rubrolocal'])): ?>
                             <small class="opacity-75">
-                                <i class="bi bi-tag"></i> <?= htmlspecialchars($promo['rubroLocal']) ?>
+                                <i class="bi bi-tag"></i> <?= htmlspecialchars($promo['rubrolocal']) ?>
                             </small>
                             <?php endif; ?>
                         </div>
                         <div class="card-body">
                             <div class="promotion-text mb-3">
                                 <i class="bi bi-percent text-warning"></i>
-                                <?= htmlspecialchars($promo['textoPromo']) ?>
+                                <?= htmlspecialchars($promo['textopromo']) ?>
                             </div>
 
-                            <?php if (!empty($promo['ubicacionLocal'])): ?>
+                            <?php if (!empty($promo['ubicacionlocal'])): ?>
                             <div class="mb-2">
                                 <small class="text-muted">
                                     <i class="bi bi-geo-alt"></i>
-                                    <?= htmlspecialchars($promo['ubicacionLocal']) ?>
+                                    <?= htmlspecialchars($promo['ubicacionlocal']) ?>
                                 </small>
                             </div>
                             <?php endif; ?>

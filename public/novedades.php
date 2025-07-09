@@ -241,7 +241,7 @@ include 'layout/header.php';
                                     <span class="badge bg-success me-2">
                                         <i class="bi bi-percent"></i> Nueva Promoción
                                     </span>
-                                    <strong><?= htmlspecialchars($noticia['nombreLocal']) ?></strong>
+                                    <strong><?= htmlspecialchars($noticia['nombrelocal']) ?></strong>
                                 </div>
                                 <small class="text-muted">
                                     <i class="bi bi-calendar"></i>
@@ -253,22 +253,22 @@ include 'layout/header.php';
                                     <div class="col-md-8">
                                         <h5 class="card-title mb-3">
                                             <i class="bi bi-gift text-warning"></i>
-                                            <?= htmlspecialchars($noticia['textoPromo']) ?>
+                                            <?= htmlspecialchars($noticia['textopromo']) ?>
                                         </h5>
                                         <div class="news-details">
                                             <?php if (!empty($noticia['rubroLocal'])): ?>
                                                 <span class="badge bg-light text-dark me-2">
-                                                    <i class="bi bi-tag"></i> <?= htmlspecialchars($noticia['rubroLocal']) ?>
+                                                    <i class="bi bi-tag"></i> <?= htmlspecialchars($noticia['rubrolocal']) ?>
                                                 </span>
                                             <?php endif; ?>
                                             <span class="badge bg-info text-white">
                                                 <i class="bi bi-calendar-check"></i>
-                                                Hasta <?= date('d/m/Y', strtotime($noticia['fechaHastaPromo'])) ?>
+                                                Hasta <?= date('d/m/Y', strtotime($noticia['fechahastapromo'])) ?>
                                             </span>
                                         </div>
                                     </div>
                                     <div class="col-md-4 text-end">
-                                        <a href="usar_promocion.php?codigo=<?= $noticia['codPromo'] ?>" 
+                                        <a href="usar_promocion.php?codigo=<?= $noticia['codpromo'] ?>" 
                                            class="btn btn-success">
                                             <i class="bi bi-check-circle"></i> Usar Promoción
                                         </a>
@@ -295,23 +295,23 @@ include 'layout/header.php';
                                     <div class="col-md-8">
                                         <h5 class="card-title mb-3">
                                             <i class="bi bi-shop text-primary"></i>
-                                            <?= htmlspecialchars($noticia['nombreLocal']) ?>
+                                            <?= htmlspecialchars($noticia['nombrelocal']) ?>
                                         </h5>
                                         <div class="news-details">
-                                            <?php if (!empty($noticia['ubicacionLocal'])): ?>
+                                            <?php if (!empty($noticia['ubicacionlocal'])): ?>
                                                 <span class="badge bg-light text-dark me-2">
-                                                    <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($noticia['ubicacionLocal']) ?>
+                                                    <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($noticia['ubicacionlocal']) ?>
                                                 </span>
                                             <?php endif; ?>
-                                            <?php if (!empty($noticia['rubroLocal'])): ?>
+                                            <?php if (!empty($noticia['rubrolocal'])): ?>
                                                 <span class="badge bg-light text-dark">
-                                                    <i class="bi bi-tag"></i> <?= htmlspecialchars($noticia['rubroLocal']) ?>
+                                                    <i class="bi bi-tag"></i> <?= htmlspecialchars($noticia['rubrolocal']) ?>
                                                 </span>
                                             <?php endif; ?>
                                         </div>
                                     </div>
                                     <div class="col-md-4 text-end">
-                                        <a href="buscar_por_codigo.php?codigo=<?= $noticia['codLocal'] ?>" 
+                                        <a href="buscar_por_codigo.php?codigo=<?= $noticia['codlocal'] ?>" 
                                            class="btn btn-info">
                                             <i class="bi bi-eye"></i> Ver Local
                                         </a>
