@@ -2,12 +2,17 @@
 require_once '../../config/db.php';
 
 try {
-    $pdo->exec("ALTER TABLE promociones DROP CONSTRAINT IF EXISTS promociones_estadopromo_check");
-
+    $sql1 = "UPDATE promociones SET estadopromo = 'activa' WHERE estadopromo = 'aprobada'";
+    $count1 = $pdo->exec($sql1);
     
-    $pdo->exec("ALTER TABLE promociones ADD CONSTRAINT promociones_estadopromo_check 
-               CHECK (estadopromo IN ('pendiente', 'aprobada', 'activa', 'rechazada', 'inactiva'))");
-        
+    
+    $stmt = $pdo->query("SELECT estadopromo, COUNT(*) as cantidad FROM promociones GROUP BY estadopromo");
+    echo "<pre>";
+    foreach ($stmt as $row) {
+        echo "Estado: " . $row['estadopromo'] . " - Cantidad: " . $row['cantidad'] . "\n";
+    }
+    echo "</pre>";
+    
 } catch (Exception $e) {
     echo "<p><strong>❌ Error:</strong> " . htmlspecialchars($e->getMessage()) . "</p>";
 }

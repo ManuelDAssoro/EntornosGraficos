@@ -30,7 +30,17 @@ function requireRoles(array $roles) {
     }
 }
 
-$_SESSION['tipoUsuario'] = $usuario['tipousuario'];
-$_SESSION['categoriaCliente'] = $usuario['categoriacliente'] ?? 'inicial';
 
+function getUserInfo() {
+    if (isLoggedIn()) {
+        return [
+        'codusuario' => $_SESSION['usuario_id'] ?? null,
+        'tipousuario' => $_SESSION['tipoUsuario'] ?? null,
+        'categoriacliente' => $_SESSION['categoriaCliente'] ?? 'inicial'
+    ];
+}
+    return null;   
+    
+}
+$usuario = getUserInfo();
 $tipoUsuario = $_SESSION['tipoUsuario'] ?? null;

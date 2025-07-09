@@ -4,10 +4,10 @@ require_once '../config/db.php';
 require_once 'categoria_functions.php';
 
 $usuario_logueado = isLoggedIn();
-$categoria_cliente = 'Inicial';
+$categoria_cliente = 'inicial'; 
 
 if ($usuario_logueado) {
-    $categoria_cliente = $_SESSION['categoriaCliente'] ?? 'Inicial';
+    $categoria_cliente = $_SESSION['categoriaCliente'] ?? 'inicial';
 }
 
 $filtro_rubro = $_GET['rubro'] ?? '';
@@ -202,18 +202,18 @@ include 'layout/header.php';
                                 </small>
                             </div>
 
-                            <?php if (!empty($promo['diasSemana'])): ?>
+                            <?php if (!empty($promo['diassemana'])): ?>
                             <div class="days-available mb-3">
                                 <small class="text-muted">
                                     <i class="bi bi-clock"></i>
-                                    Días: <?= htmlspecialchars($promo['diasSemana']) ?>
+                                    Días: <?= htmlspecialchars($promo['diassemana'] ?? '') ?>
                                 </small>
                             </div>
                             <?php endif; ?>
                         </div>
                         <div class="card-footer bg-transparent">
                             <?php if ($usuario_logueado): ?>
-                            <a href="usar_promocion.php?codigo=<?= $promo['codPromo'] ?>"
+                            <a href="usar_promocion.php?codigo=<?= $promo['codpromo'] ?>"
                                 class="btn btn-success w-100">
                                 <i class="bi bi-check-circle"></i> Usar Promoción
                             </a>
