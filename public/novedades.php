@@ -68,6 +68,8 @@ try {
     $stmt = $pdo->prepare("
         SELECT l.*, 'nuevo_local' as tipo_noticia, CURRENT_DATE as fecha_noticia
         FROM locales l
+        LEFT JOIN promociones p ON l.codLocal = p.codLocal 
+            AND p.estadoPromo = 'activa'
         ORDER BY l.codLocal DESC
         LIMIT 5
     ");
