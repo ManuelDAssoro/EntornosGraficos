@@ -167,15 +167,15 @@ function getCategoryProgress($codUsuario, $pdo) {
 
 function getCategoriaFilterSQL($categoriaCliente, $tableAlias = 'p') {
     $column = ($tableAlias ? $tableAlias . '.' : '') . 'categoriaCliente';
-    
+    $columnLower = "LOWER($column)";
     switch (strtolower($categoriaCliente)) {
         case 'premium':
-            return "($column IS NULL OR $column = '' OR $column IN ('inicial', 'medium', 'premium'))";
+            return "($column IS NULL OR $column = '' OR $columnLower IN ('inicial', 'medium', 'premium'))";
         case 'medium':
-            return "($column IS NULL OR $column = '' OR $column IN ('inicial', 'medium'))";
+            return "($column IS NULL OR $column = '' OR $columnLower IN ('inicial', 'medium'))";
         case 'inicial':
         default:
-            return "($column IS NULL OR $column = '' OR $column = 'inicial')";
+            return "($column IS NULL OR $column = '' OR $columnLower = 'inicial')";
     }
 }
 
