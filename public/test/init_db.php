@@ -61,7 +61,7 @@ try {
         fechaHastaPromo DATE NOT NULL,
         categoriaCliente VARCHAR(20) NOT NULL CHECK (categoriaCliente IN ('inicial', 'medium', 'premium')),
         diasSemana VARCHAR(20) NOT NULL,
-        estadoPromo VARCHAR(20) DEFAULT 'pendiente' CHECK (estadoPromo IN ('pendiente', 'aprobada', 'denegada')),
+        estadoPromo VARCHAR(20) DEFAULT 'pendiente' CHECK (estadoPromo IN ('pendiente', 'activa', 'denegada')),
         codLocal INTEGER REFERENCES locales(codLocal)
     )";
     $pdo->exec($sql);
@@ -112,14 +112,18 @@ try {
     // Insertar algunas promociones de prueba
     $stmt = $pdo->prepare("INSERT INTO promociones (textoPromo, fechaDesdePromo, fechaHastaPromo, categoriaCliente, diasSemana, estadoPromo, codLocal) VALUES (?, ?, ?, ?, ?, ?, ?)");
     $promociones = [
-        ['20% descuento en toda la tienda', '2025-07-01', '2025-07-31', 'inicial', 'Lunes,Martes', 'aprobada', 1],
-        ['Oferta especial clientes Medium', '2025-07-01', '2025-08-15', 'medium', 'Miércoles,Jueves', 'aprobada', 1],
+        ['20% descuento en toda la tienda', '2025-07-01', '2025-07-31', 'inicial', 'Lunes,Martes', 'activa', 1],
+        ['Oferta especial clientes Medium', '2025-07-01', '2025-08-15', 'medium', 'Miércoles,Jueves', 'activa', 1],
         ['Descuento VIP clientes Premium', '2025-07-01', '2025-12-31', 'premium', 'Viernes,Sábado', 'pendiente', 1]
     ];
-    
+    // Cambiar estado de promociones aprobadas a activas
+    $sql = "UPDATE promociones SET estadoPromo = 'activa' WHERE estadoPromo = 'aprobada'";
+    $count = $pdo->exec($sql);
+
     foreach ($promociones as $promo) {
         $stmt->execute($promo);
     }
+    
     echo "✅ Promociones de prueba creadas<br>";
     
     // Insertar algunas novedades de prueba
