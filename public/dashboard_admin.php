@@ -135,7 +135,7 @@ include 'layout/header.php';
                                         <div class="flex-grow-1">
                                             <h6 class="mb-1"><?= htmlspecialchars($local['nombrelocal']) ?></h6>
                                             <small class="text-muted">
-                                                <?= $local['rubroLocal'] ? htmlspecialchars($local['rubrolocal']) : 'Sin rubro' ?>
+                                                <?= $local['rubrolocal'] ? htmlspecialchars($local['rubrolocal']) : 'Sin rubro' ?>
                                                 <?php if ($local['nombreusuario']): ?>
                                                     • Dueño: <?= htmlspecialchars($local['nombreusuario']) ?>
                                                 <?php endif; ?>
