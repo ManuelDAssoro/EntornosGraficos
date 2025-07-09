@@ -47,11 +47,11 @@ else {
     logDebug(print_r($usuario, true)); // mostrar contenido del array
 
  // Validar existencia del usuario
-    if ($usuario && !empty($usuario['claveUsuario'])) {
+    if ($usuario && !empty($usuario['claveusuario'])) {
         logDebug("Usuario encontrado, verificando contraseña...");
 
         // Verificar contraseña
-        if (password_verify($claveUsuario, trim($usuario['claveUsuario']))) {
+        if (password_verify($claveUsuario, trim($usuario['claveusuario']))) {
             logDebug("Contraseña verificada correctamente.");
 
             // Verificar estado del usuario
