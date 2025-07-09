@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($usuario && !empty($usuario['claveusuario']) && password_verify($claveUsuario, trim($usuario['claveusuario']))) {
             if ($usuario['estado'] !== 'pendiente') {
                 $_SESSION['usuario_id'] = $usuario['codusuario'];
-                $_SESSION['tipousuario'] = $usuario['tipousuario'];
+                $_SESSION['tipoUsuario'] = $usuario['tipousuario'];
               switch ($usuario['tipousuario']) {
                     case 'administrador':
                         header("Location: dashboard_admin.php");
