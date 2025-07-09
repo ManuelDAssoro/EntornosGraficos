@@ -93,6 +93,7 @@ else {
         logDebug("No se encontró el usuario en la base de datos.");
     }
 }
+}
 
 // Mostrar errores si hay alguno
 if (!empty($errores)) {
