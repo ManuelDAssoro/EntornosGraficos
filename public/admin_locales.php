@@ -144,18 +144,18 @@ include 'layout/header.php';
                             <?php foreach ($locales as $local): ?>
                                 <tr>
                                     <td>
-                                        <strong><?= htmlspecialchars($local['nombreLocal']) ?></strong>
+                                        <strong><?= htmlspecialchars($local['nombrelocal']) ?></strong>
                                     </td>
                                     <td>
-                                        <span class="text-muted"><?= htmlspecialchars($local['ubicacionLocal']) ?></span>
+                                        <span class="text-muted"><?= htmlspecialchars($local['ubicacionlocal']) ?></span>
                                     </td>
                                     <td>
-                                        <span class="badge bg-info"><?= htmlspecialchars($local['rubroLocal']) ?></span>
+                                        <span class="badge bg-info"><?= htmlspecialchars($local['rubrolocal']) ?></span>
                                     </td>
                                     <td>
-                                        <?php if ($local['nombreUsuario']): ?>
+                                        <?php if ($local['nombreusuario']): ?>
                                             <i class="bi bi-person-check text-success"></i> 
-                                            <?= htmlspecialchars($local['nombreUsuario']) ?>
+                                            <?= htmlspecialchars($local['nombreusuario']) ?>
                                         <?php else: ?>
                                             <span class="text-muted">
                                                 <i class="bi bi-person-x"></i> Sin asignar
@@ -164,12 +164,12 @@ include 'layout/header.php';
                                     </td>
                                     <td class="text-center">
                                         <div class="btn-group" role="group">
-                                            <a href="local_editar.php?id=<?= $local['codLocal'] ?>" 
+                                            <a href="local_editar.php?id=<?= $local['codlocal'] ?>" 
                                                class="btn btn-sm btn-warning btn-action" 
                                                title="Editar local">
                                                 <i class="bi bi-pencil"></i> Editar
                                             </a>
-                                            <a href="local_eliminar.php?id=<?= $local['codLocal'] ?>" 
+                                            <a href="local_eliminar.php?id=<?= $local['codlocal'] ?>" 
                                                class="btn btn-sm btn-danger btn-action" 
                                                title="Eliminar local">
                                                 <i class="bi bi-trash"></i> Eliminar
