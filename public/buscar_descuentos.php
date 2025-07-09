@@ -114,7 +114,7 @@ include 'layout/header.php';
                     <select class="form-select" id="rubro" name="rubro">
                         <option value="">Todos los rubros</option>
                         <?php foreach ($rubros as $rubro): ?>
-                        <option value="<?= htmlspecialchars($rubro['rubroLocal']) ?>"
+                        <option value="<?= htmlspecialchars($rubro['rubrolocal']) ?>"
                             <?= $filtro_rubro === $rubro['rubrolocal'] ? 'selected' : '' ?>>
                             <?= htmlspecialchars($rubro['rubrolocal']) ?>
                         </option>
@@ -198,7 +198,7 @@ include 'layout/header.php';
                             <div class="promotion-dates mb-3">
                                 <small class="text-muted">
                                     <i class="bi bi-calendar-check"></i>
-                                    Válido hasta: <?= date('d/m/Y', strtotime($promo['fechaHastaPromo'])) ?>
+                                    Válido hasta: <?= date('d/m/Y', strtotime($promo['fechahastapromo'])) ?>
                                 </small>
                             </div>
 
