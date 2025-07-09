@@ -24,16 +24,16 @@ $duenosStmt = $pdo->query("SELECT codUsuario, nombreUsuario FROM usuarios WHERE 
 $duenos = $duenosStmt->fetchAll();
 
 // Inicializar variables con datos actuales
-$nombreLocal = $local['nombreLocal'];
-$ubicacionLocal = $local['ubicacionLocal'];
-$rubroLocal = $local['rubroLocal'];
-$codUsuario = $local['codUsuario'];
+$nombreLocal = $local['nombrelocal'];
+$ubicacionLocal = $local['ubicacionlocal'];
+$rubroLocal = $local['rubrolocal'];
+$codUsuario = $local['codusuario'];
 
 $errores = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Capturar datos del form
-    $nombreLocal = trim($_POST['nombreLocal'] ?? '');
+    $nombreLocal = trim($_POST['nombrelocal'] ?? '');
     $ubicacionLocal = trim($_POST['ubicacionLocal'] ?? '');
     $rubroLocal = trim($_POST['rubroLocal'] ?? '');
     $codUsuario = trim($_POST['codUsuario'] ?? '');
@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="d-flex align-items-center">
                 <i class="fas fa-info-circle text-warning fa-2x me-3"></i>
                 <div>
-                    <h5 class="mb-1">Editando: <?= htmlspecialchars($local['nombreLocal']) ?></h5>
+                    <h5 class="mb-1">Editando: <?= htmlspecialchars($local['nombrelocal']) ?></h5>
                     <small class="text-muted">ID del Local: #<?= $codLocal ?></small>
                 </div>
             </div>
@@ -193,8 +193,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <select name="codUsuario" id="codUsuario" class="form-select">
                             <option value="">-- Sin asignar --</option>
                             <?php foreach ($duenos as $dueno): ?>
-                                <option value="<?= $dueno['codUsuario'] ?>" <?= $codUsuario == $dueno['codUsuario'] ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($dueno['nombreUsuario']) ?>
+                                <option value="<?= $dueno['codusuario'] ?>" <?= $codUsuario == $dueno['codusuario'] ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($dueno['nombreusuario']) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>

@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="d-flex align-items-center justify-content-center">
                     <i class="fas fa-store text-danger me-3 fa-2x"></i>
                     <div>
-                        <h4 class="mb-0 danger-text"><?= htmlspecialchars($local['nombreLocal']) ?></h4>
+                        <h4 class="mb-0 danger-text"><?= htmlspecialchars($local['nombrelocal']) ?></h4>
                         <small class="text-muted">ID: #<?= $codLocal ?></small>
                     </div>
                 </div>
