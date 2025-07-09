@@ -14,18 +14,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $pdo->prepare("SELECT codUsuario, claveUsuario, tipoUsuario, estado FROM usuarios WHERE nombreUsuario = ?");
         $stmt->execute([$nombreUsuario]);
         $usuario = $stmt->fetch();
-        
+        var_dump($usuario);
         print_r($usuario);
-        echo "<pre>";
-        foreach ($stmt as $row) {
-            print_r($row);
-        }
-        echo "</pre>";
-        if ($usuario && !empty($usuario['claveusuario']) && password_verify($claveUsuario, trim($usuario['claveusuario']))) {
+
+        if ($usuario && !empty($usuario['claveUsuario']) && password_verify($claveUsuario, trim($usuario['claveUsuario']))) {
             if ($usuario['estado'] !== 'pendiente') {
-                $_SESSION['usuario_id'] = $usuario['codusuario'];
-                $_SESSION['tipoUsuario'] = $usuario['tipousuario'];
-              switch ($usuario['tipousuario']) {
+                $_SESSION['usuario_id'] = $usuario['codUsuario'];
+                $_SESSION['tipoUsuario'] = $usuario['tipoUsuario'];
+              switch ($usuario['tipoUsuario']) {
                     case 'administrador':
                         header("Location: dashboard_admin.php");
                         break;
