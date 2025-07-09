@@ -58,8 +58,8 @@ else {
             if ($usuario['estado'] !== 'pendiente') {
                 logDebug("Cuenta activa. Redireccionando según tipo de usuario...");
 
-                $_SESSION['usuario_id'] = $usuario['codUsuario'];
-                $_SESSION['tipoUsuario'] = $usuario['tipoUsuario'];
+                $_SESSION['usuario_id'] = $usuario['codusuario'];
+                $_SESSION['tipoUsuario'] = $usuario['tipousuario'];
 
                 switch ($usuario['tipoUsuario']) {
                     case 'administrador':
