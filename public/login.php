@@ -1,4 +1,5 @@
 <?php
+ob_start(); 
 session_start();
 require_once '../config/db.php';
 
@@ -101,6 +102,7 @@ if (!empty($errores)) {
         echo "<p style='color:red;'>ERROR: $error</p>";
     }
 }
+ob_end_flush();
 ?>
 
 <!DOCTYPE html>
