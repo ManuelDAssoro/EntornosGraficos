@@ -10,13 +10,6 @@ if ($usuario_logueado) {
     $categoria_cliente = strtolower($_SESSION['categoriaCliente'] ?? 'inicial');
 }
 
-function canAccessNews($userCategory, $newsCategory) {
-    $hierarchy = ['unlogged' => 1, 'inicial' => 2, 'medium' => 3, 'premium' => 4];
-    $userLevel = $hierarchy[$userCategory] ?? 1;
-    $newsLevel = $hierarchy[$newsCategory] ?? 1;
-    return $userLevel >= $newsLevel;
-}
-
 $noticias = [];
 
 try {
@@ -49,15 +42,15 @@ try {
     }
     
     $stmt = $pdo->prepare("
-        SELECT p.*, l.nombreLocal, l.rubroLocal,
+        SELECT p.*, l.nombrelocal, l.rubrolocal,
                'promocion' as tipo_noticia,
-               p.fechaDesdePromo as fecha_noticia
+               p.fechadesdepromo as fecha_noticia
         FROM promociones p
-        JOIN locales l ON p.codLocal = l.codLocal
-        WHERE p.estadoPromo = 'activa'
-        AND p.fechaDesdePromo >= (CURRENT_DATE - INTERVAL '30 days')
+        JOIN locales l ON p.codlocal = l.codlocal
+        WHERE p.estadopromo = 'activa'
+        AND p.fechadesdepromo >= (CURRENT_DATE - INTERVAL '30 days')
         AND $categoriaFilter
-        ORDER BY p.fechaDesdePromo DESC
+        ORDER BY p.fechadesdepromo DESC
         LIMIT 10
     ");
     $stmt->execute();
@@ -74,9 +67,9 @@ try {
     $stmt = $pdo->prepare("
         SELECT l.*, 'nuevo_local' as tipo_noticia, CURRENT_DATE as fecha_noticia
         FROM locales l
-        LEFT JOIN promociones p ON l.codLocal = p.codLocal 
-            AND p.estadoPromo = 'activa'
-        ORDER BY l.codLocal DESC
+        LEFT JOIN promociones p ON l.codlocal = p.codlocal 
+            AND p.estadopromo = 'activa'
+        ORDER BY l.codlocal DESC
         LIMIT 5
     ");
     $stmt->execute();
