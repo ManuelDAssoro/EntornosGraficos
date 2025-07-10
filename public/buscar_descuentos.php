@@ -22,35 +22,35 @@ if ($usuario_logueado) {
 } 
 
 $query = "
-    SELECT p.*, l.nombreLocal, l.ubicacionLocal, l.rubroLocal
+    SELECT p.*, l.nombrelocal, l.ubicacionlocal, l.rubrolocal
     FROM promociones p
-    JOIN locales l ON p.codLocal = l.codLocal
-    WHERE p.estadoPromo = 'activa'
-    AND (p.fechaDesdePromo <= CURRENT_DATE AND p.fechaHastaPromo >= CURRENT_DATE)
+    JOIN locales l ON p.codlocal = l.codlocal
+    WHERE p.estadopromo = 'activa'
+    AND (p.fechadesdepromo <= CURRENT_DATE AND p.fechahastapromo >= CURRENT_DATE)
     AND $categoriaFilter
 ";
 
 $params = [];
 
 if (!empty($filtro_rubro)) {
-    $query .= " AND l.rubroLocal ILIKE ?";
+    $query .= " AND l.rubrolocal ILIKE ?";
     $params[] = "%$filtro_rubro%";
 }
 
 if (!empty($filtro_busqueda)) {
-    $query .= " AND (l.nombreLocal ILIKE ? OR p.textoPromo ILIKE ?)";
+    $query .= " AND (l.nombrelocal ILIKE ? OR p.textopromo ILIKE ?)";
 
     $params[] = "%$filtro_busqueda%";
     $params[] = "%$filtro_busqueda%";
 }
 
-$query .= " ORDER BY l.nombreLocal, p.fechaHastaPromo";
+$query .= " ORDER BY l.nombrelocal, p.fechahastapromo";
 
 $stmt = $pdo->prepare($query);
 $stmt->execute($params);
 $promociones = $stmt->fetchAll();
 
-$stmt = $pdo->query("SELECT DISTINCT rubroLocal FROM locales WHERE rubroLocal IS NOT NULL AND rubroLocal != '' ORDER BY rubroLocal");
+$stmt = $pdo->query("SELECT DISTINCT rubrolocal FROM locales WHERE rubrolocal IS NOT NULL AND rubrolocal != '' ORDER BY rubrolocal");
 $rubros = $stmt->fetchAll();
 
 $page_title = 'Buscar Descuentos - Mi Shopping';
@@ -212,7 +212,7 @@ include 'layout/header.php';
                             <div class="days-available mb-3">
                                 <small class="text-muted">
                                     <i class="bi bi-clock"></i>
-                                    Días: <?= htmlspecialchars($promo['diassemana'] ?? '') ?>
+                                    Días: <?= htmlspecialchars($promo['diassemana']) ?>
                                 </small>
                             </div>
                             <?php endif; ?>

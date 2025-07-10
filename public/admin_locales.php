@@ -27,14 +27,14 @@ if ($rubro !== '') {
 }
 
 $sql = "
-    SELECT l.*, u.nombreUsuario
+    SELECT l.*, u.nombreusuario
     FROM locales l
-    LEFT JOIN usuarios u ON l.codUsuario = u.codUsuario
+    LEFT JOIN usuarios u ON l.codusuario = u.codusuario
 ";
 if (!empty($where)) {
     $sql .= " WHERE " . implode(" AND ", $where);
 }
-$sql .= " ORDER BY l.nombreLocal ASC";
+$sql .= " ORDER BY l.nombrelocal ASC";
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);

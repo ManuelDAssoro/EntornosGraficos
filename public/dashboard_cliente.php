@@ -6,8 +6,7 @@ require_once 'categoria_functions.php';
 
 $codUsuario = $_SESSION['usuario_id'];
 
-
-$stmt = $pdo->prepare("SELECT nombreUsuario, categoriaCliente FROM usuarios WHERE codUsuario = ?");
+$stmt = $pdo->prepare("SELECT nombreusuario, categoriacliente FROM usuarios WHERE codusuario = ?");
 $stmt->execute([$codUsuario]);
 $usuario = $stmt->fetch();
 $nombreUsuario = $usuario['nombreusuario'] ?? 'Usuario';
@@ -44,18 +43,17 @@ try {
 
 $promocionesDisponibles = [];
 try {
-
     $categoriaFilter = getCategoriaFilterSQL($categoriaCliente, 'p');
     
     $stmt = $pdo->prepare("
-        SELECT p.*, l.nombreLocal, l.ubicacionLocal as ubicacion
+        SELECT p.*, l.nombrelocal, l.ubicacionlocal as ubicacion
         FROM promociones p
-        JOIN locales l ON p.codLocal = l.codLocal
-        WHERE p.estadoPromo = 'activa'
-        AND p.fechaDesdePromo <= CURRENT_DATE
-        AND p.fechaHastaPromo >= CURRENT_DATE
+        JOIN locales l ON p.codlocal = l.codlocal
+        WHERE p.estadopromo = 'activa'
+        AND p.fechadesdepromo <= CURRENT_DATE
+        AND p.fechahastapromo >= CURRENT_DATE
         AND $categoriaFilter
-        ORDER BY p.fechaHastaPromo ASC
+        ORDER BY p.fechahastapromo ASC
         LIMIT 6
     ");
     $stmt->execute();
@@ -228,7 +226,7 @@ try {
                             </h6>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title"><?= htmlspecialchars($promo['textopromo'] ?? '') ?></h5>
+                            <h5 class="card-title"><?= htmlspecialchars($promo['textopromo']) ?></h5>
                             <p class="card-text">
                                 <small class="text-muted">
                                     <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($promo['ubicacion']) ?>
@@ -244,12 +242,11 @@ try {
                                     <i class="bi bi-calendar-week"></i> Días: <?= $promo['diassemana'] ?>
                                 </small>
                             </p>
-                            <span class="badge bg-info"><?= ucfirst($promo['categoriacliente'] ?? '') ?></span>
+                            <span class="badge bg-info"><?= ucfirst($promo['categoriacliente']) ?></span>
                         </div>
                         <div class="card-footer">
                             <a href="usar_promocion.php?id=<?= $promo['codpromo'] ?>"
-                               class="btn btn-primary btn-sm w-100"
-                               onclick="usarPromocion(<?= $promo['codpromo'] ?>)">
+                               class="btn btn-primary btn-sm w-100">
                                 <i class="bi bi-check-circle"></i> Usar Promoción
                             </a>
                         </div>
@@ -290,15 +287,12 @@ try {
                         <tbody>
                             <?php foreach ($promocionesUsadas as $usado): ?>
                                 <tr>
-                                    <td><?= htmlspecialchars($usado['textopromo'] ?? '') ?></td>
-                                    <td>
-                                        <i class="bi bi-shop"></i> <?= htmlspecialchars($usado['nombrelocal'] ?? '') ?>
-                                        <br><small class="text-muted"><?= htmlspecialchars($usado['ubicacion']) ?></small>
+                                    <td><?= htmlspecialchars($usado['textopromo']) ?></td>
+                                    <td><?= htmlspecialchars($usado['nombrelocal']) ?><br>
+                                        <small class="text-muted"><?= htmlspecialchars($usado['ubicacion']) ?></small>
                                     </td>
-                                    <td><?= date('d/m/Y H:i', strtotime($usado['fechauso'] ?? '')) ?></td>
-                                    <td>
-                                        <span class="badge bg-success"><?= ucfirst($usado['estado'] ?? '') ?></span>
-                                    </td>
+                                    <td><?= date('d/m/Y H:i', strtotime($usado['fechauso'])) ?></td>
+                                    <td><span class="badge bg-success"><?= ucfirst($usado['estado']) ?></span></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>

@@ -40,7 +40,7 @@ else {
         $errores[] = "Debes completar todos los campos.";
 
     } else {
-        $stmt = $pdo->prepare("SELECT codUsuario, claveUsuario, tipoUsuario, estado FROM usuarios WHERE nombreUsuario = ?");
+        $stmt = $pdo->prepare("SELECT codusuario, claveusuario, tipousuario, estado FROM usuarios WHERE nombreusuario = ?");
         $stmt->execute([$nombreUsuario]);
         $usuario = $stmt->fetch();
 
@@ -69,19 +69,15 @@ else {
 
             switch ($usuario['tipousuario']) {
                 case 'administrador':
-                    logDebug("Redireccionando a dashboard_admin.php");
                     header("Location: dashboard_admin.php");
                     break;
                 case 'cliente':
-                    logDebug("Redireccionando a dashboard_cliente.php");
                     header("Location: dashboard_cliente.php");
                     break;
                 case 'dueno':
-                    logDebug("Redireccionando a dashboard_dueno.php");
                     header("Location: dashboard_dueno.php");
                     break;
                 default:
-                    logDebug("Redireccionando a dashboard.php (tipo desconocido)");
                     header("Location: dashboard.php");
                     break;
             }

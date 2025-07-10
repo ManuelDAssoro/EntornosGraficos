@@ -3,7 +3,7 @@ require_once 'auth.php';
 requireRole('administrador');
 require_once '../config/db.php';
 
-$stmt = $pdo->query("SELECT codUsuario, nombreUsuario FROM usuarios WHERE tipoUsuario = 'dueno' ORDER BY nombreUsuario");
+$stmt = $pdo->query("SELECT codusuario, nombreusuario FROM usuarios WHERE tipousuario = 'dueno' ORDER BY nombreusuario");
 $duenos = $stmt->fetchAll();
 
 $errores = [];
@@ -136,8 +136,8 @@ include 'layout/header.php';
                             <option value="">-- Sin asignar --</option>
                             <?php foreach ($duenos as $dueno): ?>
                                 <option value="<?= $dueno['codusuario'] ?>" <?= $codUsuario == $dueno['codusuario'] ? 'selected' : '' ?>>
-    <?= htmlspecialchars($dueno['nombreusuario']) ?>
-</option>
+                                    <?= htmlspecialchars($dueno['nombreusuario']) ?>
+                                </option>
                             <?php endforeach; ?>
                         </select>
                     </div>

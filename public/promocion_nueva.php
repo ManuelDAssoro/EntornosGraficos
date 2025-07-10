@@ -8,7 +8,7 @@ $custom_css = 'promocion-nueva.css';
 
 $codUsuario = $_SESSION['usuario_id'];
 
-$stmt = $pdo->prepare("SELECT codLocal FROM locales WHERE codUsuario = ?");
+$stmt = $pdo->prepare("SELECT codlocal FROM locales WHERE codusuario = ?");
 $stmt->execute([$codUsuario]);
 $local = $stmt->fetch();
 
@@ -18,16 +18,16 @@ if (!$local) {
 $codLocal = $local['codlocal'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $texto = trim($_POST['textoPromo'] ?? '');
-    $desde = $_POST['fechaDesdePromo'] ?? '';
-    $hasta = $_POST['fechaHastaPromo'] ?? '';
-    $categoria = $_POST['categoriaCliente'] ?? '';
+    $texto = trim($_POST['textopromo'] ?? '');
+    $desde = $_POST['fechadesdepromo'] ?? '';
+    $hasta = $_POST['fechahastapromo'] ?? '';
+    $categoria = $_POST['categoriacliente'] ?? '';
     $dias = $_POST['diasSemana'] ?? [];
 
     if ($texto && $desde && $hasta && $categoria && count($dias) > 0) {
         $diasSemana = implode(',', $dias);
         $stmt = $pdo->prepare("INSERT INTO promociones 
-            (textoPromo, fechaDesdePromo, fechaHastaPromo, categoriaCliente, diasSemana, estadoPromo, codLocal)
+            (textopromo, fechadesdepromo, fechahastapromo, categoriacliente, diassemana, estadopromo, codlocal)
             VALUES (?, ?, ?, ?, ?, 'pendiente', ?)");
         $stmt->execute([$texto, $desde, $hasta, $categoria, $diasSemana, $codLocal]);
 

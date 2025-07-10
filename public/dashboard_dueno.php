@@ -5,11 +5,11 @@ require_once '../config/db.php';
 
 $codUsuario = $_SESSION['usuario_id'];
 
-$stmt = $pdo->prepare("SELECT nombreUsuario, estado FROM usuarios WHERE codUsuario = ?");
+$stmt = $pdo->prepare("SELECT nombreusuario, estado FROM usuarios WHERE codusuario = ?");
 $stmt->execute([$codUsuario]);
 $usuario = $stmt->fetch();
 
-$stmt = $pdo->prepare("SELECT l.*, u.nombreUsuario as dueno_nombre FROM locales l LEFT JOIN usuarios u ON l.codUsuario = u.codUsuario WHERE l.codUsuario = ?");
+$stmt = $pdo->prepare("SELECT l.*, u.nombreusuario as dueno_nombre FROM locales l LEFT JOIN usuarios u ON l.codusuario = u.codusuario WHERE l.codusuario = ?");
 $stmt->execute([$codUsuario]);
 $local = $stmt->fetch();
 
@@ -23,10 +23,10 @@ if ($hasLocal) {
         $stmt = $pdo->prepare("
             SELECT p.*, 
                    (SELECT COUNT(*) FROM uso_promociones u 
-                    WHERE u.codPromo = p.codPromo AND u.estado = 'usado') AS totalUsos
+                    WHERE u.codpromo = p.codpromo AND u.estado = 'aceptada') AS totalusos
             FROM promociones p
-            WHERE p.codLocal = ?
-            ORDER BY p.fechaDesdePromo DESC
+            WHERE p.codlocal = ?
+            ORDER BY p.fechadesdepromo DESC
         ");
         $stmt->execute([$codLocal]);
         $promociones = $stmt->fetchAll();
@@ -74,7 +74,7 @@ $mensajes = [
             </div>
             <div class="navbar-nav">
                 <span class="navbar-text">
-                    <i class="bi bi-person-circle"></i> <?= htmlspecialchars($usuario['nombreUsuario']) ?>
+                    <i class="bi bi-person-circle"></i> <?= htmlspecialchars($usuario['nombreusuario']) ?>
                 </span>
                 <a class="nav-link" href="logout.php">
                     <i class="bi bi-box-arrow-right"></i> Salir
@@ -84,7 +84,126 @@ $mensajes = [
     </div>
 </nav>
 
-<?php if (!$hasLocal): ?>
+<?php if ($hasLocal): ?>
+<div class="container mt-4">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1><i class="bi bi-megaphone"></i> Mi Local: <?= htmlspecialchars($local['nombrelocal']) ?></h1>
+                <p class="text-muted mb-0">
+                    <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($local['ubicacionlocal']) ?>
+                    <?php if ($local['rubrolocal']): ?>
+                        | <i class="bi bi-tag"></i> <?= htmlspecialchars($local['rubrolocal']) ?>
+                    <?php endif; ?>
+                </p>
+            </div>
+            <div class="col-md-4 text-end">
+                <a href="promocion_nueva.php" class="btn btn-primary btn-lg">
+                    <i class="bi bi-plus-circle"></i> Nueva Promoción
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <?php if (isset($mensajes[$mensaje])): ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> <?= $mensajes[$mensaje] ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <?php endif; ?>
+
+    <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="stats-card">
+                <div class="stats-icon text-primary">
+                    <i class="bi bi-megaphone"></i>
+                </div>
+                <div class="stats-number"><?= count($promociones) ?></div>
+                <div class="stats-label">Promociones Activas</div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="stats-card">
+                <div class="stats-icon text-success">
+                    <i class="bi bi-people"></i>
+                </div>
+                <div class="stats-number">
+                    <?= array_sum(array_column($promociones, 'totalusos')) ?>
+                </div>
+                <div class="stats-label">Total de Usos</div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="stats-card">
+                <div class="stats-icon text-warning">
+                    <i class="bi bi-calendar-check"></i>
+                </div>
+                <div class="stats-number">
+                    <?= count(array_filter($promociones, function($p) { return $p['estadopromo'] === 'activa'; })) ?>
+                </div>
+                <div class="stats-label">Promociones Vigentes</div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="stats-card">
+                <div class="stats-icon text-info">
+                    <i class="bi bi-shop"></i>
+                </div>
+                <div class="stats-number">1</div>
+                <div class="stats-label">Local Asignado</div>
+            </div>
+        </div>
+    </div>
+
+    <?php if (count($promociones) > 0): ?>
+    <div class="table-responsive">
+        <table class="table table-bordered align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Descripción</th>
+                    <th>Vigencia</th>
+                    <th>Días</th>
+                    <th>Categoría</th>
+                    <th>Estado</th>
+                    <th>Usos</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($promociones as $promo): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($promo['textopromo']) ?></td>
+                        <td><?= htmlspecialchars($promo['fechadesdepromo']) ?> a <?= htmlspecialchars($promo['fechahastapromo']) ?></td>
+                        <td><?= $promo['diassemana'] ?></td>
+                        <td><?= $promo['categoriacliente'] ?></td>
+                        <td><span class="badge bg-info"><?= ucfirst($promo['estadopromo']) ?></span></td>
+                        <td><span class="badge bg-success"><?= $promo['totalusos'] ?></span></td>
+                        <td>
+                            <a href="promocion_eliminar.php?id=<?= $promo['codpromo'] ?>"
+                               onclick="return confirm('¿Eliminar esta promoción?')"
+                               class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach ?>
+            </tbody>
+        </table>
+    </div>
+    <?php else: ?>
+    <div class="empty-state">
+        <div class="text-center py-5">
+            <i class="bi bi-megaphone display-1 text-muted"></i>
+            <h4 class="mt-3">No hay promociones creadas</h4>
+            <p class="text-muted">Comienza creando tu primera promoción para atraer clientes a tu local.</p>
+            <a href="promocion_nueva.php" class="btn btn-primary btn-lg">
+                <i class="bi bi-plus-circle"></i> Crear Primera Promoción
+            </a>
+        </div>
+    </div>
+    <?php endif; ?>
+</div>
+<?php else: ?>
 <div class="container-fluid p-0">
     <div class="row min-vh-100 g-0">
         <div class="col-12">
@@ -224,125 +343,6 @@ $mensajes = [
             </div>
         </div>
     </div>
-</div>
-
-<?php else: ?>
-<div class="container mt-4">
-    <div class="page-header">
-        <div class="row align-items-center">
-            <div class="col-md-8">
-                <h1><i class="bi bi-megaphone"></i> Mi Local: <?= htmlspecialchars($local['nombrelocal'] ?? '') ?></h1>
-                <p class="text-muted mb-0">
-                    <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($local['ubicacionlocal'] ?? '') ?>
-                    <?php if ($local['rubrolocal']): ?>
-                        | <i class="bi bi-tag"></i> <?= htmlspecialchars($local['rubrolocal'] ?? '') ?>
-                    <?php endif; ?>
-                </p>
-            </div>
-            <div class="col-md-4 text-end">
-                <a href="promocion_nueva.php" class="btn btn-primary btn-lg">
-                    <i class="bi bi-plus-circle"></i> Nueva Promoción
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <?php if (isset($mensajes[$mensaje])): ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle"></i> <?= $mensajes[$mensaje] ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    <?php endif; ?>
-
-    <div class="row mb-4">
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="stats-card">
-                <div class="stats-icon text-primary">
-                    <i class="bi bi-megaphone"></i>
-                </div>
-                <div class="stats-number"><?= count($promociones) ?></div>
-                <div class="stats-label">Promociones Activas</div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="stats-card">
-                <div class="stats-icon text-success">
-                    <i class="bi bi-people"></i>
-                </div>
-                <div class="stats-number">
-                    <?= array_sum(array_column($promociones, 'totalUsos')) ?>
-                </div>
-                <div class="stats-label">Total de Usos</div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="stats-card">
-                <div class="stats-icon text-warning">
-                    <i class="bi bi-calendar-check"></i>
-                </div>
-                <div class="stats-number">
-                    <?= count(array_filter($promociones, function($p) { return $p['estadoPromo'] === 'activa'; })) ?>
-                </div>
-                <div class="stats-label">Promociones Vigentes</div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 mb-3">
-            <div class="stats-card">
-                <div class="stats-icon text-info">
-                    <i class="bi bi-shop"></i>
-                </div>
-                <div class="stats-number">1</div>
-                <div class="stats-label">Local Asignado</div>
-            </div>
-        </div>
-    </div>
-
-    <?php if (count($promociones) > 0): ?>
-    <div class="table-responsive">
-        <table class="table table-bordered align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>Descripción</th>
-                    <th>Vigencia</th>
-                    <th>Días</th>
-                    <th>Categoría</th>
-                    <th>Estado</th>
-                    <th>Usos</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($promociones as $promo): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($promo['textopromo'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($promo['fechadesdepromo'] ?? '') ?> a <?= htmlspecialchars($promo['fechahastapromo'] ?? '') ?></td>
-                        <td><?= $promo['diassemana'] ?></td>
-                        <td><?= $promo['categoriacliente'] ?></td>
-                        <td><span class="badge bg-info"><?= ucfirst($promo['estadopromo'] ?? '') ?></span></td>
-                        <td><span class="badge bg-success"><?= $promo['totalusos'] ?></span></td>
-                        <td>
-                            <a href="promocion_eliminar.php?id=<?= $promo['codpromo'] ?>"
-                               onclick="return confirm('¿Eliminar esta promoción?')">
-                                <i class="bi bi-trash"></i> Eliminar
-                            </a>
-                        </td>
-                    </tr>
-                <?php endforeach ?>
-            </tbody>
-        </table>
-    </div>
-    <?php else: ?>
-    <div class="empty-state">
-        <div class="text-center py-5">
-            <i class="bi bi-megaphone display-1 text-muted"></i>
-            <h4 class="mt-3">No hay promociones creadas</h4>
-            <p class="text-muted">Comienza creando tu primera promoción para atraer clientes a tu local.</p>
-            <a href="promocion_nueva.php" class="btn btn-primary btn-lg">
-                <i class="bi bi-plus-circle"></i> Crear Primera Promoción
-            </a>
-        </div>
-    </div>
-    <?php endif; ?>
 </div>
 <?php endif; ?>
 

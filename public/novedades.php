@@ -34,7 +34,6 @@ try {
 }
 
 try {
-    
     if ($usuario_logueado) {
         $categoriaFilter = getCategoriaFilterSQL($categoria_cliente === 'unlogged' ? 'inicial' : $categoria_cliente, 'p');
     } else {
@@ -239,10 +238,8 @@ include 'layout/header.php';
                         <div class="card news-card mb-4">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <div>
-                                    <span class="badge bg-success me-2">
-                                        <i class="bi bi-percent"></i> Nueva Promoción
-                                    </span>
-                                    <strong><?= htmlspecialchars($noticia['nombrelocal'] ?? '') ?></strong>
+                                    <span class="badge bg-success me-2">Nueva Promoción</span>
+                                    <strong><?= htmlspecialchars($noticia['nombrelocal']) ?></strong>
                                 </div>
                                 <small class="text-muted">
                                     <i class="bi bi-calendar"></i>
@@ -252,14 +249,13 @@ include 'layout/header.php';
                             <div class="card-body">
                                 <div class="row align-items-center">
                                     <div class="col-md-8">
-                                        <h5 class="card-title mb-3">
-                                            <i class="bi bi-gift text-warning"></i>
-                                            <?= htmlspecialchars($noticia['textopromo'] ?? '') ?>
+                                        <h5 class="text-primary mb-2">
+                                            <i class="bi bi-percent"></i> <?= htmlspecialchars($noticia['textopromo']) ?>
                                         </h5>
-                                        <div class="news-details">
-                                            <?php if (!empty($noticia['rubroLocal'])): ?>
+                                        <div class="mb-2">
+                                            <?php if (!empty($noticia['rubrolocal'])): ?>
                                                 <span class="badge bg-light text-dark me-2">
-                                                    <i class="bi bi-tag"></i> <?= htmlspecialchars($noticia['rubrolocal'] ?? '') ?>
+                                                    <i class="bi bi-tag"></i> <?= htmlspecialchars($noticia['rubrolocal']) ?>
                                                 </span>
                                             <?php endif; ?>
                                             <span class="badge bg-info text-white">
@@ -269,10 +265,16 @@ include 'layout/header.php';
                                         </div>
                                     </div>
                                     <div class="col-md-4 text-end">
-                                        <a href="usar_promocion.php?codigo=<?= $noticia['codpromo'] ?>" 
-                                           class="btn btn-success">
-                                            <i class="bi bi-check-circle"></i> Usar Promoción
-                                        </a>
+                                        <?php if ($usuario_logueado): ?>
+                                            <a href="usar_promocion.php?codigo=<?= $noticia['codpromo'] ?>" 
+                                               class="btn btn-success">
+                                                <i class="bi bi-check-circle"></i> Usar Promoción
+                                            </a>
+                                        <?php else: ?>
+                                            <a href="register.php" class="btn btn-warning">
+                                                <i class="bi bi-person-plus"></i> Registrarse
+                                            </a>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
@@ -281,35 +283,24 @@ include 'layout/header.php';
                         <div class="card news-card mb-4">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <div>
-                                    <span class="badge bg-info me-2">
-                                        <i class="bi bi-shop"></i> Nuevo Local
-                                    </span>
+                                    <span class="badge bg-info me-2">Nuevo Local</span>
                                     <strong>¡Bienvenido!</strong>
                                 </div>
                                 <small class="text-muted">
-                                    <i class="bi bi-calendar"></i>
-                                    Reciente
+                                    <i class="bi bi-calendar"></i> <?= date('d/m/Y', strtotime($noticia['fecha_noticia'])) ?>
                                 </small>
                             </div>
                             <div class="card-body">
                                 <div class="row align-items-center">
                                     <div class="col-md-8">
-                                        <h5 class="card-title mb-3">
-                                            <i class="bi bi-shop text-primary"></i>
-                                            <?= htmlspecialchars($noticia['nombrelocal'] ?? '') ?>
+                                        <h5 class="text-info mb-2">
+                                            <i class="bi bi-shop"></i> <?= htmlspecialchars($noticia['nombrelocal']) ?>
                                         </h5>
-                                        <div class="news-details">
-                                            <?php if (!empty($noticia['ubicacionlocal'])): ?>
-                                                <span class="badge bg-light text-dark me-2">
-                                                    <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($noticia['ubicacionlocal'] ?? '') ?>
-                                                </span>
-                                            <?php endif; ?>
-                                            <?php if (!empty($noticia['rubrolocal'])): ?>
-                                                <span class="badge bg-light text-dark">
-                                                    <i class="bi bi-tag"></i> <?= htmlspecialchars($noticia['rubrolocal'] ?? '') ?>
-                                                </span>
-                                            <?php endif; ?>
-                                        </div>
+                                        <?php if (!empty($noticia['ubicacionlocal'])): ?>
+                                            <p class="text-muted mb-2">
+                                                <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($noticia['ubicacionlocal']) ?>
+                                            </p>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="col-md-4 text-end">
                                         <a href="buscar_por_codigo.php?codigo=<?= $noticia['codlocal'] ?>" 

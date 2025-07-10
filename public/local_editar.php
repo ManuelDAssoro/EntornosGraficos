@@ -11,16 +11,12 @@ if (!$codLocal || !ctype_digit($codLocal)) {
 }
 
 // Obtener datos actuales del local
-$stmt = $pdo->prepare("SELECT * FROM locales WHERE codLocal = ?");
+$stmt = $pdo->prepare("SELECT * FROM locales WHERE codlocal = ?");
 $stmt->execute([$codLocal]);
 $local = $stmt->fetch();
 
-if (!$local) {
-    die("Local no encontrado.");
-}
-
 // Traer usuarios tipo "Dueño"
-$duenosStmt = $pdo->query("SELECT codUsuario, nombreUsuario FROM usuarios WHERE tipoUsuario = 'dueno' ORDER BY nombreUsuario");
+$duenosStmt = $pdo->query("SELECT codusuario, nombreusuario FROM usuarios WHERE tipousuario = 'dueno' ORDER BY nombreusuario");
 $duenos = $duenosStmt->fetchAll();
 
 $nombreLocal = $local['nombrelocal'];
@@ -160,9 +156,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-store"></i></span>
                         <input type="text" class="form-control" id="nombreLocal" name="nombreLocal" 
-                               value="<?= htmlspecialchars($local['nombrelocal'] ?? '') ?>"
-                               required
-                               placeholder="Ej: Tienda de Ropa Moderna">
+                               value="<?= htmlspecialchars($local['nombrelocal']) ?>"
+                               required placeholder="Ej: Tienda de Ropa Moderna">
                     </div>
                 </div>
                 
@@ -171,7 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
                         <input type="text" class="form-control" id="ubicacionLocal" name="ubicacionLocal" 
-                               value="<?= htmlspecialchars($local['ubicacionlocal'] ?? '') ?>"
+                               value="<?= htmlspecialchars($local['ubicacionlocal']) ?>"
                                placeholder="Ej: Planta Baja - Local 15">
                     </div>
                 </div>
@@ -181,7 +176,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-tags"></i></span>
                         <input type="text" class="form-control" id="rubroLocal" name="rubroLocal" 
-                               value="<?= htmlspecialchars($local['rubrolocal'] ?? '') ?>"
+                               value="<?= htmlspecialchars($local['rubrolocal']) ?>"
                                placeholder="Ej: Indumentaria, Tecnología, Gastronomía">
                     </div>
                 </div>

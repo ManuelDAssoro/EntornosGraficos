@@ -20,9 +20,9 @@ $promociones_local = [];
 if (!empty($codigo_local)) {
     $stmt = $pdo->prepare("
         SELECT * FROM locales 
-        WHERE codLocal = ? 
-        OR nombreLocal ILIKE ? 
-        OR ubicacionLocal ILIKE ?
+        WHERE codlocal = ? 
+        OR nombrelocal ILIKE ? 
+        OR ubicacionlocal ILIKE ?
         LIMIT 1
     ");
     $stmt->execute([$codigo_local, "%$codigo_local%", "%$codigo_local%"]);
@@ -37,11 +37,11 @@ if (!empty($codigo_local)) {
         
         $stmt = $pdo->prepare("
             SELECT * FROM promociones 
-            WHERE codLocal = ? 
-            AND estadoPromo = 'activa'
-            AND (fechaDesdePromo <= CURRENT_DATE AND fechaHastaPromo >= CURRENT_DATE)
+            WHERE codlocal = ? 
+            AND estadopromo = 'activa'
+            AND (fechadesdepromo <= CURRENT_DATE AND fechahastapromo >= CURRENT_DATE)
             AND $categoriaFilter
-            ORDER BY fechaHastaPromo
+            ORDER BY fechahastapromo
         ");
         $stmt->execute([$local_encontrado['codlocal']]);
         $promociones_local = $stmt->fetchAll();
@@ -49,13 +49,13 @@ if (!empty($codigo_local)) {
 }
 
 $stmt = $pdo->prepare("
-    SELECT l.*, COUNT(p.codPromo) as total_promociones
+    SELECT l.*, COUNT(p.codpromo) as total_promociones
     FROM locales l
-    LEFT JOIN promociones p ON l.codLocal = p.codLocal 
-        AND p.estadoPromo = 'activa'
-        AND (p.fechaDesdePromo <= CURRENT_DATE AND p.fechaHastaPromo >= CURRENT_DATE)
-    GROUP BY l.codLocal
-    ORDER BY l.nombreLocal
+    LEFT JOIN promociones p ON l.codlocal = p.codlocal 
+        AND p.estadopromo = 'activa'
+        AND (p.fechadesdepromo <= CURRENT_DATE AND p.fechahastapromo >= CURRENT_DATE)
+    GROUP BY l.codlocal
+    ORDER BY l.nombrelocal
 ");
 $stmt->execute();
 $todos_locales = $stmt->fetchAll();
