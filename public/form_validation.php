@@ -106,7 +106,7 @@ function enviarEmailConfirmacion($email, $token, $tipoUsuario) {
         $mail->Subject = 'Confirma tu cuenta en Mi Shopping';
         
         // URL de confirmación
-        $confirmUrl = "https://" . $_SERVER['HTTP_HOST'] . "/public/confirmar.php?token=" . $token;
+        $confirmUrl = "https://" . $_SERVER['HTTP_HOST'] . "/confirmar.php?token=" . $token;
         
         $tipoTexto = $tipoUsuario === 'cliente' ? 'cliente' : 'dueño de local';
         
