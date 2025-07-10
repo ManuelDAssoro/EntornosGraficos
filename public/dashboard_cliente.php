@@ -2,13 +2,16 @@
 require_once 'auth.php';
 requireRole('cliente');
 require_once '../config/db.php';
+require_once 'categoria_functions.php'; 
 
 $codUsuario = $_SESSION['usuario_id'];
 
-$stmt = $pdo->prepare("SELECT nombreUsuario FROM usuarios WHERE codUsuario = ?");
+
+$stmt = $pdo->prepare("SELECT nombreUsuario, categoriaCliente FROM usuarios WHERE codUsuario = ?");
 $stmt->execute([$codUsuario]);
 $usuario = $stmt->fetch();
 $nombreUsuario = $usuario['nombreusuario'] ?? 'Usuario';
+$categoriaCliente = $usuario['categoriacliente'] ?? 'inicial'; 
 
 $mensaje = $_GET['mensaje'] ?? '';
 $error = $_GET['error'] ?? '';
@@ -41,6 +44,9 @@ try {
 
 $promocionesDisponibles = [];
 try {
+
+    $categoriaFilter = getCategoriaFilterSQL($categoriaCliente, 'p');
+    
     $stmt = $pdo->prepare("
         SELECT p.*, l.nombreLocal, l.ubicacionLocal as ubicacion
         FROM promociones p
@@ -48,6 +54,7 @@ try {
         WHERE p.estadoPromo = 'activa'
         AND p.fechaDesdePromo <= CURRENT_DATE
         AND p.fechaHastaPromo >= CURRENT_DATE
+        AND $categoriaFilter
         ORDER BY p.fechaHastaPromo ASC
         LIMIT 6
     ");
@@ -83,7 +90,9 @@ try {
     <div class="row">
         <div class="col-12">
             <h1><i class="bi bi-house-door"></i> Bienvenido, <?= htmlspecialchars($nombreUsuario) ?></h1>
-            <p class="lead">Descubre las mejores promociones disponibles en el shopping.</p>
+            <p class="lead">Descubre las mejores promociones disponibles para tu categoría: 
+                <span class="badge bg-primary"><?= ucfirst($categoriaCliente) ?></span>
+            </p>
             
             <?php if (isset($mensajes[$mensaje])): ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
