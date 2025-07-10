@@ -42,7 +42,7 @@ if (empty($errores)) {
 
 if (empty($errores)) {
     $claveHash = password_hash($claveUsuario, PASSWORD_DEFAULT);
-    $categoriaCliente = ($tipoUsuario === 'cliente') ? 'Inicial' : null;
+    $categoriaCliente = ($tipoUsuario === 'cliente') ? 'inicial' : null;
     $estado = 'pendiente';
 
     // set estado to 'activo' since we're not implementing email verification when tipoUsuario is 'cliente'
