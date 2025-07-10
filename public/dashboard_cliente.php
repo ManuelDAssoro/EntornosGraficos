@@ -28,12 +28,12 @@ $errores = [
 $promocionesUsadas = [];
 try {
     $stmt = $pdo->prepare("
-        SELECT up.*, p.textoPromo, l.nombreLocal, l.ubicacionLocal as ubicacion
+        SELECT up.*, p.textopromo, l.nombrelocal, l.ubicacionlocal as ubicacion
         FROM uso_promociones up
-        JOIN promociones p ON up.codPromo = p.codPromo
-        JOIN locales l ON p.codLocal = l.codLocal
-        WHERE up.codUsuario = ?
-        ORDER BY up.fechaUso DESC
+        JOIN promociones p ON up.codpromo = p.codpromo
+        JOIN locales l ON p.codlocal = l.codlocal
+        WHERE up.codusuario = ? AND up.estado = 'aceptada'
+        ORDER BY up.fechauso DESC
         LIMIT 10
     ");
     $stmt->execute([$codUsuario]);

@@ -1,10 +1,82 @@
 <?php
 
+function puedeAccederPromocion($categoriaCliente, $categoriaPromocion) {
+    if (empty($categoriaPromocion) || $categoriaPromocion === 'inicial') {
+        return true;
+    }
+    
+    $jerarquia = ['inicial' => 1, 'medium' => 2, 'premium' => 3];
+    
+    $nivelCliente = $jerarquia[strtolower($categoriaCliente)] ?? 1;
+    $nivelPromocion = $jerarquia[strtolower($categoriaPromocion)] ?? 1;
+    
+    return $nivelCliente >= $nivelPromocion;
+}
+
+function usarPromocion($codusuario, $codpromo, $pdo) {
+    try {
+        $pdo->beginTransaction();
+        
+        $stmt = $pdo->prepare("
+            SELECT p.*, l.nombrelocal 
+            FROM promociones p
+            JOIN locales l ON p.codlocal = l.codlocal
+            WHERE p.codpromo = ? 
+            AND p.estadopromo = 'activa'
+            AND (p.fechadesdepromo <= CURRENT_DATE AND p.fechahastapromo >= CURRENT_DATE)
+        ");
+        $stmt->execute([$codpromo]);
+        $promocion = $stmt->fetch();
+        
+        if (!$promocion) {
+            throw new Exception("La promoción no es válida o ha expirado.");
+        }
+        $stmt = $pdo->prepare("SELECT categoriacliente FROM usuarios WHERE codusuario = ?");
+        $stmt->execute([$codusuario]);
+        $user = $stmt->fetch();
+        $categoriaCliente = $user['categoriacliente'] ?? 'inicial';
+        
+        if (!puedeAccederPromocion($categoriaCliente, $promocion['categoriacliente'])) {
+            throw new Exception("No tienes acceso a esta promoción. Necesitas categoría " . ucfirst($promocion['categoriacliente']) . " o superior.");
+        }
+        
+        $stmt = $pdo->prepare("SELECT codusuario FROM uso_promociones WHERE codusuario = ? AND codpromo = ?");
+        $stmt->execute([$codusuario, $codpromo]);
+        if ($stmt->fetch()) {
+            throw new Exception("Ya has utilizado esta promoción anteriormente.");
+        }
+        
+        $stmt = $pdo->prepare("
+            INSERT INTO uso_promociones (codusuario, codpromo, fechauso, estado) 
+            VALUES (?, ?, CURRENT_DATE, 'aceptada')
+        ");
+        $stmt->execute([$codusuario, $codpromo]);
+        
+        $nuevaCategoria = actualizarCategoriaCliente($codusuario, $pdo);
+        
+        $pdo->commit();
+        
+        return [
+            'success' => true,
+            'promocion' => $promocion,
+            'nueva_categoria' => $nuevaCategoria,
+            'categoria_anterior' => $categoriaCliente
+        ];
+        
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        return [
+            'success' => false,
+            'error' => $e->getMessage()
+        ];
+    }
+}
+
 function actualizarCategoriaCliente($codusuario, $pdo) {
     $stmt = $pdo->prepare("
         SELECT COUNT(*) as promociones_usadas 
         FROM uso_promociones 
-        WHERE codusuario = ? AND estado = 'usado'
+        WHERE codusuario = ? AND estado = 'aceptada'
     ");
     $stmt->execute([$codusuario]);
     $result = $stmt->fetch();
@@ -23,49 +95,11 @@ function actualizarCategoriaCliente($codusuario, $pdo) {
     return $categoria;
 }
 
-function puedeAccederPromocion($categoriaCliente, $categoriaPromocion) {
-    if (empty($categoriaPromocion) || $categoriaPromocion === 'inicial') {
-        return true;
-    }
-    
-    $jerarquia = ['inicial' => 1, 'medium' => 2, 'premium' => 3];
-    
-    $nivelCliente = $jerarquia[strtolower($categoriaCliente)] ?? 1;
-    $nivelPromocion = $jerarquia[strtolower($categoriaPromocion)] ?? 1;
-    
-    return $nivelCliente >= $nivelPromocion;
-}
-
-function getPromocionesDisponibles($codusuario, $pdo) {
-    $stmt = $pdo->prepare("SELECT categoriacliente FROM usuarios WHERE codusuario = ?");
-    $stmt->execute([$codusuario]);
-    $user = $stmt->fetch();
-    $categoriaCliente = $user['categoriacliente'] ?? 'inicial';
-    
-    $categoriaFilter = getCategoriaFilterSQL($categoriaCliente, 'p');
-    
-    $stmt = $pdo->prepare("
-        SELECT p.*, l.nombrelocal, l.ubicacionlocal, l.rubrolocal
-        FROM promociones p
-        JOIN locales l ON p.codlocal = l.codlocal
-        WHERE p.estadopromo = 'activa'
-        AND p.fechadesdepromo <= CURRENT_DATE
-        AND p.fechahastapromo >= CURRENT_DATE
-        AND $categoriaFilter
-        AND p.codpromo NOT IN (
-            SELECT codpromo FROM uso_promociones WHERE codusuario = ?
-        )
-        ORDER BY p.fechahastapromo ASC
-    ");
-    $stmt->execute([$codusuario]);
-    return $stmt->fetchAll();
-}
-
 function getCategoryProgress($codusuario, $pdo) {
     $stmt = $pdo->prepare("
         SELECT COUNT(*) as promociones_usadas 
         FROM uso_promociones 
-        WHERE codusuario = ? AND estado = 'usado'
+        WHERE codusuario = ? AND estado = 'aceptada'
     ");
     $stmt->execute([$codusuario]);
     $result = $stmt->fetch();
@@ -93,64 +127,29 @@ function getCategoryProgress($codusuario, $pdo) {
     return $progress;
 }
 
-function usarPromocion($codusuario, $codpromo, $pdo) {
-    try {
-        $pdo->beginTransaction();
-        
-        $stmt = $pdo->prepare("
-            SELECT p.*, l.nombrelocal 
-            FROM promociones p
-            JOIN locales l ON p.codlocal = l.codlocal
-            WHERE p.codpromo = ? 
-            AND p.estadopromo = 'activa'
-            AND (p.fechadesdepromo <= CURRENT_DATE AND p.fechahastapromo >= CURRENT_DATE)
-        ");
-        $stmt->execute([$codpromo]);
-        $promocion = $stmt->fetch();
-        
-        if (!$promocion) {
-            throw new Exception("La promoción no es válida o ha expirado.");
-        }
-        
-        $stmt = $pdo->prepare("SELECT categoriacliente FROM usuarios WHERE codusuario = ?");
-        $stmt->execute([$codusuario]);
-        $user = $stmt->fetch();
-        $categoriaCliente = $user['categoriacliente'] ?? 'inicial';
-        
-        if (!puedeAccederPromocion($categoriaCliente, $promocion['categoriacliente'])) {
-            throw new Exception("No tienes acceso a esta promoción. Necesitas categoría " . ucfirst($promocion['categoriacliente']) . " o superior.");
-        }
-        
-        $stmt = $pdo->prepare("SELECT codusuario FROM uso_promociones WHERE codusuario = ? AND codpromo = ?");
-        $stmt->execute([$codusuario, $codpromo]);
-        if ($stmt->fetch()) {
-            throw new Exception("Ya has utilizado esta promoción anteriormente.");
-        }
-        
-        $stmt = $pdo->prepare("
-            INSERT INTO uso_promociones (codusuario, codpromo, fechauso, estado) 
-            VALUES (?, ?, CURRENT_DATE, 'usado')
-        ");
-        $stmt->execute([$codusuario, $codpromo]);
-        
-        $nuevaCategoria = actualizarCategoriaCliente($codusuario, $pdo);
-        
-        $pdo->commit();
-        
-        return [
-            'success' => true,
-            'promocion' => $promocion,
-            'nueva_categoria' => $nuevaCategoria,
-            'categoria_anterior' => $categoriaCliente
-        ];
-        
-    } catch (Exception $e) {
-        $pdo->rollBack();
-        return [
-            'success' => false,
-            'error' => $e->getMessage()
-        ];
-    }
+function getPromocionesDisponibles($codusuario, $pdo) {
+    $stmt = $pdo->prepare("SELECT categoriacliente FROM usuarios WHERE codusuario = ?");
+    $stmt->execute([$codusuario]);
+    $user = $stmt->fetch();
+    $categoriaCliente = $user['categoriacliente'] ?? 'inicial';
+    
+    $categoriaFilter = getCategoriaFilterSQL($categoriaCliente, 'p');
+    
+    $stmt = $pdo->prepare("
+        SELECT p.*, l.nombrelocal, l.ubicacionlocal, l.rubrolocal
+        FROM promociones p
+        JOIN locales l ON p.codlocal = l.codlocal
+        WHERE p.estadopromo = 'activa'
+        AND p.fechadesdepromo <= CURRENT_DATE
+        AND p.fechahastapromo >= CURRENT_DATE
+        AND $categoriaFilter
+        AND p.codpromo NOT IN (
+            SELECT codpromo FROM uso_promociones WHERE codusuario = ? AND estado = 'aceptada'
+        )
+        ORDER BY p.fechahastapromo ASC
+    ");
+    $stmt->execute([$codusuario]);
+    return $stmt->fetchAll();
 }
 
 function getCategoryBadge($categoria) {
