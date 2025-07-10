@@ -36,7 +36,7 @@ function getPromocionesDisponibles($codusuario, $pdo) {
     $stmt = $pdo->prepare("SELECT categoriaCliente FROM usuarios WHERE codUsuario = ?");
     $stmt->execute([$codusuario]);
     $user = $stmt->fetch();
-    $categoriaCliente = $user['categoriaCliente'] ?? 'inicial';
+    $categoriaCliente = $user['categoriacliente'] ?? 'inicial';
     
     $stmt = $pdo->prepare("
         SELECT p.*, l.nombreLocal, l.ubicacionLocal, l.rubroLocal
@@ -85,10 +85,10 @@ function usarPromocion($codusuario, $codpromo, $pdo) {
         $stmt = $pdo->prepare("SELECT categoriaCliente FROM usuarios WHERE codUsuario = ?");
         $stmt->execute([$codusuario]);
         $user = $stmt->fetch();
-        $categoriaCliente = $user['categoriaCliente'] ?? 'inicial';
+        $categoriaCliente = $user['categoriacliente'] ?? 'inicial';
         
         if (!puedeAccederPromocion($categoriaCliente, $promocion['categoriacliente'])) {
-            throw new Exception("No tienes acceso a esta promoción. Necesitas categoría " . ucfirst($promocion['categoriaCliente']) . " o superior.");
+            throw new Exception("No tienes acceso a esta promoción. Necesitas categoría " . ucfirst($promocion['categoriacliente']) . " o superior.");
         }
         
         $stmt = $pdo->prepare("SELECT codUso FROM uso_promociones WHERE codUsuario = ? AND codPromo = ?");
@@ -137,7 +137,7 @@ function getCategoryProgress($codusuario, $pdo) {
     $stmt = $pdo->prepare("
         SELECT COUNT(*) as promociones_usadas 
         FROM uso_promociones 
-        WHERE codUsuario = ? AND estado = 'usado'
+        WHERE codusuario = ? AND estado = 'usado'
     ");
     $stmt->execute([$codusuario]);
     $result = $stmt->fetch();
