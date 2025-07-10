@@ -6,7 +6,7 @@ require_once '../config/db.php';
 $errores = [];
 
 
-$modoDebug = true;
+$modoDebug = false; 
 
 function logDebug($mensaje) {
     global $modoDebug;
