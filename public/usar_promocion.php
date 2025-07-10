@@ -13,7 +13,7 @@ if (!$codPromo) {
     exit;
 }
 
-$stmt = $pdo->prepare("SELECT nombreUsuario, categoriaCliente FROM usuarios WHERE codUsuario = ?");
+$stmt = $pdo->prepare("SELECT nombreusuario, categoriacliente FROM usuarios WHERE codusuario = ?");
 $stmt->execute([$codUsuario]);
 $usuario = $stmt->fetch();
 $categoriaCliente = $usuario['categoriacliente'] ?? 'inicial';
@@ -38,12 +38,12 @@ if ($confirmar) {
 
 try {
     $stmt = $pdo->prepare("
-        SELECT p.*, l.nombreLocal, l.ubicacionLocal, l.rubroLocal
+        SELECT p.*, l.nombrelocal, l.ubicacionlocal, l.rubrolocal
         FROM promociones p
-        JOIN locales l ON p.codLocal = l.codLocal
-        WHERE p.codPromo = ? 
-        AND p.estadoPromo = 'activa'
-        AND (p.fechaDesdePromo <= CURRENT_DATE AND p.fechaHastaPromo >= CURRENT_DATE)
+        JOIN locales l ON p.codlocal = l.codlocal
+        WHERE p.codpromo = ? 
+        AND p.estadopromo = 'activa'
+        AND (p.fechadesdepromo <= CURRENT_DATE AND p.fechahastapromo >= CURRENT_DATE)
     ");
     $stmt->execute([$codPromo]);
     $promocion = $stmt->fetch();
@@ -185,7 +185,7 @@ include 'layout/header.php';
                                     </div>
                                 </div>
                             <?php endif; ?>
-                            
+
                             <div class="col-md-6">
                                 <div class="info-item">
                                     <i class="bi bi-calendar-check text-warning"></i>
