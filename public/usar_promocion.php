@@ -62,7 +62,7 @@ if (!puedeAccederPromocion($categoriaCliente, $promocion['categoriacliente'])) {
 }
 
 try {
-    $stmt = $pdo->prepare("SELECT codUso FROM uso_promociones WHERE codPromo = ? AND codUsuario = ?");
+    $stmt = $pdo->prepare("SELECT codusuario FROM uso_promociones WHERE codpromo = ? AND codusuario = ?");
     $stmt->execute([$codPromo, $codUsuario]);
     $yaUsada = $stmt->fetch();
 } catch (PDOException $e) {
