@@ -88,7 +88,7 @@ include 'layout/header.php';
                 <h1 class="display-6 fw-bold mb-2">
                     <i class="bi bi-check-circle"></i> Usar Promoción
                 </h1>
-                <p class="lead mb-0">Confirma el uso de esta promoción en <?= htmlspecialchars($promocion['nombreLocal']) ?></p>
+                <p class="lead mb-0">Confirma el uso de esta promoción en <?= htmlspecialchars($promocion['nombrelocal']) ?></p>
             </div>
             <div class="col-md-4 text-end">
                 <?= getCategoryBadge($categoriaCliente) ?>
@@ -177,7 +177,7 @@ include 'layout/header.php';
                         </h4>
                         
                         <div class="row mb-3">
-                            <?php if (!empty($promocion['rubroLocal'])): ?>
+                            <?php if (!empty($promocion['rubrolocal'])): ?>
                                 <div class="col-md-6">
                                     <div class="info-item">
                                         <i class="bi bi-tag text-info"></i>
