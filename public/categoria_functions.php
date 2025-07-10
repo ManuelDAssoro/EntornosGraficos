@@ -1,12 +1,12 @@
 <?php
 
-function actualizarCategoriaCliente($codUsuario, $pdo) {
+function actualizarCategoriaCliente($codusuario, $pdo) {
     $stmt = $pdo->prepare("
         SELECT COUNT(*) as promociones_usadas 
         FROM uso_promociones 
         WHERE codUsuario = ? AND estado = 'usado'
     ");
-    $stmt->execute([$codUsuario]);
+    $stmt->execute([$codusuario]);
     $result = $stmt->fetch();
     $promocionesUsadas = $result['promociones_usadas'];
     
@@ -18,7 +18,7 @@ function actualizarCategoriaCliente($codUsuario, $pdo) {
     }
     
     $stmt = $pdo->prepare("UPDATE usuarios SET categoriaCliente = ? WHERE codUsuario = ?");
-    $stmt->execute([$categoria, $codUsuario]);
+    $stmt->execute([$categoria, $codusuario]);
     
     return $categoria;
 }
@@ -32,9 +32,9 @@ function puedeAccederPromocion($categoriaCliente, $categoriaPromocion) {
     return $nivelCliente >= $nivelPromocion;
 }
 
-function getPromocionesDisponibles($codUsuario, $pdo) {
+function getPromocionesDisponibles($codusuario, $pdo) {
     $stmt = $pdo->prepare("SELECT categoriaCliente FROM usuarios WHERE codUsuario = ?");
-    $stmt->execute([$codUsuario]);
+    $stmt->execute([$codusuario]);
     $user = $stmt->fetch();
     $categoriaCliente = $user['categoriaCliente'] ?? 'inicial';
     
@@ -59,11 +59,11 @@ function getPromocionesDisponibles($codUsuario, $pdo) {
         )
         ORDER BY l.nombreLocal, p.fechaHastaPromo
     ");
-    $stmt->execute([$categoriaCliente, $categoriaCliente, $codUsuario]);
+    $stmt->execute([$categoriaCliente, $categoriaCliente, $codusuario]);
     return $stmt->fetchAll();
 }
 
-function usarPromocion($codUsuario, $codPromo, $pdo) {
+function usarPromocion($codusuario, $codpromo, $pdo) {
     try {
         $pdo->beginTransaction();
         
@@ -75,7 +75,7 @@ function usarPromocion($codUsuario, $codPromo, $pdo) {
             AND p.estadoPromo = 'activa'
             AND (p.fechaDesdePromo <= CURRENT_DATE AND p.fechaHastaPromo >= CURRENT_DATE)
         ");
-        $stmt->execute([$codPromo]);
+        $stmt->execute([$codpromo]);
         $promocion = $stmt->fetch();
         
         if (!$promocion) {
@@ -83,7 +83,7 @@ function usarPromocion($codUsuario, $codPromo, $pdo) {
         }
         
         $stmt = $pdo->prepare("SELECT categoriaCliente FROM usuarios WHERE codUsuario = ?");
-        $stmt->execute([$codUsuario]);
+        $stmt->execute([$codusuario]);
         $user = $stmt->fetch();
         $categoriaCliente = $user['categoriaCliente'] ?? 'inicial';
         
@@ -92,7 +92,7 @@ function usarPromocion($codUsuario, $codPromo, $pdo) {
         }
         
         $stmt = $pdo->prepare("SELECT codUso FROM uso_promociones WHERE codUsuario = ? AND codPromo = ?");
-        $stmt->execute([$codUsuario, $codPromo]);
+        $stmt->execute([$codusuario, $codpromo]);
         if ($stmt->fetch()) {
             throw new Exception("Ya has utilizado esta promoción anteriormente.");
         }
@@ -101,9 +101,9 @@ function usarPromocion($codUsuario, $codPromo, $pdo) {
             INSERT INTO uso_promociones (codUsuario, codPromo, fechaUso, estado) 
             VALUES (?, ?, NOW(), 'usado')
         ");
-        $stmt->execute([$codUsuario, $codPromo]);
+        $stmt->execute([$codusuario, $codpromo]);
         
-        $nuevaCategoria = actualizarCategoriaCliente($codUsuario, $pdo);
+        $nuevaCategoria = actualizarCategoriaCliente($codusuario, $pdo);
         
         $pdo->commit();
         
@@ -133,13 +133,13 @@ function getCategoryBadge($categoria) {
     return $badges[$categoria] ?? $badges['inicial'];
 }
 
-function getCategoryProgress($codUsuario, $pdo) {
+function getCategoryProgress($codusuario, $pdo) {
     $stmt = $pdo->prepare("
         SELECT COUNT(*) as promociones_usadas 
         FROM uso_promociones 
         WHERE codUsuario = ? AND estado = 'usado'
     ");
-    $stmt->execute([$codUsuario]);
+    $stmt->execute([$codusuario]);
     $result = $stmt->fetch();
     $used = $result['promociones_usadas'];
     
