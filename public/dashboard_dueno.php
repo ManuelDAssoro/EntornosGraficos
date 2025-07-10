@@ -313,7 +313,7 @@ $mensajes = [
                                             </div>
                                             <div class="info-content">
                                                 <h5>Mantenete Informado</h5>
-                                                <p>Recibirás actualizaciones en tu email <strong><?= htmlspecialchars($usuario['nombreUsuario']) ?></strong> sobre el estado de tu asignación.</p>
+                                                <p>Recibirás actualizaciones en tu email <strong><?= htmlspecialchars($usuario['nombreusuario']) ?></strong> sobre el estado de tu asignación.</p>
                                             </div>
                                         </div>
                                     </div>
