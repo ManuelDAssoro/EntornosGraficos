@@ -319,7 +319,7 @@ include 'layout/header.php';
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <i class="bi bi-person-circle me-2 text-muted"></i>
-                                        <?= htmlspecialchars($dueno['nombreusuario']) ?>
+                                        <?= htmlspecialchars($dueno['nombreusuario'] ?? '') ?>
                                     </div>
                                 </td>
                                 <td>
@@ -332,14 +332,14 @@ include 'layout/header.php';
                                     };
                                     ?>
                                     <span class="badge <?= $statusClass ?>">
-                                        <?= ucfirst($dueno['estado']) ?>
+                                        <?= ucfirst($dueno['estado'] ?? '') ?>
                                     </span>
                                 </td>
                                 <td>
                                     <?php if ($dueno['nombrelocal']): ?>
                                         <div class="d-flex align-items-center">
                                             <i class="bi bi-shop me-2 text-primary"></i>
-                                            <?= htmlspecialchars($dueno['nombrelocal']) ?>
+                                            <?= htmlspecialchars($dueno['nombrelocal'] ?? 'Sin local asignado') ?>
                                         </div>
                                     <?php else: ?>
                                         <span class="text-muted">

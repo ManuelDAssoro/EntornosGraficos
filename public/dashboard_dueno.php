@@ -17,7 +17,7 @@ $hasLocal = $local ? true : false;
 $promociones = [];
 
 if ($hasLocal) {
-    $codLocal = $local['codLocal'];
+    $codLocal = $local['codlocal'];
     
     try {
         $stmt = $pdo->prepare("
@@ -316,13 +316,12 @@ $mensajes = [
                     <tr>
                         <td><?= htmlspecialchars($promo['textopromo'] ?? '') ?></td>
                         <td><?= htmlspecialchars($promo['fechadesdepromo'] ?? '') ?> a <?= htmlspecialchars($promo['fechahastapromo'] ?? '') ?></td>
-                        <td><?= $promo['diasSemana'] ?></td>
-                        <td><?= $promo['categoriaCliente'] ?></td>
+                        <td><?= $promo['diassemana'] ?></td>
+                        <td><?= $promo['categoriacliente'] ?></td>
                         <td><span class="badge bg-info"><?= ucfirst($promo['estadopromo'] ?? '') ?></span></td>
-                        <td><span class="badge bg-success"><?= $promo['totalUsos'] ?></span></td>
+                        <td><span class="badge bg-success"><?= $promo['totalusos'] ?></span></td>
                         <td>
-                            <a href="promocion_eliminar.php?id=<?= $promo['codPromo'] ?>" 
-                               class="btn btn-danger btn-sm"
+                            <a href="promocion_eliminar.php?id=<?= $promo['codpromo'] ?>"
                                onclick="return confirm('¿Eliminar esta promoción?')">
                                 <i class="bi bi-trash"></i> Eliminar
                             </a>

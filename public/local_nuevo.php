@@ -136,8 +136,8 @@ include 'layout/header.php';
                             <option value="">-- Sin asignar --</option>
                             <?php foreach ($duenos as $dueno): ?>
                                 <option value="<?= $dueno['codusuario'] ?>" <?= $codUsuario == $dueno['codusuario'] ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($dueno['nombreusuario']) ?>
-                                </option>
+    <?= htmlspecialchars($dueno['nombreusuario']) ?>
+</option>
                             <?php endforeach; ?>
                         </select>
                     </div>

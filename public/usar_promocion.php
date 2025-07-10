@@ -16,7 +16,7 @@ if (!$codPromo) {
 $stmt = $pdo->prepare("SELECT nombreUsuario, categoriaCliente FROM usuarios WHERE codUsuario = ?");
 $stmt->execute([$codUsuario]);
 $usuario = $stmt->fetch();
-$categoriaCliente = $usuario['categoriaCliente'] ?? 'inicial';
+$categoriaCliente = $usuario['categoriacliente'] ?? 'inicial';
 
 $mensaje = '';
 $error = '';
@@ -56,8 +56,8 @@ if (!$promocion) {
     exit;
 }
 
-if (!puedeAccederPromocion($categoriaCliente, $promocion['categoriaCliente'])) {
-    header("Location: dashboard_cliente.php?error=categoria_insuficiente&requerida=" . $promocion['categoriaCliente']);
+if (!puedeAccederPromocion($categoriaCliente, $promocion['categoriacliente'])) {
+    header("Location: dashboard_cliente.php?error=categoria_insuficiente&requerida=" . $promocion['categoriacliente']);
     exit;
 }
 
@@ -157,23 +157,23 @@ include 'layout/header.php';
                     <div class="row align-items-center">
                         <div class="col">
                             <h5 class="mb-0">
-                                <i class="bi bi-shop"></i> <?= htmlspecialchars($promocion['nombreLocal']) ?>
+                                <i class="bi bi-shop"></i> <?= htmlspecialchars($promocion['nombrelocal']) ?>
                             </h5>
-                            <?php if (!empty($promocion['ubicacionLocal'])): ?>
+                            <?php if (!empty($promocion['ubicacionlocal'])): ?>
                                 <small class="opacity-75">
-                                    <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($promocion['ubicacionLocal']) ?>
+                                    <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($promocion['ubicacionlocal']) ?>
                                 </small>
                             <?php endif; ?>
                         </div>
                         <div class="col-auto">
-                            <?= getCategoryBadge($promocion['categoriaCliente']) ?>
+                            <?= getCategoryBadge($promocion['categoriacliente']) ?>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="promotion-content mb-4">
                         <h4 class="text-primary mb-3">
-                            <i class="bi bi-percent"></i> <?= htmlspecialchars($promocion['textoPromo']) ?>
+                            <i class="bi bi-percent"></i> <?= htmlspecialchars($promocion['textopromo']) ?>
                         </h4>
                         
                         <div class="row mb-3">
@@ -181,7 +181,7 @@ include 'layout/header.php';
                                 <div class="col-md-6">
                                     <div class="info-item">
                                         <i class="bi bi-tag text-info"></i>
-                                        <strong>Rubro:</strong> <?= htmlspecialchars($promocion['rubroLocal']) ?>
+                                        <strong>Rubro:</strong> <?= htmlspecialchars($promocion['rubrolocal']) ?>
                                     </div>
                                 </div>
                             <?php endif; ?>
@@ -189,21 +189,21 @@ include 'layout/header.php';
                             <div class="col-md-6">
                                 <div class="info-item">
                                     <i class="bi bi-calendar-check text-warning"></i>
-                                    <strong>Válido hasta:</strong> <?= date('d/m/Y', strtotime($promocion['fechaHastaPromo'])) ?>
+                                    <strong>Válido hasta:</strong> <?= date('d/m/Y', strtotime($promocion['fechahastapromo'])) ?>
                                 </div>
                             </div>
                         </div>
                         
-                        <?php if (!empty($promocion['diasSemana'])): ?>
+                        <?php if (!empty($promocion['diassemana'])): ?>
                             <div class="info-item mb-3">
                                 <i class="bi bi-clock text-secondary"></i>
-                                <strong>Días válidos:</strong> <?= htmlspecialchars($promocion['diasSemana']) ?>
+                                <strong>Días válidos:</strong> <?= htmlspecialchars($promocion['diassemana']) ?>
                             </div>
                         <?php endif; ?>
                         
                         <div class="info-item">
                             <i class="bi bi-people text-success"></i>
-                            <strong>Categoría requerida:</strong> <?= getCategoryBadge($promocion['categoriaCliente']) ?>
+                            <strong>Categoría requerida:</strong> <?= getCategoryBadge($promocion['categoriacliente']) ?>
                         </div>
                     </div>
                     

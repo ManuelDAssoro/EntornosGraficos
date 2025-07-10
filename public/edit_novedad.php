@@ -87,10 +87,10 @@ include 'layout/header.php';
                                 <div class="mb-3">
                                     <label for="categoria_minima" class="form-label">Categoría Mínima</label>
                                     <select class="form-select" id="categoria_minima" name="categoria_minima">
-                                        <option value="unlogged" <?= $_POST['categoria_minima'] === 'unlogged' ? 'selected' : '' ?>>Público (Sin registro)</option>
-                                        <option value="inicial" <?= $_POST['categoria_minima'] === 'inicial' ? 'selected' : '' ?>>Inicial</option>
-                                        <option value="medium" <?= $_POST['categoria_minima'] === 'medium' ? 'selected' : '' ?>>Medium</option>
-                                        <option value="premium" <?= $_POST['categoria_minima'] === 'premium' ? 'selected' : '' ?>>Premium</option>
+                                        <option value="unlogged" <?= ($novedad['categoria_minima'] ?? '') === 'unlogged' ? 'selected' : '' ?>>Público (Sin registro)</option>
+                                        <option value="inicial" <?= ($novedad['categoria_minima'] ?? '') === 'inicial' ? 'selected' : '' ?>>Inicial</option>
+                                        <option value="medium" <?= ($novedad['categoria_minima'] ?? '') === 'medium' ? 'selected' : '' ?>>Medium</option>
+                                        <option value="premium" <?= ($novedad['categoria_minima'] ?? '') === 'premium' ? 'selected' : '' ?>>Premium</option>
                                     </select>
                                 </div>
                             </div>
@@ -106,8 +106,8 @@ include 'layout/header.php';
                         <div class="mb-3">
                             <label for="estado" class="form-label">Estado</label>
                             <select class="form-select" id="estado" name="estado">
-                                <option value="activa" <?= $_POST['estado'] === 'activa' ? 'selected' : '' ?>>Activa</option>
-                                <option value="inactiva" <?= $_POST['estado'] === 'inactiva' ? 'selected' : '' ?>>Inactiva</option>
+                                <option value="activa" <?= ($novedad['estado'] ?? '') === 'activa' ? 'selected' : '' ?>>Activa</option>
+                                <option value="inactiva" <?= ($novedad['estado'] ?? '') === 'inactiva' ? 'selected' : '' ?>>Inactiva</option>
                             </select>
                         </div>
                         

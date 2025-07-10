@@ -142,7 +142,7 @@ include 'layout/header.php';
                                             </small>
                                         </div>
                                         <div>
-                                            <a href="local_editar.php?id=<?= $local['codlocal'] ?>" 
+                                            <a href="local_editar.php?id=<?= $local['codlocal'] ?>"
                                                class="btn btn-sm btn-outline-primary">
                                                 <i class="bi bi-pencil"></i>
                                             </a>

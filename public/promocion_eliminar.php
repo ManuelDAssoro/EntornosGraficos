@@ -24,3 +24,6 @@ if ($idPromo) {
 
 header("Location: dueno_promociones.php");
 exit;
+?>
+
+

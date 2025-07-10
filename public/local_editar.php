@@ -23,7 +23,6 @@ if (!$local) {
 $duenosStmt = $pdo->query("SELECT codUsuario, nombreUsuario FROM usuarios WHERE tipoUsuario = 'dueno' ORDER BY nombreUsuario");
 $duenos = $duenosStmt->fetchAll();
 
-// Inicializar variables con datos actuales
 $nombreLocal = $local['nombrelocal'];
 $ubicacionLocal = $local['ubicacionlocal'];
 $rubroLocal = $local['rubrolocal'];

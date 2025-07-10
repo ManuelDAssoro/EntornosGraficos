@@ -18,7 +18,7 @@ if ($id) {
     $usuario = $stmt->fetch();
 
     if ($usuario && $usuario['tipousuario'] === 'dueno') {
-        $emailDestino = $usuario['nombreUsuario'];
+        $emailDestino = $usuario['nombreusuario'];
 
         // Enviar correo
         $mail = new PHPMailer(true);

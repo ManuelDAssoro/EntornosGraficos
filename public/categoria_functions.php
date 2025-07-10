@@ -87,7 +87,7 @@ function usarPromocion($codUsuario, $codPromo, $pdo) {
         $user = $stmt->fetch();
         $categoriaCliente = $user['categoriaCliente'] ?? 'inicial';
         
-        if (!puedeAccederPromocion($categoriaCliente, $promocion['categoriaCliente'])) {
+        if (!puedeAccederPromocion($categoriaCliente, $promocion['categoriacliente'])) {
             throw new Exception("No tienes acceso a esta promoción. Necesitas categoría " . ucfirst($promocion['categoriaCliente']) . " o superior.");
         }
         

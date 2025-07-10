@@ -146,7 +146,7 @@ include 'layout/header.php';
                                                 </span>
                                             </td>
                                             <td><?= date('d/m/Y', strtotime($novedad['fecha_publicacion'])) ?></td>
-                                            <td><?= htmlspecialchars($novedad['nombreUsuario'] ?? 'Sistema') ?></td>
+                                            <td><?= htmlspecialchars($novedad['nombreusuario'] ?? 'Sistema') ?></td>
                                             <td>
                                                 <a href="edit_novedad.php?id=<?= $novedad['id'] ?>" class="btn btn-sm btn-outline-primary"
                                                 onclick="editarNovedad(<?= $novedad['id'] ?>)">

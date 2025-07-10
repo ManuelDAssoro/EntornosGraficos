@@ -15,7 +15,7 @@ $local = $stmt->fetch();
 if (!$local) {
     die("No se encontró un local asociado a este usuario.");
 }
-$codLocal = $local['codLocal'];
+$codLocal = $local['codlocal'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $texto = trim($_POST['textoPromo'] ?? '');
