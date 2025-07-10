@@ -19,6 +19,7 @@ if ($usuario_logueado) {
     $categoriaFilter = getCategoriaFilterSQL($categoria_cliente, 'p');
 } else {
     $categoriaFilter = "1=1"; 
+} 
 
 $query = "
     SELECT p.*, l.nombreLocal, l.ubicacionLocal, l.rubroLocal
