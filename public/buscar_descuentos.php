@@ -14,7 +14,12 @@ $filtro_rubro = $_GET['rubro'] ?? '';
 $filtro_busqueda = $_GET['busqueda'] ?? '';
 $mensaje = $_GET['mensaje'] ?? '';
 
-$categoriaFilter = getCategoriaFilterSQL($categoria_cliente, 'p');
+
+if ($usuario_logueado) {
+    $categoriaFilter = getCategoriaFilterSQL($categoria_cliente, 'p');
+} else {
+    $categoriaFilter = "1=1"; 
+
 $query = "
     SELECT p.*, l.nombreLocal, l.ubicacionLocal, l.rubroLocal
     FROM promociones p
@@ -70,7 +75,7 @@ include 'layout/header.php';
                 <?php else: ?>
                 <div class="mt-3">
                     <span class="badge bg-warning text-dark fs-6">
-                        <i class="bi bi-eye"></i> Mostrando promociones básicas
+                        <i class="bi bi-eye"></i> Viendo todas las promociones - ¡Regístrate para usar!
                     </span>
                 </div>
                 <?php endif; ?>
@@ -219,16 +224,12 @@ include 'layout/header.php';
                             </a>
                             <?php else: ?>
                             <div class="text-center">
-                                <p class="text-muted mb-2">
-                                    <i class="bi bi-info-circle"></i>
-                                    Registrate para usar esta promoción
-                                </p>
-                                <a href="register.php" class="btn btn-primary me-2">
-                                    <i class="bi bi-person-plus"></i> Registrarse
+                                <a href="register.php" class="btn btn-warning w-100">
+                                    <i class="bi bi-person-plus"></i> Registrarse para usar
                                 </a>
-                                <a href="login.php" class="btn btn-outline-primary">
-                                    <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
-                                </a>
+                                <small class="text-muted d-block mt-1">
+                                    ¡Regístrate gratis para usar las promociones!
+                                </small>
                             </div>
                             <?php endif; ?>
                         </div>

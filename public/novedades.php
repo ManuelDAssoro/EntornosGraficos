@@ -41,7 +41,13 @@ try {
 }
 
 try {
-    $categoriaFilter = getCategoriaFilterSQL($categoria_cliente === 'unlogged' ? 'inicial' : $categoria_cliente, 'p');
+    
+    if ($usuario_logueado) {
+        $categoriaFilter = getCategoriaFilterSQL($categoria_cliente === 'unlogged' ? 'inicial' : $categoria_cliente, 'p');
+    } else {
+        $categoriaFilter = "1=1"; 
+    }
+    
     $stmt = $pdo->prepare("
         SELECT p.*, l.nombreLocal, l.rubroLocal,
                'promocion' as tipo_noticia,
@@ -109,7 +115,7 @@ include 'layout/header.php';
                 <?php else: ?>
                     <div class="mt-3">
                         <span class="badge bg-warning text-dark fs-6">
-                            <i class="bi bi-eye"></i> Mostrando novedades básicas
+                            <i class="bi bi-eye"></i> Mostrando todas las novedades públicas
                         </span>
                     </div>
                 <?php endif; ?>

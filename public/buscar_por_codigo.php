@@ -29,7 +29,12 @@ if (!empty($codigo_local)) {
     $local_encontrado = $stmt->fetch();
     
     if ($local_encontrado) {
-        $categoriaFilter = getCategoriaFilterSQL($categoria_cliente, '');
+        if ($usuario_logueado) {
+            $categoriaFilter = getCategoriaFilterSQL($categoria_cliente, '');
+        } else {
+            $categoriaFilter = "1=1"; 
+        }
+        
         $stmt = $pdo->prepare("
             SELECT * FROM promociones 
             WHERE codLocal = ? 
@@ -71,13 +76,13 @@ include 'layout/header.php';
                 <?php if ($usuario_logueado): ?>
                     <div class="mt-3">
                         <span class="badge bg-white text-info fs-6">
-                            <i class="bi bi-star"></i> Tu categoría: <?= htmlspecialchars($categoria_cliente) ?>
+                            <i class="bi bi-star"></i> Tu categoría: <?= getCategoryBadge($categoria_cliente) ?>
                         </span>
                     </div>
                 <?php else: ?>
                     <div class="mt-3">
                         <span class="badge bg-warning text-dark fs-6">
-                            <i class="bi bi-eye"></i> Mostrando promociones básicas
+                            <i class="bi bi-eye"></i> Viendo todas las promociones disponibles
                         </span>
                     </div>
                 <?php endif; ?>

@@ -165,7 +165,11 @@ function getCategoryProgress($codUsuario, $pdo) {
     return $progress;
 }
 
-function getCategoriaFilterSQL($categoriaCliente, $tableAlias = 'p') {
+function getCategoriaFilterSQL($categoriaCliente, $tableAlias = 'p', $includeAll = false) {
+    if ($includeAll) {
+        return "1=1";
+    }
+    
     $column = ($tableAlias ? $tableAlias . '.' : '') . 'categoriaCliente';
     $columnLower = "LOWER($column)";
     switch (strtolower($categoriaCliente)) {
