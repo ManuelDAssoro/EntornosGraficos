@@ -48,51 +48,51 @@ else {
     logDebug(print_r($usuario, true)); // mostrar contenido del array
 
  // Validar existencia del usuario
-    if ($usuario && !empty($usuario['claveusuario'])) {
-        logDebug("Usuario encontrado, verificando contraseña...");
+    if ($usuario && !empty($usuario['claveusuario']) && password_verify($claveUsuario, trim($usuario['claveusuario']))) {
+        // VALIDACIÓN DE CONFIRMACIÓN
+        if ($usuario['estado'] === 'pendiente') {
+            $errores[] = "Debes confirmar tu cuenta por email antes de poder iniciar sesión. Revisa tu bandeja de entrada.";
+            logDebug("Cuenta pendiente de confirmación por email.");
+        } elseif ($usuario['estado'] === 'pendiente_aprobacion') {
+            $errores[] = "Tu cuenta está siendo revisada por un administrador. Te notificaremos por email cuando sea aprobada.";
+            logDebug("Cuenta de dueño pendiente de aprobación por admin.");
+        } elseif ($usuario['estado'] === 'rechazado') {
+            $errores[] = "Tu cuenta ha sido rechazada. Contacta al administrador para más información.";
+            logDebug("Cuenta rechazada.");
+        } elseif (in_array($usuario['estado'], ['activo', 'aprobado'])) {
+            // Cuenta válida 
+            logDebug("Cuenta activa. Redireccionando según tipo de usuario...");
 
-        // Verificar contraseña
-        if (password_verify($claveUsuario, trim($usuario['claveusuario']))) {
-            logDebug("Contraseña verificada correctamente.");
+            $_SESSION['usuario_id'] = $usuario['codusuario'];
+            $_SESSION['tipoUsuario'] = $usuario['tipousuario'];
+            $_SESSION['categoriaCliente'] = $usuario['categoriacliente'] ?? 'inicial';
 
-            // Verificar estado del usuario
-            if ($usuario['estado'] !== 'pendiente') {
-                logDebug("Cuenta activa. Redireccionando según tipo de usuario...");
-
-                $_SESSION['usuario_id'] = $usuario['codusuario'];
-                $_SESSION['tipoUsuario'] = $usuario['tipousuario'];
-                $_SESSION['categoriaCliente'] = $usuario['categoriacliente'] ?? 'inicial';
-
-                switch ($usuario['tipousuario']) {
-                    case 'administrador':
-                        logDebug("Redireccionando a dashboard_admin.php");
-                        header("Location: dashboard_admin.php");
-                        break;
-                    case 'cliente':
-                        logDebug("Redireccionando a dashboard_cliente.php");
-                        header("Location: dashboard_cliente.php");
-                        break;
-                    case 'dueno':
-                        logDebug("Redireccionando a dashboard_dueno.php");
-                        header("Location: dashboard_dueno.php");
-                        break;
-                    default:
-                        logDebug("Redireccionando a dashboard.php (tipo desconocido)");
-                        header("Location: dashboard.php");
-                        break;
-                }
-                exit;
-            } else {
-                $errores[] = "Tu cuenta aún no está activada.";
-                logDebug("Cuenta pendiente de activación.");
+            switch ($usuario['tipousuario']) {
+                case 'administrador':
+                    logDebug("Redireccionando a dashboard_admin.php");
+                    header("Location: dashboard_admin.php");
+                    break;
+                case 'cliente':
+                    logDebug("Redireccionando a dashboard_cliente.php");
+                    header("Location: dashboard_cliente.php");
+                    break;
+                case 'dueno':
+                    logDebug("Redireccionando a dashboard_dueno.php");
+                    header("Location: dashboard_dueno.php");
+                    break;
+                default:
+                    logDebug("Redireccionando a dashboard.php (tipo desconocido)");
+                    header("Location: dashboard.php");
+                    break;
             }
+            exit;
         } else {
-            $errores[] = "Contraseña incorrecta.";
-            logDebug("Fallo en la verificación de contraseña.");
+            $errores[] = "Estado de cuenta no válido. Contacta al administrador.";
+            logDebug("Estado de cuenta desconocido: " . $usuario['estado']);
         }
     } else {
-        $errores[] = "El usuario no existe o clave vacía.";
-        logDebug("No se encontró el usuario en la base de datos.");
+        $errores[] = "Email o contraseña incorrectos.";
+        logDebug("Fallo en la verificación de contraseña o usuario no encontrado.");
     }
 }
 }
