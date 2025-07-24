@@ -11,7 +11,7 @@ if (isset($_SESSION['usuario_id'])) {
         $stmt = $pdo->prepare("SELECT nombreUsuario FROM usuarios WHERE codUsuario = ?");
         $stmt->execute([$_SESSION['usuario_id']]);
         $user = $stmt->fetch();
-        $username = $user['nombreUsuario'] ?? '';
+        $username = $user['nombreusuario'] ?? '';
     } catch (Exception $e) {
         $username = 'Usuario';
     }
