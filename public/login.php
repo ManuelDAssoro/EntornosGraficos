@@ -106,35 +106,59 @@ ob_end_flush();
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Login</title>
+  <title>Iniciar sesión</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 <body class="bg-light">
   <div class="container mt-5">
     <h2>Iniciar sesión</h2>
 
-    <?php foreach ($errores as $error): ?>
-      <div class="alert alert-danger"><?= $error ?></div>
-    <?php endforeach; ?>
+    <?php if (!empty($errores)): ?>
+      <?php foreach ($errores as $error): ?>
+        <div class="alert alert-danger"><?= $error ?></div>
+      <?php endforeach; ?>
+    <?php endif; ?>
 
     <form method="POST" action="login.php">
       <div class="mb-3">
         <label>Email</label>
         <input type="email" name="nombreUsuario" class="form-control" required />
       </div>
+
       <div class="mb-3">
         <label>Contraseña</label>
-        <input type="password" name="claveUsuario" class="form-control" required />
+        <div class="input-group">
+          <input type="password" name="claveUsuario" id="claveUsuario" class="form-control" required />
+          <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+            <i class="bi bi-lock"></i>
+          </button>
+        </div>
       </div>
+
       <button type="submit" class="btn btn-primary">Ingresar</button>
     </form>
 
     <a href="register.php" class="btn btn-link mt-3">¿No tienes cuenta? Regístrate</a>
-    
+
     <form action="index.php" method="get">
       <button type="submit" style="margin-top:20px; padding:10px 20px;">← Volver al inicio</button>
     </form>
-
   </div>
+
+  <!-- JavaScript para cambiar entre candado abierto/cerrado -->
+  <script>
+    document.getElementById('togglePassword').addEventListener('click', function () {
+      const passwordField = document.getElementById('claveUsuario');
+      const icon = this.querySelector('i');
+      const isPassword = passwordField.type === 'password';
+      passwordField.type = isPassword ? 'text' : 'password';
+
+      // Alternar icono entre candado cerrado y abierto
+      icon.classList.toggle('bi-lock');
+      icon.classList.toggle('bi-unlock');
+    });
+  </script>
 </body>
 </html>
