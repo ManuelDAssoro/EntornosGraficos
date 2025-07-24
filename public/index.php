@@ -43,7 +43,7 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-body">
-              <i class="bi bi-upc display-4 text-info mb-3"></i>
+              <i class="bi bi-upc-scan display-4 text-info mb-3"></i>
               <h5>Buscar por Código</h5>
               <p>Encuentra promociones específicas del local</p>
               <a href="buscar_por_codigo.php" class="btn btn-info">Buscar Código</a>
