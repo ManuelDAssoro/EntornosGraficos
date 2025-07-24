@@ -403,10 +403,10 @@ include 'layout/header.php';
             <div class="card text-center bg-light">
                 <div class="card-body">
                     <i class="bi bi-arrow-left display-4 text-secondary mb-3"></i>
-                    <h5>Volver al Dashboard</h5>
+                    <h5>Volver al Menu</h5>
                     <p class="text-muted">Regresa a tu panel principal</p>
                     <a href="dashboard_cliente.php" class="btn btn-secondary">
-                        <i class="bi bi-house"></i> Dashboard
+                        <i class="bi bi-house"></i> Menu
                     </a>
                 </div>
             </div>

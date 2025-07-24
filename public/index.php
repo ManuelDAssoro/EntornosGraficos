@@ -14,10 +14,10 @@
       <a class="navbar-brand" href="#">🛍️ Mi Shopping</a>
       <div class="d-flex">
         <?php if (!isset($_SESSION['usuario_id'])): ?>
-          <a href="login.php" class="btn btn-outline-light me-2">Login</a>
+          <a href="login.php" class="btn btn-outline-light me-2">Ingresar</a>
           <a href="register.php" class="btn btn-light">Registro</a>
         <?php else: ?>
-          <a href="dashboard.php" class="btn btn-success me-2">Dashboard</a>
+          <a href="dashboard.php" class="btn btn-success me-2">Menu</a>
           <a href="logout.php" class="btn btn-outline-light">Salir</a>
         <?php endif; ?>
       </div>
@@ -68,7 +68,7 @@
         <a href="login.php" class="btn btn-outline-primary btn-lg">Iniciar Sesión</a>
       </div>
     <?php else: ?>
-      <a href="dashboard.php" class="btn btn-primary btn-lg mt-3">Ir al Dashboard</a>
+      <a href="dashboard.php" class="btn btn-primary btn-lg mt-3">Ir al Menu</a>
     <?php endif; ?>
   </div>
 </body>

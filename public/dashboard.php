@@ -26,7 +26,7 @@ if (isset($_SESSION['tipoUsuario'])) {
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Dashboard</title>
+  <title>Menu</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body>

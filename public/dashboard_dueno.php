@@ -64,7 +64,7 @@ $mensajes = [
         <div class="collapse navbar-collapse" id="navbarNav">
             <div class="navbar-nav me-auto">
                 <a class="nav-link active" href="dashboard_dueno.php">
-                    <i class="bi bi-house"></i> Dashboard
+                    <i class="bi bi-house"></i> Menu
                 </a>
                 <?php if ($hasLocal): ?>
                 <a class="nav-link" href="promocion_nueva.php">

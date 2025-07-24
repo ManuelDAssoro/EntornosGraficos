@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="navbar-nav me-auto">
-                    <a class="nav-link" href="dashboard_admin.php">Dashboard</a>
+                    <a class="nav-link" href="dashboard_admin.php">Menu</a>
                     <a class="nav-link" href="admin_locales.php">Locales</a>
                 </div>
                 <div class="d-flex">

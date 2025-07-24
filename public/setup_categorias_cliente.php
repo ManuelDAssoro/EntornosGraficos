@@ -114,4 +114,4 @@ try {
 }
 ?>
 
-<p><a href="../public/dashboard_admin.php">← Volver al Dashboard Admin</a></p>
+<p><a href="../public/dashboard_admin.php">← Volver al Menu Admin</a></p>

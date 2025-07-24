@@ -4,7 +4,7 @@ require_once 'auth.php';
 requireRole('administrador');
 require_once '../config/db.php';
 
-$page_title = 'Dashboard Admin - Mi Shopping';
+$page_title = 'Menu Admin - Mi Shopping';
 $custom_css = 'dashboard-admin.css';
 
 $stats = [];
@@ -37,7 +37,7 @@ include 'layout/header.php';
         <div class="container">
             <div class="welcome-section">
                 <h1 class="mb-3">
-                    <i class="bi bi-speedometer2"></i> Dashboard Administrativo
+                    <i class="bi bi-speedometer2"></i> Menu Administrativo
                 </h1>
                 <p class="lead mb-0">Panel de control y gestión del shopping</p>
             </div>

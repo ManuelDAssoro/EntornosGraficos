@@ -227,7 +227,7 @@ function enviarEmailConfirmacion($email, $token, $tipoUsuario) {
 
                         <div class="action-buttons">
                             <a href="login.php" class="btn btn-primary btn-lg">
-                                <i class="bi bi-envelope"></i> Ir a Login
+                                <i class="bi bi-envelope"></i> Ir al Ingreso
                             </a>
                             <a href="index.php" class="btn btn-outline-secondary btn-lg">
                                 <i class="bi bi-house"></i> Volver al Inicio

@@ -50,7 +50,7 @@ include 'layout/header.php';
             </div>
             <div class="col-md-4 text-end">
                 <a href="dashboard_dueno.php" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left"></i> Volver al Dashboard
+                    <i class="bi bi-arrow-left"></i> Volver al Menu
                 </a>
             </div>
         </div>

@@ -143,7 +143,7 @@ if (empty($token)) {
                         </a>
                     <?php else: ?>
                         <a href="login.php" class="btn btn-primary btn-lg">
-                            <i class="bi bi-person"></i> Ir a Login
+                            <i class="bi bi-person"></i> Ir al Ingreso
                         </a>
                     <?php endif; ?>
                     <a href="index.php" class="btn btn-outline-secondary btn-lg">

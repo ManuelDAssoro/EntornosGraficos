@@ -47,7 +47,7 @@ if (isset($_SESSION['usuario_id'])) {
                 <div class="navbar-nav me-auto">
                     <?php if ($user_role === 'administrador'): ?>
                         <a class="nav-link <?= $current_page === 'dashboard_admin.php' ? 'active' : '' ?>" href="dashboard_admin.php">
-                            <i class="bi bi-house"></i> Dashboard
+                            <i class="bi bi-house"></i> Menu
                         </a>
                         <a class="nav-link <?= $current_page === 'admin_locales.php' ? 'active' : '' ?>" href="admin_locales.php">
                             <i class="bi bi-shop"></i> Locales
@@ -60,7 +60,7 @@ if (isset($_SESSION['usuario_id'])) {
                         </a>
                     <?php elseif ($user_role === 'dueno'): ?>
                         <a class="nav-link <?= $current_page === 'dashboard_dueno.php' ? 'active' : '' ?>" href="dashboard_dueno.php">
-                            <i class="bi bi-house"></i> Dashboard
+                            <i class="bi bi-house"></i> Menu
                         </a>
                         <?php
                         // Check if dueño has a local
@@ -82,7 +82,7 @@ if (isset($_SESSION['usuario_id'])) {
                         <?php endif; ?>
                     <?php elseif ($user_role === 'cliente'): ?>
                         <a class="nav-link <?= $current_page === 'dashboard_cliente.php' ? 'active' : '' ?>" href="dashboard_cliente.php">
-                            <i class="bi bi-house"></i> Dashboard
+                            <i class="bi bi-house"></i> Menu
                         </a>
                     <?php endif; ?>
                 </div>
