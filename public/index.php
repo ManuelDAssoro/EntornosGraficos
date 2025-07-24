@@ -33,7 +33,7 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-body">
-              <i class="bi bi-upc-scan display-4 text-info mb-3"></i>
+              <i class="bi bi-search display-4 text-primary mb-3"></i>
               <h5>Explorar Promociones</h5>
               <p>Descubre todas las ofertas disponibles</p>
               <a href="buscar_descuentos.php" class="btn btn-primary">Ver Promociones</a>
@@ -43,7 +43,7 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-body">
-              <i class="bi bi-qr-code display-4 text-info mb-3"></i>
+              <i class="bi bi-upc display-4 text-info mb-3"></i>
               <h5>Buscar por Código</h5>
               <p>Encuentra promociones específicas del local</p>
               <a href="buscar_por_codigo.php" class="btn btn-info">Buscar Código</a>
