@@ -1,4 +1,5 @@
-/* Buscar por Código - Client Functionality */
+
+/* Buscar por Local - Client Functionality */
 
 .hero-section {
     background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
@@ -13,7 +14,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="15" height="15" fill="rgba(255,255,255,0.1)" rx="2"/><rect x="70" y="30" width="20" height="20" fill="rgba(255,255,255,0.1)" rx="3"/><rect x="30" y="60" width="12" height="12" fill="rgba(255,255,255,0.1)" rx="2"/></svg>');
+    /* Cambiar el patrón de QR por iconos de tienda */
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="15" width="15" height="10" fill="rgba(255,255,255,0.1)" rx="2"/><rect x="70" y="35" width="20" height="15" fill="rgba(255,255,255,0.1)" rx="3"/><rect x="30" y="65" width="12" height="8" fill="rgba(255,255,255,0.1)" rx="2"/></svg>');
     animation: float 8s ease-in-out infinite;
 }
 
@@ -24,14 +26,30 @@
 
 .hero-icon {
     opacity: 0.3;
-    animation: scan 4s ease-in-out infinite;
+    animation: pulse 4s ease-in-out infinite;
 }
 
-@keyframes scan {
+@keyframes pulse {
     0%, 100% { opacity: 0.3; transform: scale(1); }
     25% { opacity: 0.6; transform: scale(1.1); }
     50% { opacity: 0.4; transform: scale(1.05); }
     75% { opacity: 0.7; transform: scale(1.1); }
+}
+
+/* Store Search Animation */
+.search-card .display-1 {
+    animation: store-pulse 2s ease-in-out infinite;
+}
+
+@keyframes store-pulse {
+    0%, 100% { 
+        transform: scale(1);
+        color: #17a2b8;
+    }
+    50% { 
+        transform: scale(1.1);
+        color: #20c997;
+    }
 }
 
 .search-card {
@@ -134,22 +152,6 @@
 
 .promotion-details .badge {
     margin-bottom: 0.5rem;
-}
-
-/* QR Code Scanner Animation */
-.search-card .display-1 {
-    animation: qr-pulse 2s ease-in-out infinite;
-}
-
-@keyframes qr-pulse {
-    0%, 100% { 
-        transform: scale(1);
-        color: #17a2b8;
-    }
-    50% { 
-        transform: scale(1.1);
-        color: #20c997;
-    }
 }
 
 /* Form validation styles */
