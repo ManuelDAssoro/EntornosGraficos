@@ -51,16 +51,16 @@ $duenos = $stmt->fetchAll();
 
 try {
     $sql_stats = "SELECT 
-        SUM(CASE WHEN estado = 'pendiente' THEN 1 ELSE 0 END) as pendientes,
+        SUM(CASE WHEN estado = 'pendiente_aprobacion' THEN 1 ELSE 0 END) as pendientes,
         SUM(CASE WHEN estado = 'aprobado' THEN 1 ELSE 0 END) as aprobados,
         SUM(CASE WHEN estado = 'rechazado' THEN 1 ELSE 0 END) as rechazados,
-        COUNT(*) as activos
-        FROM usuarios WHERE tipoUsuario = 'dueno'";
+        COUNT(*) as total
+        FROM usuarios WHERE tipousuario = 'dueno'";
     $stmt_stats = $pdo->prepare($sql_stats);
     $stmt_stats->execute();
     $stats = $stmt_stats->fetch();
 } catch (Exception $e) {
-    $stats = ['pendientes' => 0, 'aprobados' => 0, 'rechazados' => 0, 'activos' => 0];
+    $stats = ['pendientes' => 0, 'aprobados' => 0, 'rechazados' => 0, 'total' => 0];
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -231,7 +231,7 @@ include 'layout/header.php';
                     <i class="bi bi-people"></i>
                 </div>
                 <div class="overview-content">
-                    <h4><?= $stats['activos'] ?></h4>
+                    <h4><?= $stats['total'] ?></h4>
                     <p>Usuarios Activos</p>
                 </div>
             </div>
@@ -367,13 +367,13 @@ include 'layout/header.php';
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group btn-group-sm">
-                                        <?php if ($seccion === 'solicitudes' && $dueno['estado'] === 'pendiente'): ?>
+                                        <?php if ($seccion === 'solicitudes' && $dueno['estado'] === 'pendiente_aprobacion'): ?>
                                             <form method="POST" style="display: inline;">
                                                 <input type="hidden" name="action" value="aprobar">
                                                 <input type="hidden" name="userId" value="<?= $dueno['codusuario'] ?>">
                                                 <button type="submit" class="btn btn-success btn-sm" 
                                                         title="Aprobar Solicitud"
-                                                        onclick="aprobarDueno(<?= $dueno['codusuario'] ?>)">
+                                                        onclick="return confirm('¿Aprobar esta solicitud de dueño?')">
                                                     <i class="bi bi-check-circle"></i>
                                                 </button>
                                             </form>
@@ -382,7 +382,7 @@ include 'layout/header.php';
                                                 <input type="hidden" name="userId" value="<?= $dueno['codusuario'] ?>">
                                                 <button type="submit" class="btn btn-danger btn-sm" 
                                                         title="Rechazar Solicitud"
-                                                        onclick="rechazarDueno(<?= $dueno['codusuario'] ?>)">
+                                                        onclick="return confirm('¿Rechazar esta solicitud de dueño?')">
                                                     <i class="bi bi-x-circle"></i>
                                                 </button>
                                             </form>
@@ -398,13 +398,14 @@ include 'layout/header.php';
                                                             onclick="return confirm('¿Desactivar este usuario? (Cambiar a Rechazado)')">
                                                         <i class="bi bi-pause-circle"></i>
                                                     </button>
-                                                    </form>
+                                                </form>
                                             <?php elseif ($dueno['estado'] === 'rechazado'): ?>
                                                 <form method="POST" style="display: inline;">
                                                     <input type="hidden" name="action" value="activar">
                                                     <input type="hidden" name="userId" value="<?= $dueno['codusuario'] ?>">
                                                     <button type="submit" class="btn btn-info btn-sm" 
-                                                            title="Reactivar Usuario (Aprobar)">
+                                                            title="Reactivar Usuario (Aprobar)"
+                                                            onclick="return confirm('¿Reactivar este usuario?')">
                                                         <i class="bi bi-play-circle"></i>
                                                     </button>
                                                 </form>
