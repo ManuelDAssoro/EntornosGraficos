@@ -168,12 +168,12 @@ try {
             <div class="card action-card h-100 text-center">
                 <div class="card-body">
                     <div class="action-icon text-info mb-3">
-                        <i class="bi bi-qr-code display-4"></i>
+                        <i class="bi bi-shop display-4"></i>
                     </div>
-                    <h5 class="card-title">Buscar por Código</h5>
-                    <p class="card-text text-muted">Ingresa el código de un local para ver sus ofertas</p>
+                    <h5 class="card-title">Buscar por Local</h5>
+                    <p class="card-text text-muted">Busca un local para ver sus ofertas</p>
                     <a href="buscar_por_codigo.php" class="btn btn-info">
-                        <i class="bi bi-qr-code"></i> Ingresar Código
+                        <i class="bi bi-shop"></i> Buscar Local
                     </a>
                 </div>
             </div>

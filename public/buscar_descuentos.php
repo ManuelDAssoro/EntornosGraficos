@@ -247,11 +247,11 @@ include 'layout/header.php';
         <div class="col-md-6">
             <div class="card text-center bg-light">
                 <div class="card-body">
-                    <i class="bi bi-qr-code display-4 text-primary mb-3"></i>
-                    <h5>¿Tenés un código?</h5>
-                    <p class="text-muted">Ingresá el código del local para ver sus promociones</p>
+                    <i class="bi bi-shop display-4 text-primary mb-3"></i>
+                    <h5>¿Buscás un local específico?</h5>
+                    <p class="text-muted">Busca un local para ver sus promociones</p>
                     <a href="buscar_por_codigo.php" class="btn btn-primary">
-                        <i class="bi bi-qr-code"></i> Ingresar Código
+                        <i class="bi bi-shop"></i> Buscar Local
                     </a>
                 </div>
             </div>

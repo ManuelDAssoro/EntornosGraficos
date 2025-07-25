@@ -182,7 +182,7 @@ include 'layout/header.php';
                                     <i class="bi bi-search"></i> Ver Descuentos
                                 </a>
                                 <a href="buscar_por_codigo.php" class="btn btn-outline-primary">
-                                    <i class="bi bi-qr-code"></i> Buscar por Código
+                                    <i class="bi bi-shop"></i> Buscar por Local
                                 </a>
                             </div>
                         </div>
@@ -331,7 +331,7 @@ include 'layout/header.php';
                             <i class="bi bi-search"></i> Explorar Descuentos
                         </a>
                         <a href="buscar_por_codigo.php" class="btn btn-outline-light btn-lg">
-                            <i class="bi bi-qr-code"></i> Buscar por Código
+                            <i class="bi bi-shop"></i> Buscar por Local
                         </a>
                     </div>
                 </div>

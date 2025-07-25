@@ -70,9 +70,9 @@ include 'layout/header.php';
         <div class="row align-items-center py-5">
             <div class="col-md-8">
                 <h1 class="display-5 fw-bold mb-3">
-                    <i class="bi bi-qr-code"></i> Buscar por Código
+                    <i class="bi bi-shop"></i> Buscar por Local
                 </h1>
-                <p class="lead mb-0">Ingresá el código del local para acceder a sus promociones exclusivas</p>
+                <p class="lead mb-0">Busca un local para acceder a sus promociones exclusivas</p>
                 <?php if ($usuario_logueado): ?>
                     <div class="mt-3">
                         <span class="badge bg-white text-info fs-6">
@@ -89,7 +89,7 @@ include 'layout/header.php';
             </div>
             <div class="col-md-4 text-end">
                 <div class="hero-icon">
-                    <i class="bi bi-search display-1"></i>
+                    <i class="bi bi-building display-1"></i>
                 </div>
             </div>
         </div>
@@ -119,9 +119,9 @@ include 'layout/header.php';
             <div class="card search-card">
                 <div class="card-body text-center p-5">
                     <div class="mb-4">
-                        <i class="bi bi-qr-code display-1 text-info"></i>
+                        <i class="bi bi-shop display-1 text-info"></i>
                     </div>
-                    <h3 class="mb-4">Ingresá el Código del Local</h3>
+                    <h3 class="mb-4">Buscar Local</h3>
                     <p class="text-muted mb-4">
                         Podés usar el código del local, el nombre o la ubicación para encontrar las promociones disponibles.
                     </p>
