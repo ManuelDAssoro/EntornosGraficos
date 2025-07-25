@@ -15,7 +15,7 @@ $where = ["tipoUsuario = 'dueno'"];
 $params = [];
 
 if ($seccion === 'solicitudes') {
-    $where[] = "estado = 'pendiente'";
+    $where[] = "estado = 'pendiente_aprobacion'";
 } else {
     $where[] = "estado != 'pendiente'";
 }
