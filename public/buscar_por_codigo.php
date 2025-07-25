@@ -18,14 +18,41 @@ $local_encontrado = null;
 $promociones_local = [];
 
 if (!empty($codigo_local)) {
-    $stmt = $pdo->prepare("
-        SELECT * FROM locales 
-        WHERE codlocal = ? 
-        OR nombrelocal ILIKE ? 
-        OR ubicacionlocal ILIKE ?
-        LIMIT 1
-    ");
-    $stmt->execute([$codigo_local, "%$codigo_local%", "%$codigo_local%"]);
+    $codigo_local_trimmed = trim($codigo_local);
+    
+    if (is_numeric($codigo_local_trimmed)) {
+        $stmt = $pdo->prepare("
+            SELECT * FROM locales 
+            WHERE codlocal = ? 
+            OR nombrelocal ILIKE ? 
+            OR ubicacionlocal ILIKE ?
+            ORDER BY 
+                CASE WHEN codlocal = ? THEN 1 ELSE 2 END,
+                nombrelocal
+            LIMIT 1
+        ");
+        $searchPattern = "%$codigo_local_trimmed%";
+        $stmt->execute([$codigo_local_trimmed, $searchPattern, $searchPattern, $codigo_local_trimmed]);
+    } else {
+        $stmt = $pdo->prepare("
+            SELECT * FROM locales 
+            WHERE nombrelocal ILIKE ? 
+            OR ubicacionlocal ILIKE ?
+            ORDER BY 
+                CASE 
+                    WHEN LOWER(nombrelocal) = LOWER(?) THEN 1
+                    WHEN LOWER(ubicacionlocal) = LOWER(?) THEN 2
+                    WHEN nombrelocal ILIKE ? THEN 3
+                    ELSE 4
+                END,
+                nombrelocal
+            LIMIT 1
+        ");
+        $searchPattern = "%$codigo_local_trimmed%";
+        $exactMatch = $codigo_local_trimmed;
+        $stmt->execute([$searchPattern, $searchPattern, $exactMatch, $exactMatch, $searchPattern]);
+    }
+    
     $local_encontrado = $stmt->fetch();
     
     if ($local_encontrado) {
@@ -54,13 +81,13 @@ $stmt = $pdo->prepare("
     LEFT JOIN promociones p ON l.codlocal = p.codlocal 
         AND p.estadopromo = 'activa'
         AND (p.fechadesdepromo <= CURRENT_DATE AND p.fechahastapromo >= CURRENT_DATE)
-    GROUP BY l.codlocal
+    GROUP BY l.codlocal, l.nombrelocal, l.ubicacionlocal, l.rubrolocal, l.codusuario
     ORDER BY l.nombrelocal
 ");
 $stmt->execute();
 $todos_locales = $stmt->fetchAll();
 
-$page_title = 'Buscar por Código - Mi Shopping';
+$page_title = 'Buscar por Local - Mi Shopping';
 $custom_css = 'buscar-por-codigo.css';
 include 'layout/header.php';
 ?>
@@ -123,7 +150,7 @@ include 'layout/header.php';
                     </div>
                     <h3 class="mb-4">Buscar Local</h3>
                     <p class="text-muted mb-4">
-                        Podés usar el código del local, el nombre o la ubicación para encontrar las promociones disponibles.
+                        Podés usar el <strong>código del local</strong>, el <strong>nombre</strong> o la <strong>ubicación</strong> para encontrar las promociones disponibles.
                     </p>
                     
                     <form method="POST" class="needs-validation" novalidate>
@@ -135,14 +162,15 @@ include 'layout/header.php';
                                    class="form-control" 
                                    name="codigo_local" 
                                    value="<?= htmlspecialchars($codigo_local) ?>"
-                                   placeholder="Código, nombre o ubicación del local"
+                                   placeholder="Ej: 15, 'Tienda Tech', 'Local A-101'"
+                                   required
                                    autofocus>
                             <button type="submit" class="btn btn-info">
                                 <i class="bi bi-search"></i> Buscar
                             </button>
                         </div>
                         <div class="invalid-feedback">
-                            Por favor ingresa un código válido.
+                            Por favor ingresa un término de búsqueda.
                         </div>
                     </form>
                     
@@ -150,19 +178,19 @@ include 'layout/header.php';
                         <div class="col-md-4">
                             <div class="example-code">
                                 <i class="bi bi-123 text-muted"></i>
-                                <small class="text-muted d-block">Código: 15</small>
+                                <small class="text-muted d-block"><strong>Por código:</strong><br>"15" o "3"</small>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="example-code">
                                 <i class="bi bi-shop text-muted"></i>
-                                <small class="text-muted d-block">Nombre: "Tienda Tech"</small>
+                                <small class="text-muted d-block"><strong>Por nombre:</strong><br>"Tienda" o "Tech"</small>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="example-code">
                                 <i class="bi bi-geo-alt text-muted"></i>
-                                <small class="text-muted d-block">Ubicación: "Local A-101"</small>
+                                <small class="text-muted d-block"><strong>Por ubicación:</strong><br>"A-101" o "Planta"</small>
                             </div>
                         </div>
                     </div>
@@ -179,13 +207,35 @@ include 'layout/header.php';
                         <i class="bi bi-exclamation-triangle display-4 text-warning mb-3"></i>
                         <h4>Local no encontrado</h4>
                         <p class="text-muted">
-                            No se encontró ningún local con el código "<strong><?= htmlspecialchars($codigo_local) ?></strong>".
+                            No se encontró ningún local que coincida con "<strong><?= htmlspecialchars($codigo_local) ?></strong>".
                         </p>
                         <div class="mt-3">
+                            <small class="text-muted d-block mb-3">
+                                💡 <strong>Sugerencias:</strong>
+                            </small>
+                            <div class="row text-start">
+                                <div class="col-md-4">
+                                    <small class="text-muted">
+                                        • <strong>Código:</strong> Prueba solo números (ej: "15")
+                                    </small>
+                                </div>
+                                <div class="col-md-4">
+                                    <small class="text-muted">
+                                        • <strong>Nombre:</strong> Usa palabras parciales (ej: "Tech")
+                                    </small>
+                                </div>
+                                <div class="col-md-4">
+                                    <small class="text-muted">
+                                        • <strong>Ubicación:</strong> Prueba "A-", "Local", etc.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
                             <a href="buscar_descuentos.php" class="btn btn-primary me-2">
                                 <i class="bi bi-search"></i> Ver Todos los Descuentos
                             </a>
-                            <button type="button" class="btn btn-outline-secondary" onclick="document.querySelector('input[name=codigo_local]').focus()">
+                            <button type="button" class="btn btn-outline-secondary" onclick="document.querySelector('input[name=codigo_local]').select()">
                                 <i class="bi bi-arrow-repeat"></i> Intentar Nuevamente
                             </button>
                         </div>
@@ -206,11 +256,16 @@ include 'layout/header.php';
                                 <h4 class="mb-0">
                                     <i class="bi bi-shop"></i> <?= htmlspecialchars($local_encontrado['nombrelocal']) ?>
                                 </h4>
-                                <?php if (!empty($local_encontrado['ubicacionlocal'])): ?>
-                                    <small class="opacity-75">
-                                        <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($local_encontrado['ubicacionlocal']) ?>
-                                    </small>
-                                <?php endif; ?>
+                                <div class="mt-1">
+                                    <span class="badge bg-light text-dark me-2">
+                                        <i class="bi bi-hash"></i> Código: <?= $local_encontrado['codlocal'] ?>
+                                    </span>
+                                    <?php if (!empty($local_encontrado['ubicacionlocal'])): ?>
+                                        <small class="opacity-75">
+                                            <i class="bi bi-geo-alt"></i> <?= htmlspecialchars($local_encontrado['ubicacionlocal']) ?>
+                                        </small>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                             <div class="col-auto">
                                 <?php if (!empty($local_encontrado['rubrolocal'])): ?>
@@ -232,7 +287,7 @@ include 'layout/header.php';
                             <div class="text-center py-4">
                                 <i class="bi bi-calendar-x display-4 text-muted mb-3"></i>
                                 <h5 class="text-muted">No hay promociones activas</h5>
-                                <p class="text-muted">Este local no tiene promociones disponibles en este momento.</p>
+                                <p class="text-muted">Este local no tiene promociones disponibles en este momento<?php if ($usuario_logueado): ?> para tu categoría (<?= htmlspecialchars($categoria_cliente) ?>)<?php endif; ?>.</p>
                                 <a href="buscar_descuentos.php" class="btn btn-primary">
                                     <i class="bi bi-search"></i> Ver Otros Descuentos
                                 </a>
@@ -245,14 +300,14 @@ include 'layout/header.php';
                                             <div class="card-body">
                                                 <div class="promotion-text mb-3">
                                                     <i class="bi bi-percent text-warning me-2"></i>
-                                                    <?= htmlspecialchars($promo['textopromo'] ?? '') ?>
+                                                    <strong><?= htmlspecialchars($promo['textopromo'] ?? '') ?></strong>
                                                 </div>
                                                 
                                                 <div class="promotion-details">
                                                     <div class="mb-2">
                                                         <small class="text-muted">
                                                             <i class="bi bi-calendar-check"></i>
-                                                            Válido hasta: <?= date('d/m/Y', strtotime($promo['fechahastapromo'])) ?>
+                                                            Válido hasta: <strong><?= date('d/m/Y', strtotime($promo['fechahastapromo'])) ?></strong>
                                                         </small>
                                                     </div>
                                                     
@@ -267,10 +322,7 @@ include 'layout/header.php';
                                                     
                                                     <?php if (!empty($promo['categoriacliente'])): ?>
                                                         <div class="mb-3">
-                                                            <small class="text-muted">
-                                                                <i class="bi bi-people"></i>
-                                                                Categoría: <?= htmlspecialchars($promo['categoriacliente'] ?? '') ?>
-                                                            </small>
+                                                            <?= getCategoryBadge($promo['categoriacliente']) ?>
                                                         </div>
                                                     <?php endif; ?>
                                                 </div>
