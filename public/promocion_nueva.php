@@ -30,8 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($texto)) {
         $errores[] = "El texto de la promoción es obligatorio.";
-    } elseif (strlen($texto) > 100) {
-        $errores[] = "El texto de la promoción no puede superar los 100 caracteres.";
+    } elseif (strlen($texto) > 20) {
+        $errores[] = "El texto de la promoción no puede superar los 20 caracteres.";
     }
 
     if (empty($desde)) {
@@ -136,10 +136,10 @@ include 'layout/header.php';
                     <i class="bi bi-megaphone"></i> Texto de la Promoción *
                 </label>
                 <input type="text" name="textopromo" value="<?= htmlspecialchars($_POST['textopromo'] ?? '') ?>" 
-                       class="form-control" maxlength="100" required
-                       placeholder="Ej: 20% de descuento en todos los productos">
+                       class="form-control" maxlength="20" required
+                       placeholder="Ej: 20% descuento">
                 <div class="form-text">
-                    <small class="text-muted">Máximo 100 caracteres. Actual: <span id="contador">0</span></small>
+                    <small class="text-muted">Máximo 20 caracteres. Actual: <span id="contador">0</span></small>
                 </div>
             </div>
             
@@ -206,7 +206,7 @@ include 'layout/header.php';
                 <hr class="my-4">
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-success btn-lg">
-                        <i class="bi bi-save"></i> Crear Promoción
+                        <i class="bi bi-save"></i> Enviar para Aprobación
                     </button>
                     <a href="dashboard_dueno.php" class="btn btn-secondary btn-lg">
                         <i class="bi bi-x-circle"></i> Cancelar
@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function actualizarContador() {
         const longitud = input.value.length;
         contador.textContent = longitud;
-        contador.style.color = longitud > 90 ? 'red' : (longitud > 80 ? 'orange' : 'inherit');
+        contador.style.color = longitud > 18 ? 'red' : (longitud > 15 ? 'orange' : 'inherit');
     }
     
     input.addEventListener('input', actualizarContador);
