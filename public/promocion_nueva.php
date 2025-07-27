@@ -30,8 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($texto)) {
         $errores[] = "El texto de la promoción es obligatorio.";
-    } elseif (strlen($texto) > 20) {
-        $errores[] = "El texto de la promoción no puede superar los 20 caracteres.";
+    } elseif (strlen($texto) > 100) {
+        $errores[] = "El texto de la promoción no puede superar los 100 caracteres.";
     }
 
     if (empty($desde)) {
@@ -60,7 +60,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($errores)) {
         try {
-            $diasSemana = implode(',', $dias);
+            // Mapear días completos a abreviaciones de 1 letra para ahorrar espacio
+            $diasAbrev = [
+                'Lunes' => 'L',
+                'Martes' => 'M', 
+                'Miércoles' => 'X',
+                'Jueves' => 'J',
+                'Viernes' => 'V',
+                'Sábado' => 'S',
+                'Domingo' => 'D'
+            ];
+            
+            $diasCortos = array_map(function($dia) use ($diasAbrev) {
+                return $diasAbrev[$dia] ?? substr($dia, 0, 1);
+            }, $dias);
+            
+            $diasSemana = implode(',', $diasCortos); // Máximo: "L,M,X,J,V,S,D" = 13 caracteres
             
             $stmt = $pdo->prepare("
                 INSERT INTO promociones (
@@ -136,10 +151,10 @@ include 'layout/header.php';
                     <i class="bi bi-megaphone"></i> Texto de la Promoción *
                 </label>
                 <input type="text" name="textopromo" value="<?= htmlspecialchars($_POST['textopromo'] ?? '') ?>" 
-                       class="form-control" maxlength="20" required
-                       placeholder="Ej: 20% descuento">
+                       class="form-control" maxlength="100" required
+                       placeholder="Ej: 20% de descuento en todos los productos">
                 <div class="form-text">
-                    <small class="text-muted">Máximo 20 caracteres. Actual: <span id="contador">0</span></small>
+                    <small class="text-muted">Describe tu promoción brevemente</small>
                 </div>
             </div>
             
@@ -198,7 +213,7 @@ include 'layout/header.php';
                     <?php endforeach; ?>
                 </div>
                 <div class="form-text">
-                    <small class="text-muted">Selecciona al menos un día</small>
+                    <small class="text-muted">Selecciona todos los días que desees</small>
                 </div>
             </div>
             
@@ -218,20 +233,6 @@ include 'layout/header.php';
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const input = document.querySelector('input[name="textopromo"]');
-    const contador = document.getElementById('contador');
-    
-    function actualizarContador() {
-        const longitud = input.value.length;
-        contador.textContent = longitud;
-        contador.style.color = longitud > 18 ? 'red' : (longitud > 15 ? 'orange' : 'inherit');
-    }
-    
-    input.addEventListener('input', actualizarContador);
-    actualizarContador();
-});
-
 function toggleCheckbox(dayId) {
     const checkbox = document.getElementById(dayId);
     checkbox.checked = !checkbox.checked;

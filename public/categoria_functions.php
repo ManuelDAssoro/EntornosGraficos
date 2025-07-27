@@ -192,4 +192,25 @@ function canAccessNews($userCategory, $minCategory) {
     return $userLevel >= $requiredLevel;
 }
 
+function expandirDiasAbreviados($diasAbrev) {
+    if (empty($diasAbrev)) return '';
+    
+    $mapeo = [
+        'L' => 'Lunes',
+        'M' => 'Martes', 
+        'X' => 'Miércoles',
+        'J' => 'Jueves',
+        'V' => 'Viernes',
+        'S' => 'Sábado',
+        'D' => 'Domingo'
+    ];
+    
+    $dias = explode(',', $diasAbrev);
+    $diasCompletos = array_map(function($dia) use ($mapeo) {
+        return $mapeo[trim($dia)] ?? $dia;
+    }, $dias);
+    
+    return implode(', ', $diasCompletos);
+}
+
 ?>
