@@ -58,6 +58,18 @@ if (isset($_SESSION['usuario_id'])) {
                         <a class="nav-link <?= $current_page === 'admin_novedades.php' ? 'active' : '' ?>" href="admin_novedades.php">
                             <i class="bi bi-newspaper"></i> Novedades
                         </a>
+                        <a class="nav-link" href="admin_promociones.php">
+                            <i class="bi bi-megaphone"></i> Promociones
+                            <?php
+                            if (isset($pdo)) {
+                                $stmt = $pdo->query("SELECT COUNT(*) FROM promociones WHERE estadopromo = 'pendiente'");
+                                $pendientes = $stmt->fetchColumn();
+                                if ($pendientes > 0): ?>
+                                    <span class="badge bg-warning text-dark ms-1"><?= $pendientes ?></span>
+                                <?php endif;
+                            }
+                            ?>
+                        </a>
                     <?php elseif ($user_role === 'dueno'): ?>
                         <a class="nav-link <?= $current_page === 'dashboard_dueno.php' ? 'active' : '' ?>" href="dashboard_dueno.php">
                             <i class="bi bi-house"></i> Menu

@@ -21,6 +21,9 @@ $stats['total_duenos'] = $stmt->fetchColumn();
 $stmt = $pdo->query("SELECT COUNT(*) as total FROM usuarios WHERE tipoUsuario = 'cliente'");
 $stats['total_clientes'] = $stmt->fetchColumn();
 
+$stmt = $pdo->query("SELECT COUNT(*) as total FROM promociones WHERE estadopromo = 'pendiente'");
+$stats['promociones_pendientes'] = $stmt->fetchColumn();
+
 $stmt = $pdo->query("
     SELECT l.nombreLocal, l.rubroLocal, u.nombreUsuario, l.codLocal
     FROM locales l
@@ -82,6 +85,15 @@ include 'layout/header.php';
                     <h6 class="text-muted">Clientes Registrados</h6>
                 </div>
             </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="stats-card">
+                    <div class="stats-icon text-warning">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                    <div class="stats-number text-warning"><?= $stats['promociones_pendientes'] ?></div>
+                    <h6 class="text-muted">Promociones Pendientes</h6>
+                </div>
+            </div>
         </div>
 
         <div class="row">
@@ -113,6 +125,15 @@ include 'layout/header.php';
                             <a href="admin_novedades.php" class="action-btn btn btn-warning w-100">
                                 <i class="bi bi-newspaper me-2"></i>
                                 Gestionar Novedades
+                            </a>
+                        </div>
+                        <div class="col-12">
+                            <a href="admin_promociones.php" class="action-btn btn btn-warning w-100">
+                                <i class="bi bi-megaphone me-2"></i>
+                                Administrar Promociones
+                                <?php if ($stats['promociones_pendientes'] > 0): ?>
+                                    <span class="badge bg-light text-warning ms-2"><?= $stats['promociones_pendientes'] ?></span>
+                                <?php endif; ?>
                             </a>
                         </div>
                     </div>

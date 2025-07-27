@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     diassemana, 
                     estadopromo, 
                     codlocal
-                ) VALUES (?, ?, ?, ?, ?, 'activa', ?)
+                ) VALUES (?, ?, ?, ?, ?, 'pendiente', ?)
             ");
             
             $resultado = $stmt->execute([
@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
 
             if ($resultado) {
-                header("Location: dashboard_dueno.php?mensaje=creada");
+                header("Location: dashboard_dueno.php?mensaje=enviada");
                 exit;
             } else {
                 $errores[] = "Error al crear la promoción. Intenta nuevamente.";

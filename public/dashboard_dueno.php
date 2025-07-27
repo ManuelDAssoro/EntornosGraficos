@@ -38,6 +38,7 @@ if ($hasLocal) {
 $mensaje = $_GET['mensaje'] ?? '';
 $mensajes = [
     'creada' => 'La promoción fue creada exitosamente.',
+    'enviada' => 'La promoción fue enviada para aprobación del administrador.',
     'eliminada' => 'La promoción fue eliminada correctamente.'
 ];
 ?>
@@ -176,7 +177,17 @@ $mensajes = [
                         <td><?= htmlspecialchars($promo['fechadesdepromo']) ?> a <?= htmlspecialchars($promo['fechahastapromo']) ?></td>
                         <td><?= $promo['diassemana'] ?></td>
                         <td><?= $promo['categoriacliente'] ?></td>
-                        <td><span class="badge bg-info"><?= ucfirst($promo['estadopromo']) ?></span></td>
+                        <td>
+                            <?php if ($promo['estadopromo'] === 'pendiente'): ?>
+                                <span class="badge bg-warning">Pendiente Aprobación</span>
+                            <?php elseif ($promo['estadopromo'] === 'activa'): ?>
+                                <span class="badge bg-success">Activa</span>
+                            <?php elseif ($promo['estadopromo'] === 'rechazada'): ?>
+                                <span class="badge bg-danger">Rechazada</span>
+                            <?php else: ?>
+                                <span class="badge bg-info"><?= ucfirst($promo['estadopromo']) ?></span>
+                            <?php endif; ?>
+                        </td>
                         <td><span class="badge bg-success"><?= $promo['totalusos'] ?></span></td>
                         <td>
                             <a href="promocion_eliminar.php?id=<?= $promo['codpromo'] ?>"
