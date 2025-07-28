@@ -58,8 +58,26 @@
 }
 
 .hero-icon {
-    opacity: 0.9;
+    opacity: 0;
     margin-bottom: 2rem;
+    transform: translateY(30px);
+}
+
+.carousel-item h1, 
+.carousel-item h2 {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.carousel-item .lead {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.hero-buttons {
+    margin-top: 2rem;
+    opacity: 0;
+    transform: translateY(30px);
 }
 
 .stat-number {
@@ -69,18 +87,17 @@
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     margin-bottom: 0.5rem;
     display: block;
+    opacity: 0;
+    transform: translateY(30px);
 }
 
 .stat-label {
     font-size: 1.1rem;
     margin-bottom: 0;
-    opacity: 0.9;
+    opacity: 0;
     font-weight: 500;
     color: white;
-}
-
-.hero-buttons {
-    margin-top: 2rem;
+    transform: translateY(30px);
 }
 
 .hero-buttons .btn {
@@ -110,6 +127,8 @@
     height: 200px;
     margin-bottom: 1rem;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    opacity: 0;
+    transform: translateY(30px);
 }
 
 .promo-card:hover, .news-card:hover, .local-card:hover {
@@ -326,26 +345,31 @@
 }
 
 .carousel-item.active .hero-icon {
-    animation: slideInUp 0.8s ease-out 0.2s both;
+    animation: slideInUp 0.8s ease-out 0.3s forwards;
 }
 
 .carousel-item.active h1,
 .carousel-item.active h2 {
-    animation: slideInUp 0.8s ease-out 0.4s both;
+    animation: slideInUp 0.8s ease-out 0.5s forwards;
 }
 
 .carousel-item.active .lead {
-    animation: slideInUp 0.8s ease-out 0.6s both;
+    animation: slideInUp 0.8s ease-out 0.7s forwards;
+}
+
+.carousel-item.active .stat-number,
+.carousel-item.active .stat-label {
+    animation: slideInUp 0.8s ease-out 0.9s forwards;
 }
 
 .carousel-item.active .hero-buttons {
-    animation: slideInUp 0.8s ease-out 0.8s both;
+    animation: slideInUp 0.8s ease-out 1.1s forwards;
 }
 
 .carousel-item.active .promo-card,
 .carousel-item.active .news-card,
 .carousel-item.active .local-card {
-    animation: slideInUp 0.8s ease-out 1s both;
+    animation: slideInUp 0.8s ease-out 1.3s forwards;
 }
 
 .carousel-item {
@@ -363,8 +387,11 @@
     
     .hero-icon,
     h1, h2, .lead, .hero-buttons,
-    .promo-card, .news-card, .local-card {
+    .promo-card, .news-card, .local-card,
+    .stat-number, .stat-label {
         animation: none;
+        opacity: 1;
+        transform: none;
     }
 }
 
