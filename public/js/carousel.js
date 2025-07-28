@@ -40,15 +40,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const diffY = startY - endY;
 
             // Logica de swipes (tactil de celular)
-            if (Math.abs(diffX) > Math.abs(diffY)) {
-                if (Math.abs(diffX) > 50) { 
-                    if (diffX > 0) {
-                        // Swipe hacia la izquierda - siguiente slide
-                        carousel.next();
-                    } else {
-                        // Swipe hacia la derecha - slide anterior
-                        carousel.prev();
-                    }
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                const carousel = bootstrap.Carousel.getInstance(carouselElement);
+                if (diffX > 0) {
+                    carousel.next();
+                } else {
+                    carousel.prev();
                 }
             }
 
