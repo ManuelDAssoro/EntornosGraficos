@@ -17,11 +17,10 @@ $stmt = $pdo->query("
 ");
 $promociones_destacadas = $stmt->fetchAll();
 
-// Obtener novedades 
+// Obtener novedades
 $stmt = $pdo->query("
     SELECT * FROM novedades 
     WHERE estado = 'activa' 
-    AND categoria_minima IN ('unlogged', 'inicial')
     AND fecha_publicacion <= CURRENT_DATE
     ORDER BY fecha_publicacion DESC 
     LIMIT 4
@@ -171,15 +170,19 @@ $datos_shopping = [
                                             <div class="promo-card">
                                                 <div class="promo-header">
                                                     <i class="bi bi-shop"></i>
-                                                    <span><?= htmlspecialchars($promo['nombrelocal']) ?></span>
+                                                    <span><?= htmlspecialchars($promo['nombrelocal'] ?? 'Local') ?></span>
                                                 </div>
                                                 <div class="promo-content">
-                                                    <h5><?= htmlspecialchars($promo['textopromo']) ?></h5>
-                                                    <small>Válido hasta: <?= date('d/m/Y', strtotime($promo['fechahastapromo'])) ?></small>
+                                                    <h5><?= htmlspecialchars($promo['textopromo'] ?? 'Promoción especial') ?></h5>
+                                                    <small>Válido hasta: <?= isset($promo['fechahastapromo']) ? date('d/m/Y', strtotime($promo['fechahastapromo'])) : 'No definido' ?></small>
                                                 </div>
                                             </div>
                                         </div>
                                     <?php endforeach; ?>
+                                </div>
+                            <?php else: ?>
+                                <div class="alert alert-info">
+                                    <i class="bi bi-info-circle"></i> No hay promociones activas en este momento.
                                 </div>
                             <?php endif; ?>
                             
@@ -215,13 +218,17 @@ $datos_shopping = [
                                                     <span>Novedad</span>
                                                 </div>
                                                 <div class="news-content">
-                                                    <h5><?= htmlspecialchars($novedad['titulonovedad']) ?></h5>
-                                                    <p><?= htmlspecialchars(substr($novedad['textonovedad'], 0, 100)) ?>...</p>
-                                                    <small><?= date('d/m/Y', strtotime($novedad['fechanovedad'])) ?></small>
+                                                    <h5><?= htmlspecialchars($novedad['titulo'] ?? 'Sin título') ?></h5>
+                                                    <p><?= htmlspecialchars(substr($novedad['contenido'] ?? 'Sin contenido', 0, 100)) ?>...</p>
+                                                    <small><?= isset($novedad['fecha_publicacion']) && $novedad['fecha_publicacion'] ? date('d/m/Y', strtotime($novedad['fecha_publicacion'])) : 'Sin fecha' ?></small>
                                                 </div>
                                             </div>
                                         </div>
                                     <?php endforeach; ?>
+                                </div>
+                            <?php else: ?>
+                                <div class="alert alert-info">
+                                    <i class="bi bi-info-circle"></i> No hay novedades disponibles en este momento.
                                 </div>
                             <?php endif; ?>
                             
@@ -254,7 +261,7 @@ $datos_shopping = [
                                             <div class="local-card">
                                                 <div class="local-header">
                                                     <i class="bi bi-shop"></i>
-                                                    <span><?= htmlspecialchars($local['nombrelocal']) ?></span>
+                                                    <span><?= htmlspecialchars($local['nombrelocal'] ?? 'Sin nombre') ?></span>
                                                 </div>
                                                 <div class="local-content">
                                                     <?php if (!empty($local['ubicacionlocal'])): ?>
@@ -264,12 +271,16 @@ $datos_shopping = [
                                                         <span class="badge bg-primary"><?= htmlspecialchars($local['rubrolocal']) ?></span>
                                                     <?php endif; ?>
                                                     <small class="text-success d-block mt-2">
-                                                        <?= $local['total_promociones'] ?> promociones activas
+                                                        <?= $local['total_promociones'] ?? 0 ?> promociones activas
                                                     </small>
                                                 </div>
                                             </div>
                                         </div>
                                     <?php endforeach; ?>
+                                </div>
+                            <?php else: ?>
+                                <div class="alert alert-info">
+                                    <i class="bi bi-info-circle"></i> No hay locales registrados en este momento.
                                 </div>
                             <?php endif; ?>
                             
