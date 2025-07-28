@@ -39,6 +39,12 @@
     color: white;
     width: 100%;
     text-align: center;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+}
+
+.carousel-item.active .carousel-content {
+    opacity: 1;
 }
 
 .carousel-bienvenida {
@@ -58,30 +64,7 @@
 }
 
 .hero-icon {
-    opacity: 0;
     margin-bottom: 2rem;
-    transform: translateY(30px);
-    transition: none;
-}
-
-.carousel-item h1, 
-.carousel-item h2 {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: none;
-}
-
-.carousel-item .lead {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: none;
-}
-
-.hero-buttons {
-    margin-top: 2rem;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: none;
 }
 
 .stat-number {
@@ -91,19 +74,17 @@
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     margin-bottom: 0.5rem;
     display: block;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: none;
 }
 
 .stat-label {
     font-size: 1.1rem;
     margin-bottom: 0;
-    opacity: 0;
     font-weight: 500;
     color: white;
-    transform: translateY(30px);
-    transition: none;
+}
+
+.hero-buttons {
+    margin-top: 2rem;
 }
 
 .hero-buttons .btn {
@@ -133,8 +114,6 @@
     height: 200px;
     margin-bottom: 1rem;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    opacity: 0;
-    transform: translateY(30px);
 }
 
 .promo-card:hover, .news-card:hover, .local-card:hover {
@@ -402,17 +381,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .carousel-item {
+    .carousel-item,
+    .carousel-content {
         transition: none;
-    }
-    
-    .hero-icon,
-    h1, h2, .lead, .hero-buttons,
-    .promo-card, .news-card, .local-card,
-    .stat-number, .stat-label {
-        animation: none;
-        opacity: 1;
-        transform: none;
     }
 }
 
