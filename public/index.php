@@ -20,9 +20,7 @@ $promociones_destacadas = $stmt->fetchAll();
 // Obtener novedades
 $stmt = $pdo->query("
     SELECT * FROM novedades 
-    WHERE estado = 'activa' 
-    AND fecha_publicacion <= CURRENT_DATE
-    ORDER BY fecha_publicacion DESC 
+    ORDER BY id DESC 
     LIMIT 4
 ");
 $novedades_recientes = $stmt->fetchAll();
