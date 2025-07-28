@@ -61,23 +61,27 @@
     opacity: 0;
     margin-bottom: 2rem;
     transform: translateY(30px);
+    transition: none;
 }
 
 .carousel-item h1, 
 .carousel-item h2 {
     opacity: 0;
     transform: translateY(30px);
+    transition: none;
 }
 
 .carousel-item .lead {
     opacity: 0;
     transform: translateY(30px);
+    transition: none;
 }
 
 .hero-buttons {
     margin-top: 2rem;
     opacity: 0;
     transform: translateY(30px);
+    transition: none;
 }
 
 .stat-number {
@@ -89,6 +93,7 @@
     display: block;
     opacity: 0;
     transform: translateY(30px);
+    transition: none;
 }
 
 .stat-label {
@@ -98,6 +103,7 @@
     font-weight: 500;
     color: white;
     transform: translateY(30px);
+    transition: none;
 }
 
 .hero-buttons .btn {
@@ -342,6 +348,21 @@
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.carousel-item:not(.active) .hero-icon,
+.carousel-item:not(.active) h1,
+.carousel-item:not(.active) h2,
+.carousel-item:not(.active) .lead,
+.carousel-item:not(.active) .stat-number,
+.carousel-item:not(.active) .stat-label,
+.carousel-item:not(.active) .hero-buttons,
+.carousel-item:not(.active) .promo-card,
+.carousel-item:not(.active) .news-card,
+.carousel-item:not(.active) .local-card {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: none;
 }
 
 .carousel-item.active .hero-icon {
