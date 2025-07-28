@@ -2,22 +2,22 @@
 .hero-carousel {
     height: 80vh;
     min-height: 600px;
-    max-height: 900px;
     position: relative;
+    overflow: hidden;
 }
 
 .carousel-inner {
     height: 100%;
+    width: 100%;
 }
 
 .carousel-item {
     height: 80vh;
     min-height: 600px;
-    max-height: 900px;
     position: relative;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .carousel-overlay {
@@ -31,14 +31,16 @@
 }
 
 .carousel-content {
-    position: relative;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 2;
     color: white;
     width: 100%;
-    padding: 40px 0;
+    text-align: center;
 }
 
-/* Fondos de slides */
 .carousel-bienvenida {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
@@ -55,199 +57,244 @@
     background: linear-gradient(135deg, #00d2d3 0%, #54a0ff 100%);
 }
 
-/* Elementos del hero */
 .hero-icon {
     opacity: 0.9;
+    margin-bottom: 2rem;
 }
 
 .stat-number {
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: bold;
     color: white;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     margin-bottom: 0.5rem;
+    display: block;
 }
 
 .stat-label {
-    font-size: 1rem;
+    font-size: 1.1rem;
     margin-bottom: 0;
     opacity: 0.9;
     font-weight: 500;
+    color: white;
+}
+
+.hero-buttons {
+    margin-top: 2rem;
 }
 
 .hero-buttons .btn {
     border-radius: 50px;
-    padding: 12px 30px;
-    font-weight: 500;
+    padding: 15px 35px;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    margin: 0 10px;
+    font-size: 1rem;
 }
 
 .hero-buttons .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
 }
 
-/* Cards en el carousel */
 .promo-card, .news-card, .local-card {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 15px;
-    padding: 20px;
+    padding: 1.5rem;
     color: #333;
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
-    height: 180px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    height: 200px;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .promo-card:hover, .news-card:hover, .local-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
     background: rgba(255, 255, 255, 1);
 }
 
 .promo-header, .news-header, .local-header {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
     color: #007bff;
     font-weight: bold;
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 .promo-header i, .news-header i, .local-header i {
-    margin-right: 8px;
-    font-size: 1rem;
+    margin-right: 10px;
+    font-size: 1.2rem;
 }
 
-.promo-content h5, .news-content h5, .local-content h5 {
+.promo-content h5, .news-content h5 {
     color: #333;
     font-weight: bold;
-    margin-bottom: 8px;
-    font-size: 1rem;
-    line-height: 1.3;
-}
-
-.promo-content p, .news-content p {
-    font-size: 0.85rem;
-    margin-bottom: 8px;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
     line-height: 1.4;
 }
 
-.promo-content small, .news-content small {
+.promo-content p, .news-content p {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
     color: #666;
-    font-size: 0.8rem;
 }
 
-/* Controles del carrusel */
+.promo-content small, .news-content small {
+    color: #888;
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
 .carousel-control-prev,
 .carousel-control-next {
-    width: 50px;
-    height: 50px;
-    background: rgba(255, 255, 255, 0.2);
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.5);
     border-radius: 50%;
     top: 50%;
     transform: translateY(-50%);
-    backdrop-filter: blur(10px);
     transition: all 0.3s ease;
     opacity: 0.8;
+    border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .carousel-control-prev {
-    left: 20px;
+    left: 30px;
 }
 
 .carousel-control-next {
-    right: 20px;
+    right: 30px;
 }
 
 .carousel-control-prev:hover,
 .carousel-control-next:hover {
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(0, 0, 0, 0.8);
     transform: translateY(-50%) scale(1.1);
     opacity: 1;
+    border-color: rgba(255, 255, 255, 0.6);
 }
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-    width: 24px;
-    height: 24px;
+    width: 30px;
+    height: 30px;
+    background-size: 100%, 100%;
 }
 
-/* Indicadores  */
 .carousel-indicators {
-    bottom: 20px;
+    bottom: 30px;
     margin-bottom: 0;
 }
 
-.carousel-indicators button {
-    width: 50px;
-    height: 4px;
-    border-radius: 2px;
+.carousel-indicators [data-bs-target] {
+    width: 60px;
+    height: 6px;
+    border-radius: 3px;
     background: rgba(255, 255, 255, 0.5);
     border: none;
-    margin: 0 4px;
+    margin: 0 5px;
     transition: all 0.3s ease;
     opacity: 0.7;
 }
 
-.carousel-indicators button.active {
+.carousel-indicators .active {
     background: white;
-    width: 70px;
+    width: 80px;
     opacity: 1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* estadisticas */
 .stats-section {
     background: #f8f9fa;
+    padding: 4rem 0;
 }
 
 .stat-card {
     background: white;
     border-radius: 15px;
-    padding: 2rem;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
     text-align: center;
     height: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
 }
 
 .stat-card .stat-number {
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: bold;
     color: #333;
     text-shadow: none;
     margin-bottom: 0.5rem;
 }
 
-/* Info  */
+.stat-card h5 {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.stat-card .text-muted {
+    font-size: 0.9rem;
+}
+
 .info-section {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 4rem 0;
 }
 
 .cta-buttons .btn {
     border-radius: 50px;
-    font-weight: 500;
-    padding: 12px 24px;
+    font-weight: 600;
+    padding: 15px 30px;
     transition: all 0.3s ease;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cta-buttons .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
     .hero-carousel,
     .carousel-item {
         height: 70vh;
+        min-height: 550px;
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+    }
+    
+    .hero-buttons .btn {
+        padding: 12px 25px;
+        font-size: 0.9rem;
+        margin: 5px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-carousel,
+    .carousel-item {
+        height: 60vh;
         min-height: 500px;
-        max-height: 700px;
     }
     
     .stat-number {
@@ -264,62 +311,71 @@
     
     .carousel-control-prev,
     .carousel-control-next {
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
     }
     
     .carousel-control-prev {
-        left: 10px;
+        left: 15px;
     }
     
     .carousel-control-next {
-        right: 10px;
+        right: 15px;
     }
     
     .hero-buttons .btn {
-        margin-bottom: 10px;
-        display: block;
-        width: 100%;
-        padding: 10px 20px;
+        width: 80%;
+        margin: 10px auto;
+        padding: 12px 20px;
         font-size: 0.9rem;
     }
     
     .promo-card, .news-card, .local-card {
-        height: 160px;
-        margin-bottom: 15px;
+        height: 180px;
+        margin-bottom: 1rem;
+        padding: 1.25rem;
     }
 }
 
 @media (max-width: 576px) {
     .hero-carousel,
     .carousel-item {
-        height: 60vh;
-        min-height: 450px;
+        height: 50vh;
+        min-height: 400px;
     }
     
     .carousel-content {
-        padding: 20px 0;
+        padding: 1rem;
     }
     
     .stat-number {
         font-size: 1.8rem;
     }
     
-    .promo-card, .news-card, .local-card {
-        height: 140px;
-        padding: 15px;
+    .display-3 {
+        font-size: 2rem;
     }
     
-    .promo-content h5, .news-content h5 {
-        font-size: 0.9rem;
+    .display-4 {
+        font-size: 1.8rem;
+    }
+    
+    .promo-card, .news-card, .local-card {
+        height: 160px;
+        padding: 1rem;
+    }
+    
+    .hero-buttons .btn {
+        width: 90%;
+        font-size: 0.85rem;
     }
 }
 
 /* Animaciones */
-@keyframes fadeInUp {
+@keyframes slideInUp {
     from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(50px);
     }
     to {
         opacity: 1;
@@ -327,27 +383,66 @@
     }
 }
 
-.carousel-item.active .hero-icon,
+.carousel-item.active .hero-icon {
+    animation: slideInUp 0.8s ease-out 0.2s both;
+}
+
 .carousel-item.active h1,
-.carousel-item.active h2,
-.carousel-item.active .lead,
+.carousel-item.active h2 {
+    animation: slideInUp 0.8s ease-out 0.4s both;
+}
+
+.carousel-item.active .lead {
+    animation: slideInUp 0.8s ease-out 0.6s both;
+}
+
 .carousel-item.active .hero-buttons {
-    animation: fadeInUp 0.8s ease-out forwards;
+    animation: slideInUp 0.8s ease-out 0.8s both;
 }
 
 .carousel-item.active .promo-card,
 .carousel-item.active .news-card,
 .carousel-item.active .local-card {
-    animation: fadeInUp 1s ease-out forwards;
+    animation: slideInUp 0.8s ease-out 1s both;
 }
 
-/*Bootstrap  */
 .carousel-item {
     transition: transform 0.6s ease-in-out;
+}
+
+.carousel-fade .carousel-item {
+    transition: opacity 0.15s linear;
 }
 
 @media (prefers-reduced-motion: reduce) {
     .carousel-item {
         transition: none;
     }
+    
+    .hero-icon,
+    h1, h2, .lead, .hero-buttons,
+    .promo-card, .news-card, .local-card {
+        animation: none;
+    }
+}
+
+.carousel {
+    position: relative;
+}
+
+.carousel-inner > .carousel-item {
+    position: relative;
+    display: none;
+    float: left;
+    width: 100%;
+    margin-right: -100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transition: transform 0.6s ease-in-out;
+}
+
+.carousel-inner > .carousel-item.active,
+.carousel-inner > .carousel-item-next,
+.carousel-inner > .carousel-item-prev {
+    display: block;
 }
