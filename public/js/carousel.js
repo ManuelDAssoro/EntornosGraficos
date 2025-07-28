@@ -19,44 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
             carousel.cycle();
         });
 
-        // Botones de navegacion
-        const prevButton = carouselElement.querySelector('.carousel-control-prev');
-        const nextButton = carouselElement.querySelector('.carousel-control-next');
-
-        if (prevButton) {
-            prevButton.addEventListener('click', function() {
-                carousel.prev();
-            });
-        }
-
-        if (nextButton) {
-            nextButton.addEventListener('click', function() {
-                carousel.next();
-            });
-        }
-
-        // Navegacion con teclado
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'ArrowLeft') {
-                carousel.prev();
-            } else if (e.key === 'ArrowRight') {
-                carousel.next();
-            }
-        });
-
-        // Actualizar indicadores personalizados
-        const indicators = carouselElement.querySelectorAll('.carousel-indicators button');
-        indicators.forEach((indicator, index) => {
-            indicator.addEventListener('click', function() {
-                carousel.to(index);
-            });
-        });
-
-        // Cambio de slide
-        carouselElement.addEventListener('slide.bs.carousel', function(event) {
-            console.log(`Cambiando al slide ${event.to}`);
-        });
-
         // Soporte para dispositivos moviles
         let startX = null;
         let startY = null;
