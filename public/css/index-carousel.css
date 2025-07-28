@@ -39,12 +39,6 @@
     color: white;
     width: 100%;
     text-align: center;
-    opacity: 0;
-    transition: opacity 0.8s ease-in-out;
-}
-
-.carousel-item.active .carousel-content {
-    opacity: 1;
 }
 
 .carousel-bienvenida {
@@ -384,6 +378,10 @@
     .carousel-item,
     .carousel-content {
         transition: none;
+    }
+    
+    .carousel-content {
+        opacity: 1;
     }
 }
 
