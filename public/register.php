@@ -24,6 +24,20 @@
                 La contraseña debe tener al menos 8 caracteres.
             </div>
         </div>
+        
+      <div class="mb-3">
+            <label>Contraseña</label>
+            <div class="input-group">
+              <input type="password" name="claveUsuario" id="claveUsuario" class="form-control" required />
+              <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                <i class="bi bi-lock"></i>
+              </button>
+              <div class="invalid-feedback">
+                La contraseña debe tener al menos 8 caracteres.
+            </div>
+            </div>
+      </div>
+
         <div class="mb-3">
             <label for="tipoUsuario" class="form-label">Tipo de Usuario</label>
             <select class="form-select" id="tipoUsuario" name="tipoUsuario" required>
@@ -60,5 +74,18 @@
   })
 })()
 </script>
+
+<script>
+    document.getElementById('togglePassword').addEventListener('click', function () {
+      const passwordField = document.getElementById('claveUsuario');
+      const icon = this.querySelector('i');
+      const isPassword = passwordField.type === 'password';
+      passwordField.type = isPassword ? 'text' : 'password';
+
+      // Alternar icono entre candado cerrado y abierto
+      icon.classList.toggle('bi-lock');
+      icon.classList.toggle('bi-unlock');
+    });
+  </script>
 </body>
 </html>
