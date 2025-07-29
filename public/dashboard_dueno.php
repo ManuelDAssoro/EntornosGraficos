@@ -75,8 +75,11 @@ $mensajes = [
             </div>
             <div class="navbar-nav">
                 <span class="navbar-text">
-                    <i class="bi bi-person-circle"></i> <?= htmlspecialchars($usuario['nombreusuario']) ?>
-                </span>
+                        <i class="bi bi-person-circle"></i>
+                        <a href="perfil.php" class="text-white text-decoration-none">
+                            <?= htmlspecialchars($usuario['nombreusuario']) ?>
+                        </a>
+                    </span>
                 <a class="nav-link" href="logout.php">
                     <i class="bi bi-box-arrow-right"></i> Salir
                 </a>

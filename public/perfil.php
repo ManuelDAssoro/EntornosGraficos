@@ -56,17 +56,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="dashboard_admin.php">
-                <i class="fas fa-store"></i> Mi Shopping
-            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <div class="navbar-nav me-auto">
-                    <a class="nav-link" href="dashboard_admin.php">Menu</a>
-                    <a class="nav-link" href="admin_locales.php">Locales</a>
-                </div>
                 <div class="d-flex">
                     <?php include 'layout/header.php'; ?>
                 </div>
