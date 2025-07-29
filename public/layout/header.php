@@ -102,7 +102,10 @@ if (isset($_SESSION['usuario_id'])) {
                 <!-- User info and logout -->
                 <div class="navbar-nav">
                     <span class="navbar-text">
-                        <i class="bi bi-person-circle"></i> <?= htmlspecialchars($username) ?>
+                        <i class="bi bi-person-circle"></i>
+                        <a href="perfil.php" class="text-white text-decoration-none">
+                            <?= htmlspecialchars($username) ?>
+                        </a>
                     </span>
                     <a class="nav-link" href="logout.php">
                         <i class="bi bi-box-arrow-right"></i> Salir
