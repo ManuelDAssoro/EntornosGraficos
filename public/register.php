@@ -19,13 +19,6 @@
                 Ingresa un email válido.
             </div>
         </div>
-        <div class="mb-3">
-            <label for="claveUsuario" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" id="claveUsuario" name="claveUsuario" minlength="8" required>
-            <div class="invalid-feedback">
-                La contraseña debe tener al menos 8 caracteres.
-            </div>
-        </div>
         
       <div class="mb-3">
             <label>Contraseña</label>
