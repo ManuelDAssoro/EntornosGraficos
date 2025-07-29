@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'conexion.php'; // Asegurate de que contiene $pdo
+require_once '../config/db.php';
 $page_title = 'Mi Perfil';
 
 if (!isset($_SESSION['usuario_id'])) {
