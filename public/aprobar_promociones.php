@@ -48,7 +48,7 @@ if ($_POST) {
             $pdo->commit();
             
             $mensajeTexto = ($accion === 'aprobar') ? 'aprobado' : 'rechazado';
-            header("Location: aprobar_promociones.php?mensaje=uso_${mensajeTexto}");
+            header("Location: aprobar_promociones.php?mensaje=uso_{$mensajeTexto}");
             exit;
             
         } catch (Exception $e) {
