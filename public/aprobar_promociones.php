@@ -17,15 +17,24 @@ if ($_POST) {
         try {
             $pdo->beginTransaction();
             
+            // Decodificar ID (formato: "codusuario-codpromo")
+            $idParts = explode('-', $idUso);
+            if (count($idParts) !== 2) {
+                throw new Exception("ID de uso inválido: " . $idUso);
+            }
+            
+            error_log("ID decodificado - Usuario: " . $idParts[0] . ", Promo: " . $idParts[1]);
+            
             $stmt = $pdo->prepare("
                 SELECT up.*, p.codlocal, l.codusuario as dueno_id, u.nombreusuario as cliente_nombre
                 FROM uso_promociones up
                 JOIN promociones p ON up.codpromo = p.codpromo
                 JOIN locales l ON p.codlocal = l.codlocal
                 JOIN usuarios u ON up.codusuario = u.codusuario
-                WHERE up.id = ? AND l.codusuario = ? AND up.estado = 'pendiente'
+                WHERE up.codusuario = ? AND up.codpromo = ? AND l.codusuario = ? AND up.estado = 'pendiente'
             ");
-            $stmt->execute([$idUso, $codUsuarioDueno]);
+            
+            $stmt->execute([$idParts[0], $idParts[1], $codUsuarioDueno]);
             $uso = $stmt->fetch();
             
             if (!$uso) {
@@ -37,9 +46,9 @@ if ($_POST) {
             $stmt = $pdo->prepare("
                 UPDATE uso_promociones 
                 SET estado = ?, fecha_aprobacion = CURRENT_DATE, comentario_dueno = ?
-                WHERE id = ?
+                WHERE codusuario = ? AND codpromo = ?
             ");
-            $stmt->execute([$nuevoEstado, $comentario, $idUso]);
+            $stmt->execute([$nuevoEstado, $comentario, $idParts[0], $idParts[1]]);
             
             if ($nuevoEstado === 'aceptada') {
                 actualizarCategoriaCliente($uso['codusuario'], $pdo);
@@ -295,7 +304,8 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('click', function() {
             const index = parseInt(this.dataset.index);
             const uso = usosPendientes[index];
-            mostrarModalAprobacion(uso.id, uso.cliente_nombre, uso.textopromo, 'aprobar');
+            const idCompuesto = uso.codusuario + '-' + uso.codpromo;
+            mostrarModalAprobacion(idCompuesto, uso.cliente_nombre, uso.textopromo, 'aprobar');
         });
     });
     
@@ -303,7 +313,8 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('click', function() {
             const index = parseInt(this.dataset.index);
             const uso = usosPendientes[index];
-            mostrarModalAprobacion(uso.id, uso.cliente_nombre, uso.textopromo, 'rechazar');
+            const idCompuesto = uso.codusuario + '-' + uso.codpromo;
+            mostrarModalAprobacion(idCompuesto, uso.cliente_nombre, uso.textopromo, 'rechazar');
         });
     });
 });
