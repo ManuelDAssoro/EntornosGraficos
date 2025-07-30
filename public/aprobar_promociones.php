@@ -160,7 +160,7 @@ include 'layout/header.php';
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($usosPendientes as $uso): ?>
+                                    <?php foreach ($usosPendientes as $index => $uso): ?>
                                         <tr>
                                             <td>
                                                 <strong><?= htmlspecialchars($uso['cliente_nombre']) ?></strong>
@@ -172,16 +172,10 @@ include 'layout/header.php';
                                             <td><?= htmlspecialchars($uso['nombrelocal']) ?></td>
                                             <td><?= date('d/m/Y H:i', strtotime($uso['fecha_uso'])) ?></td>
                                             <td class="text-center">
-                                                <button type="button" class="btn btn-success btn-sm me-2 btn-aprobar" 
-                                                        data-id="<?= $uso['id'] ?>" 
-                                                        data-cliente="<?= htmlspecialchars($uso['cliente_nombre']) ?>" 
-                                                        data-promocion="<?= htmlspecialchars($uso['textopromo']) ?>">
+                                                <button type="button" class="btn btn-success btn-sm me-2 btn-aprobar" data-index="<?= $index ?>">
                                                     <i class="bi bi-check-lg"></i> Aprobar
                                                 </button>
-                                                <button type="button" class="btn btn-danger btn-sm btn-rechazar" 
-                                                        data-id="<?= $uso['id'] ?>" 
-                                                        data-cliente="<?= htmlspecialchars($uso['cliente_nombre']) ?>" 
-                                                        data-promocion="<?= htmlspecialchars($uso['textopromo']) ?>">
+                                                <button type="button" class="btn btn-danger btn-sm btn-rechazar" data-index="<?= $index ?>">
                                                     <i class="bi bi-x-lg"></i> Rechazar
                                                 </button>
                                             </td>
@@ -294,22 +288,22 @@ include 'layout/header.php';
 </div>
 
 <script>
+const usosPendientes = <?= json_encode($usosPendientes) ?>;
+
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.btn-aprobar').forEach(function(btn) {
         btn.addEventListener('click', function() {
-            const id = this.dataset.id;
-            const cliente = this.dataset.cliente;
-            const promocion = this.dataset.promocion;
-            mostrarModalAprobacion(id, cliente, promocion, 'aprobar');
+            const index = parseInt(this.dataset.index);
+            const uso = usosPendientes[index];
+            mostrarModalAprobacion(uso.id, uso.cliente_nombre, uso.textopromo, 'aprobar');
         });
     });
     
     document.querySelectorAll('.btn-rechazar').forEach(function(btn) {
         btn.addEventListener('click', function() {
-            const id = this.dataset.id;
-            const cliente = this.dataset.cliente;
-            const promocion = this.dataset.promocion;
-            mostrarModalAprobacion(id, cliente, promocion, 'rechazar');
+            const index = parseInt(this.dataset.index);
+            const uso = usosPendientes[index];
+            mostrarModalAprobacion(uso.id, uso.cliente_nombre, uso.textopromo, 'rechazar');
         });
     });
 });
