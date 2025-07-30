@@ -1,7 +1,7 @@
 <?php
 require_once '../config/db.php';
 
-echo "<h1> Tabla USO_PROMOCIONES </h1>";
+echo "<h1> Tabla USO_PROMOCIONES</h1>";
 
 try {
     $stmt = $pdo->query("
@@ -52,7 +52,69 @@ try {
             }
         }
     } else {
-        echo "<p style='color: orange;'>⚠️ La tabla 'uso_promociones' ya existe.</p>";
+        echo "<p style='color: orange;'>⚠️ La tabla 'uso_promociones' ya existe. Verificando estructura...</p>";
+        
+        $stmt = $pdo->query("
+            SELECT column_name 
+            FROM information_schema.columns 
+            WHERE table_name = 'uso_promociones' AND column_name = 'fechauso'
+        ");
+        $oldColumnExists = $stmt->fetch();
+        
+        if ($oldColumnExists) {
+            try {
+                $pdo->exec("ALTER TABLE uso_promociones RENAME COLUMN fechauso TO fecha_uso");
+                $pdo->exec("ALTER TABLE uso_promociones ALTER COLUMN fecha_uso TYPE TIMESTAMP USING fecha_uso::timestamp");
+                $pdo->exec("ALTER TABLE uso_promociones ALTER COLUMN fecha_uso SET DEFAULT CURRENT_TIMESTAMP");
+                echo "<p style='color: green;'>✅ Columna 'fechauso' renombrada a 'fecha_uso' y actualizada a TIMESTAMP.</p>";
+            } catch (Exception $e) {
+                echo "<p style='color: red;'>❌ Error al renombrar columna: " . $e->getMessage() . "</p>";
+            }
+        }
+        
+        $columnsToCheck = [
+            'fecha_uso' => 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP',
+            'estado' => "VARCHAR(20) DEFAULT 'pendiente'",
+            'fecha_aprobacion' => 'TIMESTAMP NULL',
+            'comentario_dueno' => 'TEXT NULL'
+        ];
+        
+        foreach ($columnsToCheck as $columnName => $columnDef) {
+            try {
+                $stmt = $pdo->query("
+                    SELECT column_name 
+                    FROM information_schema.columns 
+                    WHERE table_name = 'uso_promociones' AND column_name = '$columnName'
+                ");
+                $columnExists = $stmt->fetch();
+                
+                if (!$columnExists) {
+                    $pdo->exec("ALTER TABLE uso_promociones ADD COLUMN $columnName $columnDef");
+                    echo "<p style='color: green;'>✅ Columna '$columnName' agregada exitosamente.</p>";
+                }
+            } catch (Exception $e) {
+                echo "<p style='color: red;'>❌ Error al agregar columna '$columnName': " . $e->getMessage() . "</p>";
+            }
+        }
+        
+        try {
+            $stmt = $pdo->query("
+                SELECT constraint_name 
+                FROM information_schema.table_constraints 
+                WHERE table_name = 'uso_promociones' 
+                AND constraint_type = 'UNIQUE'
+            ");
+            $uniqueExists = $stmt->fetch();
+            
+            if (!$uniqueExists) {
+                $pdo->exec("ALTER TABLE uso_promociones ADD CONSTRAINT uso_promociones_codusuario_codpromo_key UNIQUE(codusuario, codpromo)");
+                echo "<p style='color: green;'>✅ Constraint única agregada para evitar usos duplicados.</p>";
+            } else {
+                echo "<p style='color: blue;'>ℹ️ Constraint única ya existe: {$uniqueExists['constraint_name']}</p>";
+            }
+        } catch (Exception $e) {
+            echo "<p style='color: orange;'>⚠️ Constraint única: " . $e->getMessage() . "</p>";
+        }
         
         $stmt = $pdo->query("
             SELECT column_name, data_type, is_nullable, column_default

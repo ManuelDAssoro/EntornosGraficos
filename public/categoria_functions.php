@@ -48,7 +48,7 @@ function usarPromocion($codusuario, $codpromo, $pdo) {
         
         $stmt = $pdo->prepare("
             INSERT INTO uso_promociones (codusuario, codpromo, fecha_uso, estado) 
-            VALUES (?, ?, CURRENT_DATE, 'pendiente')
+            VALUES (?, ?, CURRENT_TIMESTAMP, 'pendiente')
         ");
         $stmt->execute([$codusuario, $codpromo]);
         
