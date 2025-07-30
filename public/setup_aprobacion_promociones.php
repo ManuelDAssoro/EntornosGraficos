@@ -118,17 +118,16 @@ try {
         
         try {
             $stmt = $pdo->query("
-                SELECT constraint_name 
-                FROM information_schema.check_constraints cc
-                JOIN information_schema.table_constraints tc ON cc.constraint_name = tc.constraint_name
+                SELECT tc.constraint_name 
+                FROM information_schema.table_constraints tc
                 WHERE tc.table_name = 'uso_promociones' 
-                AND cc.check_clause LIKE '%estado%'
+                AND tc.constraint_type = 'CHECK'
             ");
             $checkConstraints = $stmt->fetchAll();
             
             foreach ($checkConstraints as $constraint) {
                 try {
-                    $pdo->exec("ALTER TABLE uso_promociones DROP CONSTRAINT {$constraint['constraint_name']}");
+                    $pdo->exec("ALTER TABLE uso_promociones DROP CONSTRAINT IF EXISTS {$constraint['constraint_name']}");
                     echo "<p style='color: blue;'>ℹ️ Check constraint '{$constraint['constraint_name']}' eliminado.</p>";
                 } catch (Exception $e) {
                     echo "<p style='color: orange;'>⚠️ Error eliminando constraint: " . $e->getMessage() . "</p>";
