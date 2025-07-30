@@ -16,15 +16,18 @@ $mensaje = $_GET['mensaje'] ?? '';
 $error = $_GET['error'] ?? '';
 
 $mensajes = [
-    'promocion_usada' => 'Promoción utilizada exitosamente.'
+    'promocion_usada' => 'Promoción utilizada exitosamente.',
+    'promocion_pendiente' => 'Promoción enviada para aprobación. El dueño del local debe aprobar su uso.'
 ];
 
 $errores = [
     'promocion_no_valida' => 'La promoción no es válida o ha expirado.',
-    'promocion_ya_usada' => 'Ya has utilizado esta promoción anteriormente.'
+    'promocion_ya_usada' => 'Ya has utilizado esta promoción anteriormente.',
+    'promocion_pendiente' => 'Ya tienes un uso de esta promoción pendiente de aprobación.'
 ];
 
 $promocionesUsadas = [];
+$promocionesPendientes = [];
 try {
     $stmt = $pdo->prepare("
         SELECT up.*, p.textopromo, l.nombrelocal, l.ubicacionlocal as ubicacion
@@ -32,13 +35,25 @@ try {
         JOIN promociones p ON up.codpromo = p.codpromo
         JOIN locales l ON p.codlocal = l.codlocal
         WHERE up.codusuario = ? AND up.estado = 'aceptada'
-        ORDER BY up.fechauso DESC
+        ORDER BY up.fecha_uso DESC
         LIMIT 10
     ");
     $stmt->execute([$codUsuario]);
     $promocionesUsadas = $stmt->fetchAll();
+    
+    $stmt = $pdo->prepare("
+        SELECT up.*, p.textopromo, l.nombrelocal, l.ubicacionlocal as ubicacion
+        FROM uso_promociones up
+        JOIN promociones p ON up.codpromo = p.codpromo
+        JOIN locales l ON p.codlocal = l.codlocal
+        WHERE up.codusuario = ? AND up.estado = 'pendiente'
+        ORDER BY up.fecha_uso DESC
+    ");
+    $stmt->execute([$codUsuario]);
+    $promocionesPendientes = $stmt->fetchAll();
 } catch (PDOException $e) {
     $promocionesUsadas = [];
+    $promocionesPendientes = [];
 }
 
 $promocionesDisponibles = [];
@@ -264,6 +279,44 @@ try {
         <?php endif; ?>
     </div>
 
+    <?php if (count($promocionesPendientes) > 0): ?>
+        <div class="row mt-5" id="promociones-pendientes">
+            <div class="col-12">
+                <h3><i class="bi bi-hourglass-split"></i> Promociones Pendientes de Aprobación</h3>
+                <p>Promociones que has usado y están esperando aprobación del dueño del local.</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-warning">
+                            <tr>
+                                <th>Promoción</th>
+                                <th>Local</th>
+                                <th>Fecha de Uso</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($promocionesPendientes as $pendiente): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($pendiente['textopromo']) ?></td>
+                                    <td><?= htmlspecialchars($pendiente['nombrelocal']) ?><br>
+                                        <small class="text-muted"><?= htmlspecialchars($pendiente['ubicacion']) ?></small>
+                                    </td>
+                                    <td><?= date('d/m/Y H:i', strtotime($pendiente['fecha_uso'])) ?></td>
+                                    <td><span class="badge bg-warning text-dark"><?= ucfirst($pendiente['estado']) ?></span></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <?php if (count($promocionesUsadas) > 0): ?>
         <div class="row mt-5" id="promociones-usadas">
             <div class="col-12">
@@ -291,7 +344,7 @@ try {
                                     <td><?= htmlspecialchars($usado['nombrelocal']) ?><br>
                                         <small class="text-muted"><?= htmlspecialchars($usado['ubicacion']) ?></small>
                                     </td>
-                                    <td><?= date('d/m/Y H:i', strtotime($usado['fechauso'])) ?></td>
+                                    <td><?= date('d/m/Y H:i', strtotime($usado['fecha_uso'])) ?></td>
                                     <td><span class="badge bg-success"><?= ucfirst($usado['estado']) ?></span></td>
                                 </tr>
                             <?php endforeach; ?>

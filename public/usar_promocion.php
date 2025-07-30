@@ -25,11 +25,7 @@ if ($confirmar) {
     $resultado = usarPromocion($codUsuario, $codPromo, $pdo);
     
     if ($resultado['success']) {
-        $upgradeMessage = '';
-        if ($resultado['nueva_categoria'] !== $resultado['categoria_anterior']) {
-            $upgradeMessage = "&upgrade=" . $resultado['nueva_categoria'];
-        }
-        header("Location: dashboard_cliente.php?mensaje=promocion_usada" . $upgradeMessage);
+        header("Location: dashboard_cliente.php?mensaje=promocion_pendiente");
         exit;
     } else {
         $error = $resultado['error'];
@@ -62,7 +58,7 @@ if (!puedeAccederPromocion($categoriaCliente, $promocion['categoriacliente'])) {
 }
 
 try {
-    $stmt = $pdo->prepare("SELECT codusuario FROM uso_promociones WHERE codpromo = ? AND codusuario = ?");
+    $stmt = $pdo->prepare("SELECT codusuario, estado FROM uso_promociones WHERE codpromo = ? AND codusuario = ? AND estado IN ('pendiente', 'aceptada')");
     $stmt->execute([$codPromo, $codUsuario]);
     $yaUsada = $stmt->fetch();
 } catch (PDOException $e) {
@@ -70,7 +66,11 @@ try {
 }
 
 if ($yaUsada) {
-    header("Location: dashboard_cliente.php?error=promocion_ya_usada");
+    if ($yaUsada['estado'] === 'pendiente') {
+        header("Location: dashboard_cliente.php?error=promocion_pendiente");
+    } else {
+        header("Location: dashboard_cliente.php?error=promocion_ya_usada");
+    }
     exit;
 }
 
@@ -210,8 +210,8 @@ include 'layout/header.php';
                     <div class="alert alert-info">
                         <i class="bi bi-info-circle me-2"></i>
                         <strong>¿Confirmas el uso de esta promoción?</strong><br>
-                        Una vez confirmado, esta promoción se marcará como utilizada y no podrás usarla nuevamente.
-                        Además, se contabilizará para tu progreso de categoría.
+                        Una vez confirmado, esta promoción quedará pendiente de aprobación por parte del dueño del local.
+                        Cuando sea aprobada, se contabilizará para tu progreso de categoría.
                     </div>
                 </div>
                 <div class="card-footer bg-light">

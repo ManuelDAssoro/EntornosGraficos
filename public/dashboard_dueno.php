@@ -15,6 +15,7 @@ $local = $stmt->fetch();
 
 $hasLocal = $local ? true : false;
 $promociones = [];
+$promocionesPendientes = 0;
 
 if ($hasLocal) {
     $codLocal = $local['codlocal'];
@@ -30,8 +31,19 @@ if ($hasLocal) {
         ");
         $stmt->execute([$codLocal]);
         $promociones = $stmt->fetchAll();
+        
+        $stmt = $pdo->prepare("
+            SELECT COUNT(*) as pendientes
+            FROM uso_promociones up
+            JOIN promociones p ON up.codpromo = p.codpromo
+            WHERE p.codlocal = ? AND up.estado = 'pendiente'
+        ");
+        $stmt->execute([$codLocal]);
+        $result = $stmt->fetch();
+        $promocionesPendientes = $result['pendientes'] ?? 0;
     } catch (PDOException $e) {
         $promociones = [];
+        $promocionesPendientes = 0;
     }
 }
 
@@ -71,6 +83,12 @@ $mensajes = [
                 <a class="nav-link" href="promocion_nueva.php">
                     <i class="bi bi-plus-circle"></i> Nueva Promoción
                 </a>
+                <a class="nav-link" href="aprobar_promociones.php">
+                    <i class="bi bi-check-circle"></i> Aprobar Promociones
+                    <?php if ($promocionesPendientes > 0): ?>
+                        <span class="badge bg-warning text-dark ms-1"><?= $promocionesPendientes ?></span>
+                    <?php endif; ?>
+                </a>
                 <?php endif; ?>
             </div>
             <div class="navbar-nav">
@@ -102,8 +120,14 @@ $mensajes = [
                 </p>
             </div>
             <div class="col-md-4 text-end">
-                <a href="promocion_nueva.php" class="btn btn-primary btn-lg">
+                <a href="promocion_nueva.php" class="btn btn-primary btn-lg me-2">
                     <i class="bi bi-plus-circle"></i> Nueva Promoción
+                </a>
+                <a href="aprobar_promociones.php" class="btn btn-warning btn-lg">
+                    <i class="bi bi-check-circle"></i> Aprobar
+                    <?php if ($promocionesPendientes > 0): ?>
+                        <span class="badge bg-dark ms-1"><?= $promocionesPendientes ?></span>
+                    <?php endif; ?>
                 </a>
             </div>
         </div>
@@ -150,11 +174,11 @@ $mensajes = [
         </div>
         <div class="col-lg-3 col-md-6 mb-3">
             <div class="stats-card">
-                <div class="stats-icon text-info">
-                    <i class="bi bi-shop"></i>
+                <div class="stats-icon <?= $promocionesPendientes > 0 ? 'text-warning' : 'text-success' ?>">
+                    <i class="bi bi-hourglass-split"></i>
                 </div>
-                <div class="stats-number">1</div>
-                <div class="stats-label">Local Asignado</div>
+                <div class="stats-number"><?= $promocionesPendientes ?></div>
+                <div class="stats-label">Pendientes de Aprobación</div>
             </div>
         </div>
     </div>

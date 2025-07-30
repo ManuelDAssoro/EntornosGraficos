@@ -40,19 +40,19 @@ function usarPromocion($codusuario, $codpromo, $pdo) {
             throw new Exception("No tienes acceso a esta promoción. Necesitas categoría " . ucfirst($promocion['categoriacliente']) . " o superior.");
         }
         
-        $stmt = $pdo->prepare("SELECT codusuario FROM uso_promociones WHERE codusuario = ? AND codpromo = ?");
+        $stmt = $pdo->prepare("SELECT codusuario FROM uso_promociones WHERE codusuario = ? AND codpromo = ? AND estado IN ('pendiente', 'aceptada')");
         $stmt->execute([$codusuario, $codpromo]);
         if ($stmt->fetch()) {
-            throw new Exception("Ya has utilizado esta promoción anteriormente.");
+            throw new Exception("Ya has utilizado esta promoción anteriormente o tienes un uso pendiente de aprobación.");
         }
         
         $stmt = $pdo->prepare("
-            INSERT INTO uso_promociones (codusuario, codpromo, fechauso, estado) 
-            VALUES (?, ?, CURRENT_DATE, 'aceptada')
+            INSERT INTO uso_promociones (codusuario, codpromo, fecha_uso, estado) 
+            VALUES (?, ?, CURRENT_DATE, 'pendiente')
         ");
         $stmt->execute([$codusuario, $codpromo]);
         
-        $nuevaCategoria = actualizarCategoriaCliente($codusuario, $pdo);
+        $nuevaCategoria = $categoriaCliente;
         
         $pdo->commit();
         
@@ -144,7 +144,7 @@ function getPromocionesDisponibles($codusuario, $pdo) {
         AND p.fechahastapromo >= CURRENT_DATE
         AND $categoriaFilter
         AND p.codpromo NOT IN (
-            SELECT codpromo FROM uso_promociones WHERE codusuario = ? AND estado = 'aceptada'
+            SELECT codpromo FROM uso_promociones WHERE codusuario = ? AND estado IN ('pendiente', 'aceptada')
         )
         ORDER BY p.fechahastapromo ASC
     ");
