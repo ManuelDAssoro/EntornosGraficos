@@ -140,6 +140,10 @@ ob_end_flush();
       <button type="submit" class="btn btn-primary">Ingresar</button>
     </form>
 
+    <div class="mt-3">
+      <a href="forgot_password.php" class="btn btn-link">¿Olvidaste tu contraseña?</a>
+    </div>
+
     <a href="register.php" class="btn btn-link mt-3">¿No tienes cuenta? Regístrate</a>
 
     <form action="index.php" method="get">
