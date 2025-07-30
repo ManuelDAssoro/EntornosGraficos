@@ -116,6 +116,32 @@ try {
             echo "<p style='color: orange;'>⚠️ Constraint única: " . $e->getMessage() . "</p>";
         }
         
+        try {
+            $stmt = $pdo->query("
+                SELECT constraint_name 
+                FROM information_schema.check_constraints cc
+                JOIN information_schema.table_constraints tc ON cc.constraint_name = tc.constraint_name
+                WHERE tc.table_name = 'uso_promociones' 
+                AND cc.check_clause LIKE '%estado%'
+            ");
+            $checkConstraints = $stmt->fetchAll();
+            
+            foreach ($checkConstraints as $constraint) {
+                try {
+                    $pdo->exec("ALTER TABLE uso_promociones DROP CONSTRAINT {$constraint['constraint_name']}");
+                    echo "<p style='color: blue;'>ℹ️ Check constraint '{$constraint['constraint_name']}' eliminado.</p>";
+                } catch (Exception $e) {
+                    echo "<p style='color: orange;'>⚠️ Error eliminando constraint: " . $e->getMessage() . "</p>";
+                }
+            }
+            
+            $pdo->exec("ALTER TABLE uso_promociones ADD CONSTRAINT uso_promociones_estado_check CHECK (estado IN ('pendiente', 'aceptada', 'rechazada'))");
+            echo "<p style='color: green;'>✅ Check constraint actualizado para estado: pendiente, aceptada, rechazada.</p>";
+            
+        } catch (Exception $e) {
+            echo "<p style='color: orange;'>⚠️ Check constraint: " . $e->getMessage() . "</p>";
+        }
+        
         $stmt = $pdo->query("
             SELECT column_name, data_type, is_nullable, column_default
             FROM information_schema.columns
