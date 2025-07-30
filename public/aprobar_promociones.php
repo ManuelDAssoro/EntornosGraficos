@@ -172,12 +172,16 @@ include 'layout/header.php';
                                             <td><?= htmlspecialchars($uso['nombrelocal']) ?></td>
                                             <td><?= date('d/m/Y H:i', strtotime($uso['fecha_uso'])) ?></td>
                                             <td class="text-center">
-                                                <button type="button" class="btn btn-success btn-sm me-2" 
-                                                        onclick="mostrarModalAprobacion(<?= $uso['id'] ?>, '<?= htmlspecialchars($uso['cliente_nombre']) ?>', '<?= htmlspecialchars($uso['textopromo']) ?>', 'aprobar')">
+                                                <button type="button" class="btn btn-success btn-sm me-2 btn-aprobar" 
+                                                        data-id="<?= $uso['id'] ?>" 
+                                                        data-cliente="<?= htmlspecialchars($uso['cliente_nombre']) ?>" 
+                                                        data-promocion="<?= htmlspecialchars($uso['textopromo']) ?>">
                                                     <i class="bi bi-check-lg"></i> Aprobar
                                                 </button>
-                                                <button type="button" class="btn btn-danger btn-sm" 
-                                                        onclick="mostrarModalAprobacion(<?= $uso['id'] ?>, '<?= htmlspecialchars($uso['cliente_nombre']) ?>', '<?= htmlspecialchars($uso['textopromo']) ?>', 'rechazar')">
+                                                <button type="button" class="btn btn-danger btn-sm btn-rechazar" 
+                                                        data-id="<?= $uso['id'] ?>" 
+                                                        data-cliente="<?= htmlspecialchars($uso['cliente_nombre']) ?>" 
+                                                        data-promocion="<?= htmlspecialchars($uso['textopromo']) ?>">
                                                     <i class="bi bi-x-lg"></i> Rechazar
                                                 </button>
                                             </td>
@@ -290,6 +294,26 @@ include 'layout/header.php';
 </div>
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.btn-aprobar').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const id = this.dataset.id;
+            const cliente = this.dataset.cliente;
+            const promocion = this.dataset.promocion;
+            mostrarModalAprobacion(id, cliente, promocion, 'aprobar');
+        });
+    });
+    
+    document.querySelectorAll('.btn-rechazar').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const id = this.dataset.id;
+            const cliente = this.dataset.cliente;
+            const promocion = this.dataset.promocion;
+            mostrarModalAprobacion(id, cliente, promocion, 'rechazar');
+        });
+    });
+});
+
 function mostrarModalAprobacion(idUso, clienteNombre, promocionTexto, accion) {
     document.getElementById('idUso').value = idUso;
     document.getElementById('accion').value = accion;
